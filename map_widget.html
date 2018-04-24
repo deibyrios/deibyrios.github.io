@@ -154,19 +154,12 @@ $(document).ready(function () {
     <div class="list-group">
       <a class="list-group-item" href="./">Introduction</a>
       <a class="list-group-item" href="map_widget.html">Description of Data</a>
-      <a class="list-group-item" href="basemaps.html">Basemaps</a>
-      <a class="list-group-item" href="markers.html">Markers</a>
-      <a class="list-group-item" href="popups.html">Popups and Labels</a>
-      <a class="list-group-item" href="shapes.html">Lines and Shapes</a>
-      <a class="list-group-item" href="json.html">GeoJSON and TopoJSON</a>
-      <a class="list-group-item" href="raster.html">Raster Images</a>
-      <a class="list-group-item" href="shiny.html">Shiny Integration</a>
-      <a class="list-group-item" href="colors.html">Colors</a>
-      <a class="list-group-item" href="legends.html">Legends</a>
-      <a class="list-group-item" href="showhide.html">Show/Hide Layers</a>
-      <a class="list-group-item" href="choropleths.html">Choropleths</a>
-      <a class="list-group-item" href="projections.html">Projections</a>
-      <a class="list-group-item" href="morefeatures.html">Additional Features</a>
+      <a class="list-group-item" href="basemaps.html">Analysis of Data Quality</a>
+      <a class="list-group-item" href="markers.html">Exploratory Data Analysis</a>
+      <a class="list-group-item" href="popups.html">Executive Summary</a>
+      <a class="list-group-item" href="shapes.html">Interactive Component</a>
+      <a class="list-group-item" href="json.html">Conclusion</a>
+      <a class="list-group-item" href="raster.html">Suggested Grading</a>
     </div>
     <script>
       // manage active state of toc based on current page
@@ -193,9 +186,9 @@ $(document).ready(function () {
 <div id="remodeling-of-existing-and-construction-of-new-buildings" class="section level3">
 <h3>Remodeling of existing and construction of new buildings</h3>
 <p>Before any construction project begins in New York City, an application must be submitted for review by the Department of Buildings to make sure that the plans are in compliance with Building Code. The majority of construction requires a Department of Buildings permit.</p>
-<p>The data we were able to get, shows the details for every building permit filed with the Department of Buildings, available for download from “The NYC Open Data portal”: <a href="https://data.cityofnewyork.us/Housing-Development/DOB-Permit-Issuance/ipu4-2q9a" class="uri">https://data.cityofnewyork.us/Housing-Development/DOB-Permit-Issuance/ipu4-2q9a</a></p>
+<p>The data we were able to get, shows the details for every building permit filed with the Department of Buildings, available for download from <a href="https://data.cityofnewyork.us/Housing-Development/DOB-Permit-Issuance/ipu4-2q9a" title="NYC Open Data portal">The NYC Open Data portal</a>.</p>
 <p>This dataset is a list of building permits filed for a particular day and associated data, from 1990 to date. It contains building permits for both new buildings and alterations / remodeling.</p>
-<p>A Data Dictionary containing field codes and descriptions of the data set can be found here: <a href="https://data.cityofnewyork.us/api/views/ipu4-2q9a/files/87608d5b-1986-4a21-a8a5-7a38e65f9993?download=true&amp;filename=DD_DOB_Permit_Issuance_2018-03-07.xlsx" class="uri">https://data.cityofnewyork.us/api/views/ipu4-2q9a/files/87608d5b-1986-4a21-a8a5-7a38e65f9993?download=true&amp;filename=DD_DOB_Permit_Issuance_2018-03-07.xlsx</a></p>
+<p>A Data Dictionary containing field codes and descriptions of the data set can be found <a href="https://data.cityofnewyork.us/api/views/ipu4-2q9a/files/87608d5b-1986-4a21-a8a5-7a38e65f9993?download=true&amp;filename=DD_DOB_Permit_Issuance_2018-03-07.xlsx" title="Data Dictionary for building permits">here</a>.</p>
 </div>
 <div id="real-state-sales" class="section level3">
 <h3>Real State Sales</h3>
@@ -203,20 +196,20 @@ $(document).ready(function () {
 </div>
 <div id="property-market-values" class="section level3">
 <h3>Property Market Values</h3>
-<p>We got the market values dataset from The Department of Finance (DOF), which every year estimates the property’s market value for all New York City properties, comparing each property market value with recent sales in the neighborhood. The estimated market value is used by the DOF to determine the assessed value and then the City’s property tax rates are applied to the assessed value to calculate the property taxes for the next tax year.</p>
-<p>The link to the webpage where we were able to find the data is: <a href="http://www1.nyc.gov/site/finance/taxes/property-assessments.page" class="uri">http://www1.nyc.gov/site/finance/taxes/property-assessments.page</a></p>
+<p>We got the market values dataset from The Department of Finance (DOF), which every year estimates the property’s market value for all New York City properties, comparing each property market value with recent sales in the neighborhood. The estimated market value is used by the DOF to determine the assessed value and then the City’s property tax rates are applied to the assessed value to calculate the property taxes for the next tax year. THe data is available on this</p>
+<p>The data can be accessed and downloaded directly from <a href="http://www1.nyc.gov/site/finance/taxes/property-assessments.page" title="Data for Property Market Values">the DOF’s website here</a></p>
 <p>There, we were able to find the tentative property assessment for fiscal year 2019 (with a total NYC property Market Value of about $1.258 trillion, an increase of $108.4 billion, or 9.4 percent from the 2018 Fiscal Year), as well as the final property assessments from 2018 fiscal year, back to 2009 fiscal year, <strong>one dataset for each year</strong>.</p>
-<p>a Data Dictionary containing field codes and descriptions of the data sets can be found here: <a href="http://www1.nyc.gov/assets/finance/downloads/tar/tarfieldcodes.pdf" class="uri">http://www1.nyc.gov/assets/finance/downloads/tar/tarfieldcodes.pdf</a></p>
+<p>a Data Dictionary containing field codes and descriptions of the data sets can be dowloaded <a href="http://www1.nyc.gov/assets/finance/downloads/tar/tarfieldcodes.pdf" title="Data Dictionary for property market values">here</a>.</p>
 <p>The data consists of Access databases so we used RODBC library to read the databases using “odbcConnectAccess(‘my_Access_Database_to_read.mdb’)”.</p>
 </div>
 <div id="property-assessed-values" class="section level3">
 <h3>Property Assessed Values</h3>
 <p>Since our analysis of Property Market Values resulted inconclusive to answer our question and the publicly available data offered by the DOF for Market Values goes back to 2007 only, while news about the project and properties in the area of influence becoming more valued, date many years back, as additional work, since we wanted to analyse years previous to the commencement of the construction of phase 1, we performed an additional research and were able to find property “Assessed Values” back to 2003 in the “Primary Land Use Tax Lot Output” (PLUTO) dataset, developed by the New York City Department of City Planning’s (DCP) Information Technology Division (ITD), which is New York City’s primary land use agency.</p>
-<p>Although the property “Assessed Values” are different from property “Market Values”, we found that they are linearly correlated since, according to the NY state DOF (<a href="https://www.tax.ny.gov/pit/property/learn/howassess.htm" class="uri">https://www.tax.ny.gov/pit/property/learn/howassess.htm</a>), the property “Assessed Value” is a percentage of the estimated “Market Value” of a property depending of the tax class so, as example, in a city or town assessing at 100% of market value for a specific tax class, the market value for that class is equal to the assessment value.</p>
+<p>Although the property “Assessed Values” are different from property “Market Values”, we found that they are linearly correlated since, <a href="https://www.tax.ny.gov/pit/property/learn/howassess.htm">according to the NY state DOF</a> “source of info”), the property “Assessed Value” is a percentage of the estimated “Market Value” of a property depending of the tax class so, as example, in a city or town assessing at 100% of market value for a specific tax class, the market value for that class is equal to the assessment value.</p>
 <p>The PLUTO datasets that we used are an extensive land use and geographic data at the tax lot level, containing more than seventy fields derived from data maintained by different city agencies.</p>
-<p>The link to webpage where we were able to find the historical PLUTO datasets is: <a href="http://www1.nyc.gov/site/planning/data-maps/open-data/bytes-archive.page?sorts%5Byear%5D=0" class="uri">http://www1.nyc.gov/site/planning/data-maps/open-data/bytes-archive.page?sorts[year]=0</a></p>
+<p>The data can be accessed and downloaded directly from <a href="http://www1.nyc.gov/site/planning/data-maps/open-data/bytes-archive.page?sorts%5Byear%5D=0" title="Data for Property Assessed Values">the DCP’s website here</a></p>
 <p>There, we were able to find the property assessed values from 2017 year, back to 2003, one dataset for every year (12 different datasets in total).</p>
-<p>The PLUTO Data Dictionary defining the field codes and descriptions of the data sets can be found here: <a href="http://www1.nyc.gov/assets/planning/download/pdf/data-maps/open-data/pluto_datadictionary.pdf?r=17v11" class="uri">http://www1.nyc.gov/assets/planning/download/pdf/data-maps/open-data/pluto_datadictionary.pdf?r=17v11</a></p>
+<p>a Data Dictionary containing field codes and descriptions of the data sets can be found <a href="http://www1.nyc.gov/assets/planning/download/pdf/data-maps/open-data/pluto_datadictionary.pdf" title="Data Dictionary for property market values">here</a>.</p>
 <p>The datasets are shapefiles so we used the “foreign” library to read the data files of the shapefiles using “read.dbf(‘my_shapefile_to_read.dbf’)”.</p>
 </div>
 <div id="other-datasets" class="section level3">

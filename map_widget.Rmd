@@ -1,108 +1,61 @@
 ---
-pagetitle: Leaflet for R - The Map Widget
+pagetitle: Description of Data
 ---
 
-## The Map Widget
+## Description of Data
 
-The function `leaflet()` returns a Leaflet map widget, which stores a list of objects that can be modified or updated later. Most functions in this package have an argument `map` as their first argument, which makes it easy to use the pipe operator `%>%` in the **magrittr** package, as you have seen from the example in the [Introduction](./).
+As mentioned in the [Introduction](./), to answer our main, our strategy was to develop different analysis to answer smaller questions.
+  
+### Remodeling of existing and construction of new buildings   
+  
+Before any construction project begins in New York City, an application must be submitted for review by the Department of Buildings to make sure that the plans are in compliance with Building Code. The majority of construction requires a Department of Buildings permit.
+  
+The data we were able to get, shows the details for every building permit filed with the Department of Buildings, available for download from "The NYC Open Data portal": https://data.cityofnewyork.us/Housing-Development/DOB-Permit-Issuance/ipu4-2q9a
+  
+This dataset is a list of building permits filed for a particular day and associated data, from 1990 to date. It contains building permits for both new buildings and alterations / remodeling.
+  
+A Data Dictionary containing field codes and descriptions of the data set can be found here:
+https://data.cityofnewyork.us/api/views/ipu4-2q9a/files/87608d5b-1986-4a21-a8a5-7a38e65f9993?download=true&filename=DD_DOB_Permit_Issuance_2018-03-07.xlsx
+    
+      
+### Real State Sales
+_Describe 1) how the data was collected, 2) how you accessed it, and 3) any other noteworthy features_
+    
+    
+### Property Market Values
 
-### Initializing Options
-The map widget can initialized with certain parameters. This is achieved by populating the `options` argument as shown below.
+We got the market values dataset from The Department of Finance (DOF), which every year estimates the property's market value for all New York City properties, comparing each property market value with recent sales in the neighborhood. The estimated market value is used by the DOF to determine the assessed value and then the City's property tax rates are applied to the assessed value to calculate the property taxes for the next tax year.
+  
+The link to the webpage where we were able to find the data is: http://www1.nyc.gov/site/finance/taxes/property-assessments.page
+  
+There, we were able to find the tentative property assessment for fiscal year 2019 (with a total NYC property Market Value of about $1.258 trillion, an increase of $108.4 billion, or 9.4 percent from the 2018 Fiscal Year), as well as the final property assessments from 2018 fiscal year, back to 2009 fiscal year, **one dataset for each year**.
+  
+a Data Dictionary containing field codes and descriptions of the data sets can be found here: http://www1.nyc.gov/assets/finance/downloads/tar/tarfieldcodes.pdf
 
-```{r eval=FALSE}
-# Set value for the minZoom and maxZoom settings.
-leaflet(options = leafletOptions(minZoom = 0, maxZoom = 18))
-```
+The data consists of Access databases so we used RODBC library to read the databases using "odbcConnectAccess('my_Access_Database_to_read.mdb')". 
+  
+### Property Assessed Values
+   
+Since our analysis of Property Market Values resulted inconclusive to answer our question and the publicly available data offered by the DOF for Market Values goes back to 2007 only, while news about the project and properties in the area of influence becoming more valued, date many years back, as additional work, since we wanted to analyse years previous to the commencement of the construction of phase 1, we performed an additional research and were able to find property "Assessed Values" back to 2003 in the "Primary Land Use Tax Lot Output" (PLUTO) dataset, developed by the New York City Department of City Planning's (DCP) Information Technology Division (ITD), which is New York City's primary land use agency. 
 
-The `leafletOptions()` can be passed any option described in the leaflet [reference document](http://leafletjs.com/reference-1.0.0.html#map-option). Using the `leafletOptions()`, you can set a custom [CRS](https://en.wikipedia.org/wiki/Spatial_reference_system) and have your map displayed in a non spherical mercator projection as described in [projections](projections.html).
+Although the property "Assessed Values" are different from property "Market Values", we found that they are linearly correlated since, according to the NY state DOF (https://www.tax.ny.gov/pit/property/learn/howassess.htm), the property "Assessed Value" is a percentage of the estimated "Market Value" of a property depending of the tax class so, as example, in a city or town assessing at 100% of market value for a specific tax class, the market value for that class is equal to the assessment value.
 
-### Map Methods
+The PLUTO datasets that we used are an extensive land use and geographic data at the tax lot level, containing more than seventy fields derived from data maintained by different city agencies.
 
-You can manipulate the attributes of the map widget using a series of methods. Please see the help page `?setView` for details.
+The link to webpage where we were able to find the historical PLUTO datasets is:
+http://www1.nyc.gov/site/planning/data-maps/open-data/bytes-archive.page?sorts[year]=0
 
-- `setView()` sets the center of the map view and the zoom level;
-- `fitBounds()` fits the view into the rectangle `[lng1, lat1]` -- `[lng2, lat2]`;
-- `clearBounds()` clears the bound, so that the view will be automatically determined by the range of latitude/longitude data in the map layers if provided;
+There, we were able to find the property assessed values from 2017 year, back to 2003, one dataset for every year (12 different datasets in total).
 
-### The Data Object
+The PLUTO Data Dictionary defining the field codes and descriptions of the data sets can be found here: http://www1.nyc.gov/assets/planning/download/pdf/data-maps/open-data/pluto_datadictionary.pdf?r=17v11
 
-Both `leaflet()` and the map layer functions have an optional `data` parameter that is designed to receive spatial data in one of several forms:
+The datasets are shapefiles so we used the "foreign" library to read the data files of the shapefiles using "read.dbf('my_shapefile_to_read.dbf')". 
+  
+  
+### Other Datasets?
+  
+_Describe 1) how the data was collected, 2) how you accessed it, and 3) any other noteworthy features_
 
-- From base R:
-    - lng/lat matrix
-    - data frame with lng/lat columns
-- From the [**sp** package](http://cran.rstudio.com/package=sp):
-    - `SpatialPoints[DataFrame]`
-    - `Line`/`Lines`
-    - `SpatialLines[DataFrame]`
-    - `Polygon`/`Polygons`
-    - `SpatialPolygons[DataFrame]`
-- From the [**maps** package](http://cran.rstudio.com/package=maps):
-    - the data frame from returned from `map()`
-
-The `data` argument is used to derive spatial data for functions that need it; for example, if `data` is a `SpatialPolygonsDataFrame` object, then calling `addPolygons` on that map widget will know to add the polygons from that `SpatialPolygonsDataFrame`.
-
-It is straightforward to derive these variables from **sp** objects since they always represent spatial data in the same way. On the other hand, for a normal matrix or data frame, any numeric column could potentially contain spatial data. So we resort to guessing based on column names:
-
-- the latitude variable is guessed by looking for columns named `lat` or `latitude` (case-insensitive)
-- the longitude variable is guessed by looking for `lng`, `long`, or `longitude`
-
-You can always explicitly identify latitude/longitude columns by providing `lng` and `lat` arguments to the layer function.
-
-For example, we do not specify the values for the arguments `lat` and `lng` in `addCircles()` below, but the columns `Lat` and `Long` in the data frame `df` will be automatically used:
-
-```{r eval=FALSE}
-# add some circles to a map
-df = data.frame(Lat = 1:10, Long = rnorm(10))
-leaflet(df) %>% addCircles()
-```
-
-You can also explicitly specify the `Lat` and `Long` columns (see below for more info on the `~` syntax):
-
-```{r eval=FALSE}
-leaflet(df) %>% addCircles(lng = ~Long, lat = ~Lat)
-```
-
-A map layer may use a different data object to override the data provided in `leaflet()`. We can rewrite the above example as:
-
-```{r eval=FALSE}
-leaflet() %>% addCircles(data = df)
-leaflet() %>% addCircles(data = df, lat = ~ Lat, lng = ~ Long)
-```
-
-Below are examples of using **sp** and **maps**, respectively:
-
-```{r message=FALSE}
-library(sp)
-Sr1 = Polygon(cbind(c(2, 4, 4, 1, 2), c(2, 3, 5, 4, 2)))
-Sr2 = Polygon(cbind(c(5, 4, 2, 5), c(2, 3, 2, 2)))
-Sr3 = Polygon(cbind(c(4, 4, 5, 10, 4), c(5, 3, 2, 5, 5)))
-Sr4 = Polygon(cbind(c(5, 6, 6, 5, 5), c(4, 4, 3, 3, 4)), hole = TRUE)
-Srs1 = Polygons(list(Sr1), "s1")
-Srs2 = Polygons(list(Sr2), "s2")
-Srs3 = Polygons(list(Sr4, Sr3), "s3/4")
-SpP = SpatialPolygons(list(Srs1, Srs2, Srs3), 1:3)
-leaflet(height = "300px") %>% addPolygons(data = SpP)
-library(maps)
-mapStates = map("state", fill = TRUE, plot = FALSE)
-leaflet(data = mapStates) %>% addTiles() %>%
-  addPolygons(fillColor = topo.colors(10, alpha = NULL), stroke = FALSE)
-```
-
-
-### The Formula Interface
-
-The arguments of all layer functions can take normal R objects, such as a numeric vector for the `lat` argument, or a character vector of colors for the `color` argument. They can also take a one-sided formula, in which case the formula will be evaluated using the `data` argument as the environment. For example, `~ x` means the variable `x` in the data object, and you can write arbitrary expressions on the right-hand side, e.g., `~ sqrt(x + 1)`.
-
-```{r eval=FALSE}
-m = leaflet() %>% addTiles()
-df = data.frame(
-  lat = rnorm(100),
-  lng = rnorm(100),
-  size = runif(100, 5, 20),
-  color = sample(colors(), 100)
-)
-m = leaflet(df) %>% addTiles()
-m %>% addCircleMarkers(radius = ~size, color = ~color, fill = FALSE)
-m %>% addCircleMarkers(radius = runif(100, 4, 10), color = c('red'))
-```
+  
+  
+<br>

@@ -155,11 +155,18 @@ $(document).ready(function () {
       <a class="list-group-item" href="./">Introduction</a>
       <a class="list-group-item" href="map_widget.html">Description of Data</a>
       <a class="list-group-item" href="basemaps.html">Analysis of Data Quality</a>
-      <a class="list-group-item" href="markers.html">Exploratory Data Analysis</a>
-      <a class="list-group-item" href="popups.html">Executive Summary</a>
-      <a class="list-group-item" href="shapes.html">Interactive Component</a>
-      <a class="list-group-item" href="json.html">Conclusion</a>
-      <a class="list-group-item" href="raster.html">Suggested Grading</a>
+      <a class="list-group-item" href="markers.html">EDA - Building Permits</a>
+      <a class="list-group-item" href="popups.html">EDA - Real State Sales</a>
+      <a class="list-group-item" href="shapes.html">EDA - Property Market Values</a>
+      <a class="list-group-item" href="json.html">EDA - Property Assessed Values</a>
+      <a class="list-group-item" href="raster.html">Executive Summary</a>
+      <a class="list-group-item" href="shiny.html">Interactive Component</a>
+      <a class="list-group-item" href="colors.html">Conclusion</a>
+      <a class="list-group-item" href="legends.html">Suggested Grading</a>   
+<!--      <a class="list-group-item" href="showhide.html">Show/Hide Layers</a>
+      <a class="list-group-item" href="choropleths.html">Choropleths</a>
+      <a class="list-group-item" href="projections.html">Projections</a>
+      <a class="list-group-item" href="morefeatures.html">Additional Features</a>-->
     </div>
     <script>
       // manage active state of toc based on current page
@@ -196,10 +203,10 @@ $(document).ready(function () {
 </div>
 <div id="property-market-values" class="section level3">
 <h3>Property Market Values</h3>
-<p>We got the market values dataset from The Department of Finance (DOF), which every year estimates the property’s market value for all New York City properties, comparing each property market value with recent sales in the neighborhood. The estimated market value is used by the DOF to determine the assessed value and then the City’s property tax rates are applied to the assessed value to calculate the property taxes for the next tax year. THe data is available on this</p>
+<p>We got the market values dataset from The Department of Finance (DOF), which every year estimates the property’s market value for all New York City properties, comparing each property market value with recent sales in the neighborhood. The estimated market value is used by the DOF to determine the assessed value and then the City’s property tax rates are applied to the assessed value to calculate the property taxes for the next tax year.</p>
 <p>The data can be accessed and downloaded directly from <a href="http://www1.nyc.gov/site/finance/taxes/property-assessments.page" title="Data for Property Market Values">the DOF’s website here</a></p>
 <p>There, we were able to find the tentative property assessment for fiscal year 2019 (with a total NYC property Market Value of about $1.258 trillion, an increase of $108.4 billion, or 9.4 percent from the 2018 Fiscal Year), as well as the final property assessments from 2018 fiscal year, back to 2009 fiscal year, <strong>one dataset for each year</strong>.</p>
-<p>a Data Dictionary containing field codes and descriptions of the data sets can be dowloaded <a href="http://www1.nyc.gov/assets/finance/downloads/tar/tarfieldcodes.pdf" title="Data Dictionary for property market values">here</a>.</p>
+<p>a Data Dictionary containing field codes and descriptions of the data sets can be accessed <a href="http://www1.nyc.gov/assets/finance/downloads/tar/tarfieldcodes.pdf" title="Data Dictionary for property market values">here</a>.</p>
 <p>The data consists of Access databases so we used RODBC library to read the databases using “odbcConnectAccess(‘my_Access_Database_to_read.mdb’)”.</p>
 </div>
 <div id="property-assessed-values" class="section level3">
@@ -208,8 +215,8 @@ $(document).ready(function () {
 <p>Although the property “Assessed Values” are different from property “Market Values”, we found that they are linearly correlated since, <a href="https://www.tax.ny.gov/pit/property/learn/howassess.htm">according to the NY state DOF</a> “source of info”), the property “Assessed Value” is a percentage of the estimated “Market Value” of a property depending of the tax class so, as example, in a city or town assessing at 100% of market value for a specific tax class, the market value for that class is equal to the assessment value.</p>
 <p>The PLUTO datasets that we used are an extensive land use and geographic data at the tax lot level, containing more than seventy fields derived from data maintained by different city agencies.</p>
 <p>The data can be accessed and downloaded directly from <a href="http://www1.nyc.gov/site/planning/data-maps/open-data/bytes-archive.page?sorts%5Byear%5D=0" title="Data for Property Assessed Values">the DCP’s website here</a></p>
-<p>There, we were able to find the property assessed values from 2017 year, back to 2003, one dataset for every year (12 different datasets in total).</p>
-<p>a Data Dictionary containing field codes and descriptions of the data sets can be found <a href="http://www1.nyc.gov/assets/planning/download/pdf/data-maps/open-data/pluto_datadictionary.pdf" title="Data Dictionary for property market values">here</a>.</p>
+<p>There, we were able to find the property assessed values from 2017 year, back to 2003, one dataset for every year (15 different datasets in total).</p>
+<p>a Data Dictionary containing field codes and descriptions of the data sets can be accessed <a href="http://www1.nyc.gov/assets/planning/download/pdf/data-maps/open-data/pluto_datadictionary.pdf" title="Data Dictionary for property assessed values">here</a>.</p>
 <p>The datasets are shapefiles so we used the “foreign” library to read the data files of the shapefiles using “read.dbf(‘my_shapefile_to_read.dbf’)”.</p>
 </div>
 <div id="other-datasets" class="section level3">

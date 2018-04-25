@@ -24,8 +24,6 @@ _Jason/Sharon, please help here_ Overbudget and overdue, the 2nd Ave Subway is o
   
 ### The Team
 
-* Item 1
-* Item 2
 * Addison Li (yl3870): _Addison please add here_
 * Andres Rios (dar2196): Building permits (EDA & interactive map), Property Market Values
 * Jason Kuo (jk4097): Strategic question, Mapping Real State Sales... _Jason please add more here_
@@ -34,7 +32,7 @@ _Jason/Sharon, please help here_ Overbudget and overdue, the 2nd Ave Subway is o
   
 ### Project Background
 <br><br>
-![](3D-view-phases.png)
+![](images/3D-view-phases.png)
 Image from: http://www.apta.com/previousmc/multimodal/previous/2010/Presentations/Planning-for-the-Second-Avenue-Subway-From-Dream-to.pdf
 <br>
 

@@ -556,7 +556,7 @@ permits_upper_east <- filter(permits, BOROUGH=="MANHATTAN" & Zip.Code %in% c(100
 permits_upper_east <- select(permits_upper_east, House..,Street.Name,Job.Type,Block,Lot,Zip.Code,
                     Bldg.Type,Work.Type,Filing.Date,Owner.s.Business.Type)
 #head(permits_upper_east)
-write.table(permits_upper_east, file="DOB_Permit_Issuance_filtered.csv",sep=",",row.names=F)
+#write.table(permits_upper_east, file="DOB_Permit_Issuance_filtered.csv",sep=",",row.names=F)
 ```
 
 After filtering and selecting variables of our interest, now we look for missing data using extracat::visna():

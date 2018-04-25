@@ -781,7 +781,7 @@ permits_upper_east &lt;- filter(permits, BOROUGH==&quot;MANHATTAN&quot; &amp; Zi
 permits_upper_east &lt;- select(permits_upper_east, House..,Street.Name,Job.Type,Block,Lot,Zip.Code,
                     Bldg.Type,Work.Type,Filing.Date,Owner.s.Business.Type)
 #head(permits_upper_east)
-write.table(permits_upper_east, file=&quot;DOB_Permit_Issuance_filtered.csv&quot;,sep=&quot;,&quot;,row.names=F)</code></pre>
+#write.table(permits_upper_east, file=&quot;DOB_Permit_Issuance_filtered.csv&quot;,sep=&quot;,&quot;,row.names=F)</code></pre>
 <p>After filtering and selecting variables of our interest, now we look for missing data using extracat::visna():</p>
 <pre class="r"><code>#install.packages(&#39;extracat&#39;)
 library(extracat)

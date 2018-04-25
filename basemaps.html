@@ -11,17 +11,27 @@
 
 
 
-<title>Analysis of Data Quality</title>
+<title>Leaflet for R - Using Basemaps</title>
 
-<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="libs/jquery/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
-<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
-<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
-<script src="libs/navigation-1.1/tabsets.js"></script>
-<link href="libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="libs/bootstrap/css/flatly.min.css" rel="stylesheet" />
+<script src="libs/bootstrap/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap/shim/respond.min.js"></script>
+<script src="libs/navigation/tabsets.js"></script>
+<link href="libs/highlightjs/default.css" rel="stylesheet" />
+<script src="libs/highlightjs/highlight.js"></script>
+<script src="libs/htmlwidgets/htmlwidgets.js"></script>
+<link href="libs/leaflet/leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet/leaflet.js"></script>
+<link href="libs/leafletfix/leafletfix.css" rel="stylesheet" />
+<script src="libs/Proj4Leaflet/proj4-compressed.js"></script>
+<script src="libs/Proj4Leaflet/proj4leaflet.js"></script>
+<link href="libs/rstudio_leaflet/rstudio_leaflet.css" rel="stylesheet" />
+<script src="libs/leaflet-binding/leaflet.js"></script>
+<script src="libs/leaflet-providers/leaflet-providers.js"></script>
+<script src="libs/leaflet-providers-plugin/leaflet-providers-plugin.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -153,20 +163,20 @@ $(document).ready(function () {
   <div class="col-sm-3">
     <div class="list-group">
       <a class="list-group-item" href="./">Introduction</a>
-      <a class="list-group-item" href="map_widget.html">Description of Data</a>
-      <a class="list-group-item" href="basemaps.html">Analysis of Data Quality</a>
-      <a class="list-group-item" href="markers.html">EDA - Building Permits</a>
-      <a class="list-group-item" href="popups.html">EDA - Real State Sales</a>
-      <a class="list-group-item" href="shapes.html">EDA - Property Market Values</a>
-      <a class="list-group-item" href="json.html">EDA - Property Assessed Values</a>
-      <a class="list-group-item" href="raster.html">Executive Summary</a>
-      <a class="list-group-item" href="shiny.html">Interactive Component</a>
-      <a class="list-group-item" href="colors.html">Conclusion</a>
-      <a class="list-group-item" href="legends.html">Suggested Grading</a>   
-<!--      <a class="list-group-item" href="showhide.html">Show/Hide Layers</a>
+      <a class="list-group-item" href="map_widget.html">The Map Widget</a>
+      <a class="list-group-item" href="basemaps.html">Basemaps</a>
+      <a class="list-group-item" href="markers.html">Markers</a>
+      <a class="list-group-item" href="popups.html">Popups and Labels</a>
+      <a class="list-group-item" href="shapes.html">Lines and Shapes</a>
+      <a class="list-group-item" href="json.html">GeoJSON and TopoJSON</a>
+      <a class="list-group-item" href="raster.html">Raster Images</a>
+      <a class="list-group-item" href="shiny.html">Shiny Integration</a>
+      <a class="list-group-item" href="colors.html">Colors</a>
+      <a class="list-group-item" href="legends.html">Legends</a>
+      <a class="list-group-item" href="showhide.html">Show/Hide Layers</a>
       <a class="list-group-item" href="choropleths.html">Choropleths</a>
       <a class="list-group-item" href="projections.html">Projections</a>
-      <a class="list-group-item" href="morefeatures.html">Additional Features</a>-->
+      <a class="list-group-item" href="morefeatures.html">Additional Features</a>
     </div>
     <script>
       // manage active state of toc based on current page
@@ -187,1069 +197,339 @@ $(document).ready(function () {
 </div>
 
 
-<div id="analysis-of-data-quality" class="section level2">
-<h2>Analysis of Data Quality</h2>
-<div id="remodeling-of-existing-and-construction-of-new-buildings" class="section level3">
-<h3>Remodeling of existing and construction of new buildings</h3>
-<p>As mentioned in the Description of Data, the dataset we were able to get, shows the details for every building permit filed with the Department of Buildings, from 1990 to date. This dataset is a list of building permits filed for a particular day and associated data and contains building permits for both new buildings and alterations / remodeling.</p>
-<p>After downloading the original dataset (1.4GB, 3,341,659 observations),read it, take a look at it and inspected variables/column names:</p>
-<pre class="r"><code>permits &lt;- read.csv(&quot;data/DOB_Permit_Issuance.csv&quot;)
-#head(permits)
-colnames(permits) #print variables / column names</code></pre>
-<pre><code>##  [1] &quot;BOROUGH&quot;                          &quot;Bin..&quot;                           
-##  [3] &quot;House..&quot;                          &quot;Street.Name&quot;                     
-##  [5] &quot;Job..&quot;                            &quot;Job.doc...&quot;                      
-##  [7] &quot;Job.Type&quot;                         &quot;Self_Cert&quot;                       
-##  [9] &quot;Block&quot;                            &quot;Lot&quot;                             
-## [11] &quot;Community.Board&quot;                  &quot;Zip.Code&quot;                        
-## [13] &quot;Bldg.Type&quot;                        &quot;Residential&quot;                     
-## [15] &quot;Special.District.1&quot;               &quot;Special.District.2&quot;              
-## [17] &quot;Work.Type&quot;                        &quot;Permit.Status&quot;                   
-## [19] &quot;Filing.Status&quot;                    &quot;Permit.Type&quot;                     
-## [21] &quot;Permit.Sequence..&quot;                &quot;Permit.Subtype&quot;                  
-## [23] &quot;Oil.Gas&quot;                          &quot;Site.Fill&quot;                       
-## [25] &quot;Filing.Date&quot;                      &quot;Issuance.Date&quot;                   
-## [27] &quot;Expiration.Date&quot;                  &quot;Job.Start.Date&quot;                  
-## [29] &quot;Permittee.s.First.Name&quot;           &quot;Permittee.s.Last.Name&quot;           
-## [31] &quot;Permittee.s.Business.Name&quot;        &quot;Permittee.s.Phone..&quot;             
-## [33] &quot;Permittee.s.License.Type&quot;         &quot;Permittee.s.License..&quot;           
-## [35] &quot;Act.as.Superintendent&quot;            &quot;Permittee.s.Other.Title&quot;         
-## [37] &quot;HIC.License&quot;                      &quot;Site.Safety.Mgr.s.First.Name&quot;    
-## [39] &quot;Site.Safety.Mgr.s.Last.Name&quot;      &quot;Site.Safety.Mgr.Business.Name&quot;   
-## [41] &quot;Superintendent.First...Last.Name&quot; &quot;Superintendent.Business.Name&quot;    
-## [43] &quot;Owner.s.Business.Type&quot;            &quot;Non.Profit&quot;                      
-## [45] &quot;Owner.s.Business.Name&quot;            &quot;Owner.s.First.Name&quot;              
-## [47] &quot;Owner.s.Last.Name&quot;                &quot;Owner.s.House..&quot;                 
-## [49] &quot;Owner.s.House.Street.Name&quot;        &quot;Ownerâ..s.House.City&quot;            
-## [51] &quot;Ownerâ..s.House.State&quot;            &quot;Ownerâ..s.House.Zip.Code&quot;        
-## [53] &quot;Owner.s.Phone..&quot;                  &quot;DOBRunDate&quot;                      
-## [55] &quot;PERMIT_SI_NO&quot;                     &quot;LATITUDE&quot;                        
-## [57] &quot;LONGITUDE&quot;                        &quot;COUNCIL_DISTRICT&quot;                
-## [59] &quot;CENSUS_TRACT&quot;                     &quot;NTA_NAME&quot;</code></pre>
-<p><br></p>
-<p>We were able to find a Data Dictionary containing field codes and descriptions of the data sets, which can be downloaded <a href="https://data.cityofnewyork.us/api/views/ipu4-2q9a/files/87608d5b-1986-4a21-a8a5-7a38e65f9993?download=true&amp;filename=DD_DOB_Permit_Issuance_2018-03-07.xlsx" title="Data Dictionary for building permits">here</a>.</p>
-<p>This is a brief description of the variables of our interest:</p>
-<ul>
-<li>BOROUGH: The name of the NYC borough</li>
-<li>House: The house number for the building</li>
-<li>Street Name: The street name (combined with house number completes the address)</li>
-<li>Zip Code: ZIP Code for the building’s address</li>
-<li>Job Type: Type of job to be performed.</li>
-<li>Block: Tax Block number of the location (assigned by by the Department of Finance)</li>
-<li>Lot: Tax Lot number of the location (assigned by by the Department of Finance)</li>
-<li>Bldg Type: Legal occupancy classification</li>
-<li>Work Type: The specific type of work covered by the permit.</li>
-<li>Filing Date: The date the permit application was filed with DOB.</li>
-<li>Owner’s Business Type: The type of entity that owns the building.</li>
-</ul>
-<p>Now we proceed to filter Manhattan Zip codes that are within the area of influence of phase1 and phase 2 of the 2nd Ave Line project (10065, 10021, 10075, 10028, 10128, 10029, 10035) and selected the columns of our interest:</p>
-<pre class="r"><code>#filter Manahattan zip codes of interest:
-library(tidyverse)
-permits_upper_east &lt;- filter(permits, BOROUGH==&quot;MANHATTAN&quot; &amp; Zip.Code %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035))
-
-#Select relevant columns of our interest:
-permits_upper_east &lt;- select(permits_upper_east, House..,Street.Name,Job.Type,Block,Lot,Zip.Code,
-                    Bldg.Type,Work.Type,Filing.Date,Owner.s.Business.Type)
-#head(permits_upper_east)
-#write.table(permits_upper_east, file=&quot;DOB_Permit_Issuance_filtered.csv&quot;,sep=&quot;,&quot;,row.names=F)</code></pre>
-<p>After filtering and selecting variables of our interest, now we look for missing data using extracat::visna():</p>
-<pre class="r"><code>#install.packages(&#39;extracat&#39;)
-library(extracat)
-visna(permits_upper_east)</code></pre>
-<p><img src="basemaps_files/figure-html/unnamed-chunk-4-1.png" width="100%" /></p>
-<p>As we can see in the graph above, the quality of the data is very good, with just very few rows missing the Building Type column.</p>
-<p>The variables “Block” and “Lot” are of our special interest as those were the main variables used four our main Exploratory Data Analysis as we describe later.</p>
+<div id="using-basemaps" class="section level2">
+<h2>Using Basemaps</h2>
+<p>Leaflet supports basemaps using <a href="https://www.mapbox.com/guides/how-web-maps-work/">map tiles</a>, popularized by Google Maps and now used by nearly all interactive web maps.</p>
+<div id="default-openstreetmap-tiles" class="section level3">
+<h3>Default (OpenStreetMap) Tiles</h3>
+<p>The easiest way to add tiles is by calling <code>addTiles()</code> with no arguments; by default, <a href="https://www.openstreetmap.org/">OpenStreetMap</a> tiles are used.</p>
+<pre class="r"><code>m &lt;- leaflet() %&gt;% setView(lng = -71.0589, lat = 42.3601, zoom = 12)
+m %&gt;% addTiles()</code></pre>
+<div id="htmlwidget-927ec88a166bf954e46a" style="width:100%;height:240px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-927ec88a166bf954e46a">{
+  "x": {
+    "options": {
+      "crs": {
+        "crsClass": "L.CRS.EPSG3857",
+        "code": null,
+        "proj4def": null,
+        "projectedBounds": null,
+        "options": {}
+      }
+    },
+    "setView": [
+      [42.3601, -71.0589],
+      12,
+      []
+    ],
+    "calls": [
+      {
+        "method": "addTiles",
+        "args": [
+          "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          null,
+          null,
+          {
+            "minZoom": 0,
+            "maxZoom": 18,
+            "tileSize": 256,
+            "subdomains": "abc",
+            "errorTileUrl": "",
+            "tms": false,
+            "noWrap": false,
+            "zoomOffset": 0,
+            "zoomReverse": false,
+            "opacity": 1,
+            "zIndex": 1,
+            "detectRetina": false,
+            "attribution": "&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"
+          }
+        ]
+      }
+    ]
+  },
+  "evals": [],
+  "jsHooks": []
+}</script>
 </div>
-<div id="real-state-sales" class="section level3">
-<h3>Real State Sales</h3>
-<p><em>Provide a detailed, well-organized description of data quality, including textual description, graphs, and code</em></p>
+<div id="third-party-tiles" class="section level3">
+<h3>Third-Party Tiles</h3>
+<p>Alternatively, many popular free third-party basemaps can be added using the <code>addProviderTiles()</code> function, which is implemented using the <a href="https://github.com/leaflet-extras/leaflet-providers">leaflet-providers plugin</a>. See <a href="http://leaflet-extras.github.io/leaflet-providers/preview/index.html">here</a> for the complete set.</p>
+<p>As a convenience, leaflet also provides a named list of all the third-party tile providers that are supported by the plugin. This enables you to use auto-completion feature of your favorite R IDE (like RStudio) and not have to remember or look up supported tile providers; just type <code>providers$</code> and choose from one of the options. You can also use <code>names(providers)</code> to view all of the options.</p>
+<pre class="r"><code>m %&gt;% addProviderTiles(providers$Stamen.Toner)</code></pre>
+<div id="htmlwidget-e2aad06f99e8b55df8d8" style="width:100%;height:120px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e2aad06f99e8b55df8d8">{
+  "x": {
+    "options": {
+      "crs": {
+        "crsClass": "L.CRS.EPSG3857",
+        "code": null,
+        "proj4def": null,
+        "projectedBounds": null,
+        "options": {}
+      }
+    },
+    "setView": [
+      [42.3601, -71.0589],
+      12,
+      []
+    ],
+    "calls": [
+      {
+        "method": "addProviderTiles",
+        "args": [
+          "Stamen.Toner",
+          null,
+          null,
+          {
+            "errorTileUrl": "",
+            "noWrap": false,
+            "detectRetina": false
+          }
+        ]
+      }
+    ]
+  },
+  "evals": [],
+  "jsHooks": []
+}</script>
+<pre class="r"><code>m %&gt;% addProviderTiles(providers$CartoDB.Positron)</code></pre>
+<div id="htmlwidget-ec9d8b9e435c1a666871" style="width:100%;height:120px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-ec9d8b9e435c1a666871">{
+  "x": {
+    "options": {
+      "crs": {
+        "crsClass": "L.CRS.EPSG3857",
+        "code": null,
+        "proj4def": null,
+        "projectedBounds": null,
+        "options": {}
+      }
+    },
+    "setView": [
+      [42.3601, -71.0589],
+      12,
+      []
+    ],
+    "calls": [
+      {
+        "method": "addProviderTiles",
+        "args": [
+          "CartoDB.Positron",
+          null,
+          null,
+          {
+            "errorTileUrl": "",
+            "noWrap": false,
+            "detectRetina": false
+          }
+        ]
+      }
+    ]
+  },
+  "evals": [],
+  "jsHooks": []
+}</script>
+<pre class="r"><code>m %&gt;% addProviderTiles(providers$Esri.NatGeoWorldMap)</code></pre>
+<div id="htmlwidget-65e60ed4f5440bdab363" style="width:100%;height:120px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-65e60ed4f5440bdab363">{
+  "x": {
+    "options": {
+      "crs": {
+        "crsClass": "L.CRS.EPSG3857",
+        "code": null,
+        "proj4def": null,
+        "projectedBounds": null,
+        "options": {}
+      }
+    },
+    "setView": [
+      [42.3601, -71.0589],
+      12,
+      []
+    ],
+    "calls": [
+      {
+        "method": "addProviderTiles",
+        "args": [
+          "Esri.NatGeoWorldMap",
+          null,
+          null,
+          {
+            "errorTileUrl": "",
+            "noWrap": false,
+            "detectRetina": false
+          }
+        ]
+      }
+    ]
+  },
+  "evals": [],
+  "jsHooks": []
+}</script>
+<p>Note that some tile set providers require you to register; see the <a href="https://github.com/leaflet-extras/leaflet-providers">project page</a> for more information. You can pass access tokens/keys, and other options, to the tile provider by populating the <code>options</code> argument with the <code>providerTileOptions()</code> function.</p>
 </div>
-<div id="property-market-values" class="section level3">
-<h3>Property Market Values</h3>
-<p>As mentioned in the Description of Data, we were able to find the property market values from 2018 back to 2008 with 12 datasets in total, <strong>one dataset for each year</strong> except 2008 that contains 2 different datasets the needed to be combined.</p>
-<p>We were able to find a Data Dictionary containing field codes and descriptions of the data sets, which can be accessed <a href="http://www1.nyc.gov/assets/finance/downloads/tar/tarfieldcodes.pdf" title="Data Dictionary for property market values">here</a>.</p>
-<p>After downloading and extracting the zip files for all the original datasets we read each dataset, take a look at it, read the corresponding Data Dictionary and inspect variables/column names. The data consists of Access databases so we used RODBC library to read the databases using “odbcConnectAccess(‘my_Access_Database_to_read.mdb’)”.</p>
-<p><strong>Note:</strong> The original 12 Access databases have a total size of 4.34Gb, take too long time to be read and can’t be uploaded to GitHub, so we included the following commented code just <strong>to document our work</strong>, but we uploaded the samller data after filetering and selecting our variables of interest.</p>
-<pre class="r"><code># library(tidyverse)
-# #install.packages(&#39;RODBC&#39;)
-# library(RODBC)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_19.mdb&quot;)
-# property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(property)
-# #colnames(property) #print variables / column names
-# 
-# property_upper_east &lt;- property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2018)
-# str(property_upper_east) 
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_18.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2017)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_17.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2016)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_16.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2015)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_15.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2014)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_14.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2013)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_13.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2012)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_12.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2011)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_11.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2010)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_10.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2009)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_09_class 1.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;tc1&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;%
-#   mutate(FULLVAL = NEW_FV_T) %&gt;%
-#   filter(BORO==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2008)
-# str(new_property_upper_east)
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_09_class 2,3,4.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;tc234&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;%
-#   mutate(FULLVAL = NEW_FV_T) %&gt;%
-#   filter(BORO==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2008)
-# str(new_property_upper_east)
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# str(property_upper_east)
-# #Next, we write a new file &#39;property_upper_east.csv&#39; in the working directory, for future use whenever we need to read the data again, because reading the original files takes too long time:
-# write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)</code></pre>
-<p>This is a brief description of the variables of our interest utilized in the code above:</p>
-<ul>
-<li>BORO: The name of the NYC borough</li>
-<li>ZIP: ZIP Code for the property’s address</li>
-<li>BLOCK: Tax Block number of the location (assigned by by the Department of Finance)</li>
-<li>LOT: Tax Lot number of the location (assigned by by the Department of Finance)</li>
-<li>BLDGCL: 2 digits building class code (see codes <a href="http://www1.nyc.gov/assets/finance/jump/hlpbldgcode.html" title="Building class Codes">here</a>)</li>
-<li>FULLVAL/NEW_FV_T: Total next market value estimated for next fiscal year</li>
-</ul>
-<p>After filtering zip codes in the area of influence of phase1 and phase 2 of the 2nd Ave Line project (10065, 10021, 10075, 10028, 10128, 10029, 10035) and selecting variables of our interest, we looked for missing data using extracat::visna(), but we got ‘Error in visna(property_upper_east) : No NA’s in the data’, so we used mi::missing_data.frame() instead, just to double check:</p>
-<pre class="r"><code>#library(tidyverse)
-property_upper_east &lt;- read.csv(&quot;data/property_upper_east.csv&quot;) #already filtered and selected data
-#install.packages(&#39;extracat&#39;)
-library(mi)
-show(missing_data.frame(property_upper_east))</code></pre>
-<pre><code>## Object of class missing_data.frame with 299333 observations on 5 variables
-## 
-## There are 1 missing data patterns
-## 
-## Append &#39;@patterns&#39; to this missing_data.frame to access the corresponding pattern for every observation or perhaps use table()
-## 
-##                          type missing method model
-## BLOCK              continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## LOT                continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## BLDGCL  unordered-categorical       0   &lt;NA&gt;  &lt;NA&gt;
-## FULLVAL            continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## Year               continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## 
-##         family link transformation
-## BLOCK     &lt;NA&gt; &lt;NA&gt;    standardize
-## LOT       &lt;NA&gt; &lt;NA&gt;    standardize
-## BLDGCL    &lt;NA&gt; &lt;NA&gt;           &lt;NA&gt;
-## FULLVAL   &lt;NA&gt; &lt;NA&gt;    standardize
-## Year      &lt;NA&gt; &lt;NA&gt;    standardize</code></pre>
-<p>No we confirmed that there are no NA’s in the data so the quality of the data is very good.</p>
-<p>Again, the variables “Block” and “Lot” are of our special interest as those were the main variables used four our main Exploratory Data Analysis as we describe later.</p>
+<div id="custom-tile-url-template" class="section level3">
+<h3>Custom Tile URL Template</h3>
+<p>If you happen to have a custom map tile URL template to use, you can provide it as an argument to <code>addTiles()</code>.</p>
 </div>
-<div id="property-assessed-values" class="section level3">
-<h3>Property Assessed Values</h3>
-<p>As mentioned in the Description of Data, we were able to find property “Assessed Values” from 2003 to 2017 in the “Primary Land Use Tax Lot Output” (PLUTO) dataset, developed by the New York City Department of City Planning’s (DCP).</p>
-<p>We were able to find a Data Dictionary containing field codes and descriptions of the data sets, which can be accessed <a href="http://www1.nyc.gov/assets/planning/download/pdf/data-maps/open-data/pluto_datadictionary.pdf" title="Data Dictionary for property assessed values">here</a>.</p>
-<p>After downloading and extracting the zip files for the original datasets we read each dataset, take a look at it, read the corresponding Data Dictionary and inspect variables/column names. The datasets are shapefiles so we used the “foreign” library to read the data files of the shapefiles using “read.dbf(‘my_shapefile_to_read.dbf’)”.</p>
-<p><strong>Note:</strong> The original 15 datasets are an extensive land use and geographic data at the tax lot level, containing more than seventy fields derived from data maintained by different city agencies so they have a large size, take too long time to be read and can’t be uploaded to GitHub, so we included the following commented code just <strong>to document our work</strong>, but we uploaded the samller data after filetering and selecting our variables of interest.</p>
-<pre class="r"><code># library(tidyverse)
-# library(foreign) #used to read .dbf files
-# 
-# PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/mn_mappluto_17v1_1/MNMapPLUTO.dbf&quot;)
-# #head(PLUTO)
-# 
-# PLUTO &lt;- PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2017)
-# str(PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_16/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2016)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_15/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2015)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_14/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2014)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_13/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2013)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_12/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2012)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_11/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2011)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_10/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2010)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_09/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2009)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_08/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2008)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_07/mnmappluto.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2007)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_06/mnmappluto.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2006)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_05/mnmappluto.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZIPCODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(BLOCK,LOT,BLDGCLASS,ASSESSTOT,XCOORD,YCOORD) %&gt;%
-#   mutate(Year = 2005)
-# str(New_PLUTO)
-# 
-# colnames(New_PLUTO) &lt;- c(&quot;Block&quot;,&quot;Lot&quot;,&quot;BldgClass&quot;,&quot;AssessTot&quot;,&quot;XCoord&quot;,&quot;YCoord&quot;,&quot;Year&quot;)
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_04/mnmappluto.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZIPCODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(BLOCK,LOT,BLDGCLASS,ASSESSTOTA,XCOORD,YCOORD) %&gt;%
-#   mutate(Year = 2004)
-# str(New_PLUTO)
-# 
-# colnames(New_PLUTO) &lt;- c(&quot;Block&quot;,&quot;Lot&quot;,&quot;BldgClass&quot;,&quot;AssessTot&quot;,&quot;XCoord&quot;,&quot;YCoord&quot;,&quot;Year&quot;)
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_03/mnmappluto.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(zipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(block,lot,bldgClass,assessTotl,xCoord,yCoord) %&gt;%
-#   mutate(Year = 2003)
-# str(New_PLUTO)
-# 
-# colnames(New_PLUTO) &lt;- c(&quot;Block&quot;,&quot;Lot&quot;,&quot;BldgClass&quot;,&quot;AssessTot&quot;,&quot;XCoord&quot;,&quot;YCoord&quot;,&quot;Year&quot;)
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# str(PLUTO)
-# 
-# #Next, we write a new file &#39;property_upper_east.csv&#39; in the working directory, for future use whenever we need to read the data again, because reading the original files takes too long time:
-# write.table(PLUTO, file=&quot;PLUTO_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)</code></pre>
-<p>This is a brief description of the variables of our interest utilized in the code above:</p>
-<ul>
-<li>ZipCode: ZIP Code for the property’s address</li>
-<li>Block: Tax Block number of the location (assigned by by the Department of Finance)</li>
-<li>Lot: Tax Lot number of the location (assigned by by the Department of Finance)</li>
-<li>BldgClass: 2 digits building class code (see codes <a href="http://www1.nyc.gov/assets/finance/jump/hlpbldgcode.html" title="Building class Codes">here</a>)</li>
-<li>AssessTot: Total Property Assessed Value</li>
-</ul>
-<p>After filtering zip codes in the area of influence of phase1 and phase 2 of the 2nd Ave Line project (10065, 10021, 10075, 10028, 10128, 10029, 10035) and selecting variables of our interest, we looked for missing data using extracat::visna(), but we got ‘Error in visna(property_upper_east) : No NA’s in the data’, so we used mi::missing_data.frame() instead, just to double check:</p>
-<pre class="r"><code>#library(tidyverse)
-property_upper_east &lt;- read.csv(&quot;data/PLUTO_upper_east.csv&quot;) #already filtered and selected data
-#install.packages(&#39;extracat&#39;)
-library(mi)
-show(missing_data.frame(property_upper_east))</code></pre>
-<pre><code>## Object of class missing_data.frame with 130111 observations on 7 variables
-## 
-## There are 1 missing data patterns
-## 
-## Append &#39;@patterns&#39; to this missing_data.frame to access the corresponding pattern for every observation or perhaps use table()
-## 
-##                            type missing method model
-## Block                continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## Lot                  continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## BldgClass unordered-categorical       0   &lt;NA&gt;  &lt;NA&gt;
-## AssessTot            continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## XCoord               continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## YCoord               continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## Year                 continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## 
-##           family link transformation
-## Block       &lt;NA&gt; &lt;NA&gt;    standardize
-## Lot         &lt;NA&gt; &lt;NA&gt;    standardize
-## BldgClass   &lt;NA&gt; &lt;NA&gt;           &lt;NA&gt;
-## AssessTot   &lt;NA&gt; &lt;NA&gt;    standardize
-## XCoord      &lt;NA&gt; &lt;NA&gt;    standardize
-## YCoord      &lt;NA&gt; &lt;NA&gt;    standardize
-## Year        &lt;NA&gt; &lt;NA&gt;    standardize</code></pre>
-<p>No we confirmed that there are no NA’s in the data so the quality of the data is very good.</p>
-<p>Same than for the analysis for building permits and the analysis for property market values, the variables “Block” and “Lot” are of our special interest as those were the main variables used four our main Exploratory Data Analysis as we describe later.</p>
+<div id="wms-tiles" class="section level3">
+<h3>WMS Tiles</h3>
+<p>You can use <code>addWMSTiles()</code> to add WMS (Web Map Service) tiles. The map below shows the Base Reflectivity (a measure of the intensity of precipitation occurring) using the WMS from the <a href="http://mesonet.agron.iastate.edu">Iowa Environmental Mesonet</a>:</p>
+<pre class="r"><code>leaflet() %&gt;% addTiles() %&gt;% setView(-93.65, 42.0285, zoom = 4) %&gt;%
+  addWMSTiles(
+    &quot;http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi&quot;,
+    layers = &quot;nexrad-n0r-900913&quot;,
+    options = WMSTileOptions(format = &quot;image/png&quot;, transparent = TRUE),
+    attribution = &quot;Weather data © 2012 IEM Nexrad&quot;
+  )</code></pre>
+<div id="htmlwidget-c6a36a601760297b5cca" style="width:100%;height:240px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c6a36a601760297b5cca">{
+  "x": {
+    "options": {
+      "crs": {
+        "crsClass": "L.CRS.EPSG3857",
+        "code": null,
+        "proj4def": null,
+        "projectedBounds": null,
+        "options": {}
+      }
+    },
+    "calls": [
+      {
+        "method": "addTiles",
+        "args": [
+          "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+          null,
+          null,
+          {
+            "minZoom": 0,
+            "maxZoom": 18,
+            "tileSize": 256,
+            "subdomains": "abc",
+            "errorTileUrl": "",
+            "tms": false,
+            "noWrap": false,
+            "zoomOffset": 0,
+            "zoomReverse": false,
+            "opacity": 1,
+            "zIndex": 1,
+            "detectRetina": false,
+            "attribution": "&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"
+          }
+        ]
+      },
+      {
+        "method": "addWMSTiles",
+        "args": [
+          "http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",
+          null,
+          null,
+          {
+            "styles": "",
+            "format": "image/png",
+            "transparent": true,
+            "version": "1.1.1",
+            "attribution": "Weather data © 2012 IEM Nexrad",
+            "layers": "nexrad-n0r-900913"
+          }
+        ]
+      }
+    ],
+    "setView": [
+      [42.0285, -93.65],
+      4,
+      []
+    ]
+  },
+  "evals": [],
+  "jsHooks": []
+}</script>
 </div>
-<div id="other-datasets" class="section level3">
-<h3>Other Datasets?</h3>
-</div>
-</div>
-<div id="section" class="section level2">
-<h2>=======</h2>
-</div>
-<div id="pagetitle-analysis-of-data-quality" class="section level2">
-<h2>pagetitle: Analysis of Data Quality</h2>
-</div>
-<div id="analysis-of-data-quality-1" class="section level2">
-<h2>Analysis of Data Quality</h2>
-<div id="remodeling-of-existing-and-construction-of-new-buildings-1" class="section level3">
-<h3>Remodeling of existing and construction of new buildings</h3>
-<p>As mentioned in the Description of Data, the dataset we were able to get, shows the details for every building permit filed with the Department of Buildings, from 1990 to date. This dataset is a list of building permits filed for a particular day and associated data and contains building permits for both new buildings and alterations / remodeling.</p>
-<p>After downloading the original dataset (1.4GB, 3,341,659 observations),read it, take a look at it and inspected variables/column names:</p>
-<pre class="r"><code>permits &lt;- read.csv(&quot;data/DOB_Permit_Issuance.csv&quot;)
-#head(permits)
-colnames(permits) #print variables / column names</code></pre>
-<pre><code>##  [1] &quot;BOROUGH&quot;                          &quot;Bin..&quot;                           
-##  [3] &quot;House..&quot;                          &quot;Street.Name&quot;                     
-##  [5] &quot;Job..&quot;                            &quot;Job.doc...&quot;                      
-##  [7] &quot;Job.Type&quot;                         &quot;Self_Cert&quot;                       
-##  [9] &quot;Block&quot;                            &quot;Lot&quot;                             
-## [11] &quot;Community.Board&quot;                  &quot;Zip.Code&quot;                        
-## [13] &quot;Bldg.Type&quot;                        &quot;Residential&quot;                     
-## [15] &quot;Special.District.1&quot;               &quot;Special.District.2&quot;              
-## [17] &quot;Work.Type&quot;                        &quot;Permit.Status&quot;                   
-## [19] &quot;Filing.Status&quot;                    &quot;Permit.Type&quot;                     
-## [21] &quot;Permit.Sequence..&quot;                &quot;Permit.Subtype&quot;                  
-## [23] &quot;Oil.Gas&quot;                          &quot;Site.Fill&quot;                       
-## [25] &quot;Filing.Date&quot;                      &quot;Issuance.Date&quot;                   
-## [27] &quot;Expiration.Date&quot;                  &quot;Job.Start.Date&quot;                  
-## [29] &quot;Permittee.s.First.Name&quot;           &quot;Permittee.s.Last.Name&quot;           
-## [31] &quot;Permittee.s.Business.Name&quot;        &quot;Permittee.s.Phone..&quot;             
-## [33] &quot;Permittee.s.License.Type&quot;         &quot;Permittee.s.License..&quot;           
-## [35] &quot;Act.as.Superintendent&quot;            &quot;Permittee.s.Other.Title&quot;         
-## [37] &quot;HIC.License&quot;                      &quot;Site.Safety.Mgr.s.First.Name&quot;    
-## [39] &quot;Site.Safety.Mgr.s.Last.Name&quot;      &quot;Site.Safety.Mgr.Business.Name&quot;   
-## [41] &quot;Superintendent.First...Last.Name&quot; &quot;Superintendent.Business.Name&quot;    
-## [43] &quot;Owner.s.Business.Type&quot;            &quot;Non.Profit&quot;                      
-## [45] &quot;Owner.s.Business.Name&quot;            &quot;Owner.s.First.Name&quot;              
-## [47] &quot;Owner.s.Last.Name&quot;                &quot;Owner.s.House..&quot;                 
-## [49] &quot;Owner.s.House.Street.Name&quot;        &quot;Ownerâ..s.House.City&quot;            
-## [51] &quot;Ownerâ..s.House.State&quot;            &quot;Ownerâ..s.House.Zip.Code&quot;        
-## [53] &quot;Owner.s.Phone..&quot;                  &quot;DOBRunDate&quot;                      
-## [55] &quot;PERMIT_SI_NO&quot;                     &quot;LATITUDE&quot;                        
-## [57] &quot;LONGITUDE&quot;                        &quot;COUNCIL_DISTRICT&quot;                
-## [59] &quot;CENSUS_TRACT&quot;                     &quot;NTA_NAME&quot;</code></pre>
-<p><br></p>
-<p>We were able to find a Data Dictionary containing field codes and descriptions of the data sets, which can be downloaded <a href="https://data.cityofnewyork.us/api/views/ipu4-2q9a/files/87608d5b-1986-4a21-a8a5-7a38e65f9993?download=true&amp;filename=DD_DOB_Permit_Issuance_2018-03-07.xlsx" title="Data Dictionary for building permits">here</a>.</p>
-<p>This is a brief description of the variables of our interest:</p>
-<ul>
-<li>BOROUGH: The name of the NYC borough</li>
-<li>House: The house number for the building</li>
-<li>Street Name: The street name (combined with house number completes the address)</li>
-<li>Zip Code: ZIP Code for the building’s address</li>
-<li>Job Type: Type of job to be performed.</li>
-<li>Block: Tax Block number of the location (assigned by by the Department of Finance)</li>
-<li>Lot: Tax Lot number of the location (assigned by by the Department of Finance)</li>
-<li>Bldg Type: Legal occupancy classification</li>
-<li>Work Type: The specific type of work covered by the permit.</li>
-<li>Filing Date: The date the permit application was filed with DOB.</li>
-<li>Owner’s Business Type: The type of entity that owns the building.</li>
-</ul>
-<p>Now we proceed to filter Manhattan Zip codes that are within the area of influence of phase1 and phase 2 of the 2nd Ave Line project (10065, 10021, 10075, 10028, 10128, 10029, 10035) and selected the columns of our interest:</p>
-<pre class="r"><code>#filter Manahattan zip codes of interest:
-library(tidyverse)
-permits_upper_east &lt;- filter(permits, BOROUGH==&quot;MANHATTAN&quot; &amp; Zip.Code %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035))
-
-#Select relevant columns of our interest:
-permits_upper_east &lt;- select(permits_upper_east, House..,Street.Name,Job.Type,Block,Lot,Zip.Code,
-                    Bldg.Type,Work.Type,Filing.Date,Owner.s.Business.Type)
-#head(permits_upper_east)
-write.table(permits_upper_east, file=&quot;DOB_Permit_Issuance_filtered.csv&quot;,sep=&quot;,&quot;,row.names=F)</code></pre>
-<p>After filtering and selecting variables of our interest, now we look for missing data using extracat::visna():</p>
-<pre class="r"><code>#install.packages(&#39;extracat&#39;)
-library(extracat)
-visna(permits_upper_east)</code></pre>
-<p><img src="basemaps_files/figure-html/unnamed-chunk-11-1.png" width="100%" /></p>
-<p>As we can see in the graph above, the quality of the data is very good, with just very few rows missing the Building Type column.</p>
-<p>The variables “Block” and “Lot” are of our special interest as those were the main variables used four our main Exploratory Data Analysis as we describe later.</p>
-</div>
-<div id="real-state-sales-1" class="section level3">
-<h3>Real State Sales</h3>
-<p><em>Provide a detailed, well-organized description of data quality, including textual description, graphs, and code</em></p>
-</div>
-<div id="property-market-values-1" class="section level3">
-<h3>Property Market Values</h3>
-<p>As mentioned in the Description of Data, we were able to find the property market values from 2018 back to 2008 with 12 datasets in total, <strong>one dataset for each year</strong> except 2008 that contains 2 different datasets the needed to be combined.</p>
-<p>We were able to find a Data Dictionary containing field codes and descriptions of the data sets, which can be accessed <a href="http://www1.nyc.gov/assets/finance/downloads/tar/tarfieldcodes.pdf" title="Data Dictionary for property market values">here</a>.</p>
-<p>After downloading and extracting the zip files for all the original datasets we read each dataset, take a look at it, read the corresponding Data Dictionary and inspect variables/column names. The data consists of Access databases so we used RODBC library to read the databases using “odbcConnectAccess(‘my_Access_Database_to_read.mdb’)”.</p>
-<p><strong>Note:</strong> The original 12 Access databases have a total size of 4.34Gb, take too long time to be read and can’t be uploaded to GitHub, so we included the following commented code just <strong>to document our work</strong>, but we uploaded the samller data after filetering and selecting our variables of interest.</p>
-<pre class="r"><code># library(tidyverse)
-# #install.packages(&#39;RODBC&#39;)
-# library(RODBC)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_19.mdb&quot;)
-# property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(property)
-# #colnames(property) #print variables / column names
-# 
-# property_upper_east &lt;- property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2018)
-# str(property_upper_east) 
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_18.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2017)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_17.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2016)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_16.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2015)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_15.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2014)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_14.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2013)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_13.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2012)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_12.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2011)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_11.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2010)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_10.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;avroll&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;% 
-#   filter(B==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2009)
-# str(new_property_upper_east) 
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_09_class 1.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;tc1&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;%
-#   mutate(FULLVAL = NEW_FV_T) %&gt;%
-#   filter(BORO==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2008)
-# str(new_property_upper_east)
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# #str(property_upper_east)
-# #write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)
-# 
-# mdbConnect&lt;-odbcConnectAccess(&quot;avroll_09_class 2,3,4.mdb&quot;)
-# new_property &lt;- sqlFetch(mdbConnect,&quot;tc234&quot;)
-# odbcClose(mdbConnect)
-# #head(new_property)
-# #colnames(new_property) #print variables / column names
-# 
-# new_property_upper_east &lt;- new_property %&gt;%
-#   mutate(FULLVAL = NEW_FV_T) %&gt;%
-#   filter(BORO==1 &amp; ZIP %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;% select(BLOCK,LOT,BLDGCL,FULLVAL) %&gt;%
-#     mutate(Year = 2008)
-# str(new_property_upper_east)
-# 
-# property_upper_east &lt;- rbind.data.frame(new_property_upper_east, property_upper_east)
-# str(property_upper_east)
-# #Next, we write a new file &#39;property_upper_east.csv&#39; in the working directory, for future use whenever we need to read the data again, because reading the original files takes too long time:
-# write.table(property_upper_east, file=&quot;property_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)</code></pre>
-<p>This is a brief description of the variables of our interest utilized in the code above:</p>
-<ul>
-<li>BORO: The name of the NYC borough</li>
-<li>ZIP: ZIP Code for the property’s address</li>
-<li>BLOCK: Tax Block number of the location (assigned by by the Department of Finance)</li>
-<li>LOT: Tax Lot number of the location (assigned by by the Department of Finance)</li>
-<li>BLDGCL: 2 digits building class code (see codes <a href="http://www1.nyc.gov/assets/finance/jump/hlpbldgcode.html" title="Building class Codes">here</a>)</li>
-<li>FULLVAL/NEW_FV_T: Total next market value estimated for next fiscal year</li>
-</ul>
-<p>After filtering zip codes in the area of influence of phase1 and phase 2 of the 2nd Ave Line project (10065, 10021, 10075, 10028, 10128, 10029, 10035) and selecting variables of our interest, we looked for missing data using extracat::visna(), but we got ‘Error in visna(property_upper_east) : No NA’s in the data’, so we used mi::missing_data.frame() instead, just to double check:</p>
-<pre class="r"><code>#library(tidyverse)
-property_upper_east &lt;- read.csv(&quot;data/property_upper_east.csv&quot;) #already filtered and selected data
-#install.packages(&#39;extracat&#39;)
-library(mi)
-show(missing_data.frame(property_upper_east))</code></pre>
-<pre><code>## Object of class missing_data.frame with 299333 observations on 5 variables
-## 
-## There are 1 missing data patterns
-## 
-## Append &#39;@patterns&#39; to this missing_data.frame to access the corresponding pattern for every observation or perhaps use table()
-## 
-##                          type missing method model
-## BLOCK              continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## LOT                continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## BLDGCL  unordered-categorical       0   &lt;NA&gt;  &lt;NA&gt;
-## FULLVAL            continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## Year               continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## 
-##         family link transformation
-## BLOCK     &lt;NA&gt; &lt;NA&gt;    standardize
-## LOT       &lt;NA&gt; &lt;NA&gt;    standardize
-## BLDGCL    &lt;NA&gt; &lt;NA&gt;           &lt;NA&gt;
-## FULLVAL   &lt;NA&gt; &lt;NA&gt;    standardize
-## Year      &lt;NA&gt; &lt;NA&gt;    standardize</code></pre>
-<p>No we confirmed that there are no NA’s in the data so the quality of the data is very good.</p>
-<p>Again, the variables “Block” and “Lot” are of our special interest as those were the main variables used four our main Exploratory Data Analysis as we describe later.</p>
-</div>
-<div id="property-assessed-values-1" class="section level3">
-<h3>Property Assessed Values</h3>
-<p>As mentioned in the Description of Data, we were able to find property “Assessed Values” from 2003 to 2017 in the “Primary Land Use Tax Lot Output” (PLUTO) dataset, developed by the New York City Department of City Planning’s (DCP).</p>
-<p>We were able to find a Data Dictionary containing field codes and descriptions of the data sets, which can be accessed <a href="http://www1.nyc.gov/assets/planning/download/pdf/data-maps/open-data/pluto_datadictionary.pdf" title="Data Dictionary for property assessed values">here</a>.</p>
-<p>After downloading and extracting the zip files for the original datasets we read each dataset, take a look at it, read the corresponding Data Dictionary and inspect variables/column names. The datasets are shapefiles so we used the “foreign” library to read the data files of the shapefiles using “read.dbf(‘my_shapefile_to_read.dbf’)”.</p>
-<p><strong>Note:</strong> The original 15 datasets are an extensive land use and geographic data at the tax lot level, containing more than seventy fields derived from data maintained by different city agencies so they have a large size, take too long time to be read and can’t be uploaded to GitHub, so we included the following commented code just <strong>to document our work</strong>, but we uploaded the samller data after filetering and selecting our variables of interest.</p>
-<pre class="r"><code># library(tidyverse)
-# library(foreign) #used to read .dbf files
-# 
-# PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/mn_mappluto_17v1_1/MNMapPLUTO.dbf&quot;)
-# #head(PLUTO)
-# 
-# PLUTO &lt;- PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2017)
-# str(PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_16/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2016)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_15/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2015)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_14/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2014)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_13/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2013)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_12/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2012)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_11/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2011)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_10/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2010)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_09/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2009)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_08/MNMapPLUTO.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2008)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_07/mnmappluto.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2007)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_06/mnmappluto.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(Block,Lot,BldgClass,AssessTot,XCoord,YCoord) %&gt;%
-#   mutate(Year = 2006)
-# str(New_PLUTO)
-# 
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_05/mnmappluto.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZIPCODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(BLOCK,LOT,BLDGCLASS,ASSESSTOT,XCOORD,YCOORD) %&gt;%
-#   mutate(Year = 2005)
-# str(New_PLUTO)
-# 
-# colnames(New_PLUTO) &lt;- c(&quot;Block&quot;,&quot;Lot&quot;,&quot;BldgClass&quot;,&quot;AssessTot&quot;,&quot;XCoord&quot;,&quot;YCoord&quot;,&quot;Year&quot;)
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_04/mnmappluto.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(ZIPCODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(BLOCK,LOT,BLDGCLASS,ASSESSTOTA,XCOORD,YCOORD) %&gt;%
-#   mutate(Year = 2004)
-# str(New_PLUTO)
-# 
-# colnames(New_PLUTO) &lt;- c(&quot;Block&quot;,&quot;Lot&quot;,&quot;BldgClass&quot;,&quot;AssessTot&quot;,&quot;XCoord&quot;,&quot;YCoord&quot;,&quot;Year&quot;)
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# 
-# New_PLUTO &lt;- read.dbf(&quot;c:/Users/yenny/Downloads/Columbia/Exploratory Data/final project/Market Values 2009-2019/Mappluto/Manhattan_03/mnmappluto.dbf&quot;)
-# #head(New_PLUTO)
-# 
-# New_PLUTO  &lt;- New_PLUTO %&gt;%
-#   filter(zipCode %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %&gt;%
-#   select(block,lot,bldgClass,assessTotl,xCoord,yCoord) %&gt;%
-#   mutate(Year = 2003)
-# str(New_PLUTO)
-# 
-# colnames(New_PLUTO) &lt;- c(&quot;Block&quot;,&quot;Lot&quot;,&quot;BldgClass&quot;,&quot;AssessTot&quot;,&quot;XCoord&quot;,&quot;YCoord&quot;,&quot;Year&quot;)
-# PLUTO &lt;- rbind.data.frame(New_PLUTO, PLUTO)
-# str(PLUTO)
-# 
-# #Next, we write a new file &#39;property_upper_east.csv&#39; in the working directory, for future use whenever we need to read the data again, because reading the original files takes too long time:
-# write.table(PLUTO, file=&quot;PLUTO_upper_east.csv&quot;,sep=&quot;,&quot;,row.names=F)</code></pre>
-<p>This is a brief description of the variables of our interest utilized in the code above:</p>
-<ul>
-<li>ZipCode: ZIP Code for the property’s address</li>
-<li>Block: Tax Block number of the location (assigned by by the Department of Finance)</li>
-<li>Lot: Tax Lot number of the location (assigned by by the Department of Finance)</li>
-<li>BldgClass: 2 digits building class code (see codes <a href="http://www1.nyc.gov/assets/finance/jump/hlpbldgcode.html" title="Building class Codes">here</a>)</li>
-<li>AssessTot: Total Property Assessed Value</li>
-</ul>
-<p>After filtering zip codes in the area of influence of phase1 and phase 2 of the 2nd Ave Line project (10065, 10021, 10075, 10028, 10128, 10029, 10035) and selecting variables of our interest, we looked for missing data using extracat::visna(), but we got ‘Error in visna(property_upper_east) : No NA’s in the data’, so we used mi::missing_data.frame() instead, just to double check:</p>
-<pre class="r"><code>#library(tidyverse)
-property_upper_east &lt;- read.csv(&quot;data/PLUTO_upper_east.csv&quot;) #already filtered and selected data
-#install.packages(&#39;extracat&#39;)
-library(mi)
-show(missing_data.frame(property_upper_east))</code></pre>
-<pre><code>## Object of class missing_data.frame with 130111 observations on 7 variables
-## 
-## There are 1 missing data patterns
-## 
-## Append &#39;@patterns&#39; to this missing_data.frame to access the corresponding pattern for every observation or perhaps use table()
-## 
-##                            type missing method model
-## Block                continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## Lot                  continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## BldgClass unordered-categorical       0   &lt;NA&gt;  &lt;NA&gt;
-## AssessTot            continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## XCoord               continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## YCoord               continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## Year                 continuous       0   &lt;NA&gt;  &lt;NA&gt;
-## 
-##           family link transformation
-## Block       &lt;NA&gt; &lt;NA&gt;    standardize
-## Lot         &lt;NA&gt; &lt;NA&gt;    standardize
-## BldgClass   &lt;NA&gt; &lt;NA&gt;           &lt;NA&gt;
-## AssessTot   &lt;NA&gt; &lt;NA&gt;    standardize
-## XCoord      &lt;NA&gt; &lt;NA&gt;    standardize
-## YCoord      &lt;NA&gt; &lt;NA&gt;    standardize
-## Year        &lt;NA&gt; &lt;NA&gt;    standardize</code></pre>
-<p>No we confirmed that there are no NA’s in the data so the quality of the data is very good.</p>
-<p>Same than for the analysis for building permits and the analysis for property market values, the variables “Block” and “Lot” are of our special interest as those were the main variables used four our main Exploratory Data Analysis as we describe later.</p>
-</div>
-<div id="other-datasets-1" class="section level3">
-<h3>Other Datasets?</h3>
-<p><em>Provide a detailed, well-organized description of data quality, including textual description, graphs, and code</em></p>
+<div id="combining-tile-layers" class="section level3">
+<h3>Combining Tile Layers</h3>
+<p>You aren’t restricted to using a single basemap on a map; you can stack them by adding multiple tile layers. This generally only makes sense if the front tiles consist of semi transparent tiles, or have an adjusted opacity via the <code>options</code> argument.</p>
+<pre class="r"><code>m %&gt;% addProviderTiles(providers$MtbMap) %&gt;%
+  addProviderTiles(providers$Stamen.TonerLines,
+    options = providerTileOptions(opacity = 0.35)) %&gt;%
+  addProviderTiles(providers$Stamen.TonerLabels)</code></pre>
+<div id="htmlwidget-6d8788299161dc56faef" style="width:100%;height:168px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6d8788299161dc56faef">{
+  "x": {
+    "options": {
+      "crs": {
+        "crsClass": "L.CRS.EPSG3857",
+        "code": null,
+        "proj4def": null,
+        "projectedBounds": null,
+        "options": {}
+      }
+    },
+    "setView": [
+      [42.3601, -71.0589],
+      12,
+      []
+    ],
+    "calls": [
+      {
+        "method": "addProviderTiles",
+        "args": [
+          "MtbMap",
+          null,
+          null,
+          {
+            "errorTileUrl": "",
+            "noWrap": false,
+            "detectRetina": false
+          }
+        ]
+      },
+      {
+        "method": "addProviderTiles",
+        "args": [
+          "Stamen.TonerLines",
+          null,
+          null,
+          {
+            "errorTileUrl": "",
+            "noWrap": false,
+            "opacity": 0.35,
+            "detectRetina": false
+          }
+        ]
+      },
+      {
+        "method": "addProviderTiles",
+        "args": [
+          "Stamen.TonerLabels",
+          null,
+          null,
+          {
+            "errorTileUrl": "",
+            "noWrap": false,
+            "detectRetina": false
+          }
+        ]
+      }
+    ]
+  },
+  "evals": [],
+  "jsHooks": []
+}</script>
 </div>
 </div>
 
 <footer>
-<p><small>Work Developed for our EDAV final project.
+<p><small>The "leaflet" R package is copyright &copy; 2014-2016 RStudio, Inc.<br/>
+The Leaflet JavaScript library is &copy; 2010–2016 <a href="http://agafonkin.com/en">Vladimir Agafonkin</a>, 2010–2011 <a href="http://cloudmade.com">CloudMade</a>.<br/>
+Maps &copy; <a href="http://openstreetmap.org/copyright">OpenStreetMap</a> contributors unless otherwise noted.
 </small></p>
 </footer>
 
   </div>
 </div>
+
+<a href="https://github.com/rstudio/leaflet"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
 
 
 

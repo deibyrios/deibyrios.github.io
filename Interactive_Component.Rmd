@@ -180,7 +180,16 @@ line_labels <- ifelse(subway_lines$name=="4-5-6", "<strong>Pre-existing 4th Aven
 
 myNYCmap <- leaflet(options = leafletOptions(minZoom = 9, maxZoom = 18)) %>% #restringe/limit Zoom
   #addTiles() %>%  # Add default OpenStreetMap base map
-  addProviderTiles(providers$CartoDB.Positron) %>% #this base map looks better (see http://leaflet-extras.github.io/leaflet-providers/preview/index.html for other base maps)
+  
+  # addTiles() %>% #this base map looks better (see http://leaflet-extras.github.io/leaflet-providers/preview/index.html for other base maps)
+  
+  addTiles("http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+attribution = paste(
+"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors",
+"&copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>"
+)
+) %>%
+  
   
   setView(lng = -73.954477, lat = 40.776522, zoom = 14.8) %>% #initial center point and zoom
   

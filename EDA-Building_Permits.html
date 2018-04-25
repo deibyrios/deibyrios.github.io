@@ -247,7 +247,7 @@ ggplot(data_phase1, aes(Filing.Year, index, color = Distance)) + geom_line(lwd =
     theme_grey(16) +
     theme(legend.title = element_blank()) +
     scale_colour_colorblind()</code></pre>
-<p><img src="EDA-Building_Permits_files/figure-html/unnamed-chunk-3-1.png" width="100%" /> <br></p>
+<p><img src="EDA-Building_Permits_files/figure-html/unnamed-chunk-3-1.png" /><!-- --> <br></p>
 <p><strong>Conclusion:</strong> From the graph above, it seems that, for buildings located on the left side of the 2nd Ave phase 1 Line, the number of building permits filed is related to the distance in blocks from the phase 1 of 2nd Ave line project; with buildings closer to the Line, showing a higher increase in filed building permits than buildings far from the Line.</p>
 <p>Since the phase 1 opened on January 1st, 2017; we see the decrease in building permit filings as an expected result, as one would expect that new/remodeled residential and business buildings are planned, and consequently building permits filed, ahead and not nearly of after the completion of the project. We can later try to verify if this theory is adequate when we analyze the effect of phase 2 of the project, which, as mentioned in the project background summary, is just in preliminary works stage.<br />
 <br></p>
@@ -294,7 +294,7 @@ ggplot(data_phase1, aes(Filing.Year, index, color = Distance)) + geom_line(lwd =
     theme_grey(16) +
     theme(legend.title = element_blank()) +
     scale_colour_colorblind()</code></pre>
-<p><img src="EDA-Building_Permits_files/figure-html/unnamed-chunk-5-1.png" width="100%" /> <br></p>
+<p><img src="EDA-Building_Permits_files/figure-html/unnamed-chunk-5-1.png" /><!-- --> <br></p>
 <p><strong>Preliminary Conclusions:</strong> Initially, we had plotted just recent years (similar to what we did for buildings on the left side of the line), but we noted that the category ‘3-4 blocks right from 2nd Ave line’ had a higher increase in variation than other lines which was not an expected result.</p>
 <p>However, after plotting from the initial year when data is available (1990) we could see that historically, that block of buildings have always had a higher increase in the number of building permits, which made us think it is due to the fact that this last category is right on the edge of the East River, which would attract a higher number of projects than the other categories, due to the water views.</p>
 <p>To try to isolate that phenomenon, we could just remove the category ‘3-4 blocks right from line’ which would be the category affecting the results, but then we would need some more visual evidence to see if the project seems to affect the filing of building permits or not.</p>
@@ -341,7 +341,7 @@ ggplot(data_phase1, aes(Filing.Year, index, color = Distance)) + geom_line(lwd =
     theme_grey(16) +
     theme(legend.title = element_blank()) +
     scale_colour_colorblind()</code></pre>
-<p><img src="EDA-Building_Permits_files/figure-html/unnamed-chunk-7-1.png" width="100%" /> <br></p>
+<p><img src="EDA-Building_Permits_files/figure-html/unnamed-chunk-7-1.png" /><!-- --> <br></p>
 <p><strong>Conclusion:</strong> For buildings located on the right side of the 2nd Ave phase 1 Line, it seems that the variation in building permits filed is indeed related to the 2nd Ave Line project, with buildings closer to a phase 1 station, showing a higher increase in filed building permits than buildings far from a phase 1 station. <br><br></p>
 <div id="analysis-of-building-permits-for-phase-2" class="section level5">
 <h5><strong>Analysis of Building Permits for Phase 2</strong></h5>
@@ -421,7 +421,7 @@ ggplot(data_phase2, aes(Filing.Year, index, color = Distance)) + geom_line(lwd =
     theme_grey(16) +
     theme(legend.title = element_blank()) +
     scale_colour_colorblind()</code></pre>
-<p><img src="EDA-Building_Permits_files/figure-html/unnamed-chunk-9-1.png" width="100%" /> <br></p>
+<p><img src="EDA-Building_Permits_files/figure-html/unnamed-chunk-9-1.png" /><!-- --> <br></p>
 <p><strong>Conclusions:</strong> For buildings located in the vicinity of the of the planned 2nd Ave phase 2 Line, it seems that the variation in building permits filed is indeed related to the 2nd Ave Line phase 2 project, with buildings closer to a planned phase 2 station, consistently showing a higher increase in filed building permits than buildings further away from a planned phase 2 station.</p>
 <p>Contrary to our findings in phase 1 which opened on January 1st, 2017, where we found a decrease in building permit filings during 2017 (which we considered reasonable as one would expect that new/remodeled residential and business buildings are planned ahead and not after the finalization of the project); here we can see that the building permit filings actually increased during 2017, when preliminary works for this phase started, and they have higher increases starting in 2011-2013, after some recovery from 2008 financial crisis, when news were coming out about the so long waited 2nd Ave Line finally becoming a reality and tunneling machines successfully making its way through ground, building the tunnels for phase 1. <br></p>
 <p><strong>Additional work performed:</strong> After our analysis, we tried several plots to try to find out if there was any different relationship by plotting buildings owned by individuals Vs buildings owned by corporations, resiendtial buildings vs non-resitential buildings, but we didn’t find any different results.</p>

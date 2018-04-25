@@ -501,4 +501,6 @@ Same than for the analysis for building permits and the analysis for property ma
           
       
 ### Other Datasets?
-Add other datasets here if any
+Add other datasets here if any.
+_Provide a detailed, well-organized description of data quality, including textual description, graphs, and code_
+    

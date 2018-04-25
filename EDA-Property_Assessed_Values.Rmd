@@ -14,7 +14,7 @@ One of the analysis we decided to perform to answer our question, was to see how
 
 The detailed analysis can be found in [EDA - Property Market Values](EDA-Property_Market_Values.html), but we found inconclusive results with regards to whether the 2nd Ave Line project has affected Market Value for properties located in the vicinity to the 2nd Ave Line.
 
-As an importance observation we made duirng such analysis, is that the publicly available data offered by the The Department of Finance (DOF) goes back to 2007 only, while news about the project and properties in the area of influence becoming more valued, date many years back.
+As an importance observation we made duirng such analysis, is that the publicly available data offered by the The Department of Finance (DOF) goes back to 2008 only, while news about the project and properties in the area of influence becoming more valued, date many years back.
 
 So as additional work, since we wanted to analyse years previous to the commencement of the construction of phase 1, we performed an additional research and were able to find property "Assessed Values" back to 2003 in the "Primary Land Use Tax Lot Output" (PLUTO) dataset, developed by the New York City Department of City Planning's (DCP).
 
@@ -197,7 +197,8 @@ ggplot(data_phase2, aes(Year, index, color = Distance)) + geom_line(lwd = 1) +
 
 So as final conclusion, even after extensive work and effort put into being able to analyze years previous to the commencement of the construction of phase 1, after exploring different datasets, we were not able to get any conclusion on whether the 2nd Ave Line project has affected Market and/or Assessed Value for properties located in the vicinity to the 2nd Ave Line.
 
-We think think that this may be due to the way in which he New York City Department of City Planning's (DCP) estimates the increase in market values of the properties, based on the valuation on the whole neighborhood so, our analysis being performed with just some blocks of difference is just showing very similar increase patterns.
+We think think that this may be due to the way in which the New York City Department of Finance (DOF) estimates the increase in market values of the properties, as their estimates are based on recent sales in the whole neighborhood 
+( [see FAQs - What is Market Value? in the DOF's assessments website](http://www1.nyc.gov/site/finance/taxes/property-assessments.page "DOF's website - Assessment") ), so our analysis being performed with only few blocks of difference is just showing very similar increase patterns.
 
 We didn't performed further analysis by comparing with other neighborhoods because we think that other neighborhoods may have their own realities and their own causes for increases and decreases in values.
 

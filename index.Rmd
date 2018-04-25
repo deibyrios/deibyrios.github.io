@@ -12,7 +12,7 @@ The main question we are interested in studying is, if the $17 Billion Dollars a
 
 To answer our main (and ambitious) question, our strategy was to develop different analysis to answer smaller questions including, whether the project has positively influenced the following economical aspects in it's inmediate area of influence: 
 
-* Remodeling oof existing and construction of new, buildings
+* Remodeling of existing and construction of new, buildings
 * Real State Sales
 * Property Market Values
 * . _please add other analysis performed here_

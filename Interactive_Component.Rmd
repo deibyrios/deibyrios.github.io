@@ -316,4 +316,15 @@ In the interactive map above, if we click to select the complete 2001-2015 perio
 
 As an interesting observation (after selecting the complete 2001-2015 period), if we look with attention we can see that, while for buildings located to left, the average increase in building permits decreases with the distance (in blocks) from the 2nd Ave Line, for buildings to right, we can see an initial decrease from one block distance to 2 blocks distance, but it slightly increases back for buildings located within 3-4 blocks to the right of the line. During [our exploratory data analysis](EDA-Building_Permits.html "Our EDA Journey"), we concluded that this seems to be caused due to the fact that this last category includes buildings that are right on the edge of the East River, which attract a higher number of projects, due to the water views. 
 
-See: [Our Exploratory Data Analysis (EDA) Journey](EDA-Building_Permits.html "Our EDA Journey")
+See: [Our Exploratory Data Analysis (EDA) Journey](EDA-Building_Permits.html "Our EDA Journey") <br><br>     
+      
+      
+###**Did the NYC 2nd Ave Subway Line, positively affect the Real State Sales in the area?**
+
+Please add R code or link to interactive component, or whatever, here.
+<br><br>
+
+###**Other Interactive Components?**
+
+Please add R code or link to interactive component here.
+

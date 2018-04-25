@@ -10,8 +10,31 @@ knitr::opts_chunk$set(warning = FALSE,
 
 ## Executive Summary
 
-Guys, I need help with Executive Summary please.   
-    
+Guys, I need help with Executive Summary please.  
+
+* Provide a short nontechnical summary of the most revealing findings of your analysis  written for a nontechnical audience (your gfamily should be able to understand). 
+
+* The length should be approximately __two pages__ (if we were using pages...) 
+
+* Presentation-style, meaning graphs that are cleaned up for presentation, as opposed to the rough ones we often use for EDA. 
+
+* Take extra care to clean up your graphs, ensuring that best practices for presentation are followed.
+
+
+#### Tips for the plots:
+
+* The order of items on the axes and legends is logical. (Alphabetical is usually not the best option.)
+* Err on the side of simplicity. Don't, for example, overuse color when it's not necessary. Ask yourself: does color make this graph any clearer? If it doesn't, leave it out.
+* Test your graphs on nontechnical friends and family and ask for feedback.
+* The font size should be large enough to read clearly. The default in ggplot2 is generally too small. You can easily change it by passing the base font size to the theme, such as + theme_grey(16). (The default base font size is 11.)
+* Title, axis labels, tick mark labels, and legends should be comprehensible (easy to understand) and legible (easy to read / decipher).
+* Units should be intuitive (Extreme example: an axis labeled in month/day/year format is intuitive, one labeled in seconds since January 1, 1970 is not.)
+* Colors should be color vision deficiency friendly.
+* If categorical variable levels are long, set up the graph so the categorical variable is on the y-axis and the names are horizontal. A better option, if possible, is to shorten the names of the levels.
+* Not all EDA graphs lend themselves to presentation, either because the graph form is hard to understand without practice or it's not well labeled. The labeling problem can be solved by adding text in an image editor.
+* Tick marks should not be labeled in scientific notation or with long strings of zeros, such as 3000000000. Instead, convert to smaller numbers and change the units: 3000000000 becomes "3" and the axis label "billions of views".
+
+
 
 ### Subtitle here
 

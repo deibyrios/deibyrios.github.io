@@ -9,6 +9,7 @@ knitr::opts_chunk$set(warning = FALSE,
 ```
 
 ## Analysis of Data Quality
+#### (includes data cleaning process)
   
   
 ### Remodeling of existing and construction of new buildings   

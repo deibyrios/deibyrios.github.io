@@ -13,7 +13,7 @@ knitr::opts_chunk$set(warning = FALSE,
   
 ### Remodeling of existing and construction of new buildings   
   
-As mentioned in the Description of Data, the dataset we were able to get, shows the details for every building permit filed with the Department of Buildings, from 1990 to date. This dataset is a list of building permits filed for a particular day and associated data and contains building permits for both new buildings and alterations / remodeling.
+As mentioned in the [Description of Data](Description_of_Data.html), the dataset we were able to get, shows the details for every building permit filed with the Department of Buildings, from 1990 to date. This dataset is a list of building permits filed for a particular day and associated data and contains building permits for both new buildings and alterations / remodeling.
 
 After downloading the original dataset (1.4GB, 3,341,659 observations),read it, take a look at it and inspected variables/column names:
 
@@ -75,7 +75,7 @@ _Provide a detailed, well-organized description of data quality, including textu
          
 ### Property Market Values
 
-As mentioned in the Description of Data, we were able to find the property market values from 2018 back to 2008 with 12 datasets in total, **one dataset for each year** except 2008 that contains 2 different datasets the needed to be combined.
+As mentioned in the [Description of Data](Description_of_Data.html), we were able to find the property market values from 2018 back to 2008 with 12 datasets in total, **one dataset for each year** except 2008 that contains 2 different datasets the needed to be combined.
 
 We were able to find a Data Dictionary containing field codes and descriptions of the data sets, which can be accessed [here](http://www1.nyc.gov/assets/finance/downloads/tar/tarfieldcodes.pdf "Data Dictionary for property market values").
 
@@ -294,7 +294,7 @@ Again, the variables "Block" and "Lot" are of our special interest as those were
      
 ### Property Assessed Values
 
-As mentioned in the Description of Data, we were able to find property "Assessed Values" from 2003 to 2017 in the "Primary Land Use Tax Lot Output" (PLUTO) dataset, developed by the New York City Department of City Planning's (DCP). 
+As mentioned in the [Description of Data](Description_of_Data.html), we were able to find property "Assessed Values" from 2003 to 2017 in the "Primary Land Use Tax Lot Output" (PLUTO) dataset, developed by the New York City Department of City Planning's (DCP). 
 
 We were able to find a Data Dictionary containing field codes and descriptions of the data sets, which can be accessed [here](http://www1.nyc.gov/assets/planning/download/pdf/data-maps/open-data/pluto_datadictionary.pdf "Data Dictionary for property assessed values").
 

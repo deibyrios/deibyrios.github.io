@@ -191,7 +191,7 @@ $(document).ready(function () {
 <h2>Analysis of Data Quality</h2>
 <div id="remodeling-of-existing-and-construction-of-new-buildings" class="section level3">
 <h3>Remodeling of existing and construction of new buildings</h3>
-<p>As mentioned in the Description of Data, the dataset we were able to get, shows the details for every building permit filed with the Department of Buildings, from 1990 to date. This dataset is a list of building permits filed for a particular day and associated data and contains building permits for both new buildings and alterations / remodeling.</p>
+<p>As mentioned in the <a href="Description_of_Data.html">Description of Data</a>, the dataset we were able to get, shows the details for every building permit filed with the Department of Buildings, from 1990 to date. This dataset is a list of building permits filed for a particular day and associated data and contains building permits for both new buildings and alterations / remodeling.</p>
 <p>After downloading the original dataset (1.4GB, 3,341,659 observations),read it, take a look at it and inspected variables/column names:</p>
 <pre class="r"><code>library(tidyverse)
 permits &lt;- read.csv(&quot;data/DOB_Permit_Issuance.csv&quot;)
@@ -266,7 +266,7 @@ visna(permits_upper_east)</code></pre>
 </div>
 <div id="property-market-values" class="section level3">
 <h3>Property Market Values</h3>
-<p>As mentioned in the Description of Data, we were able to find the property market values from 2018 back to 2008 with 12 datasets in total, <strong>one dataset for each year</strong> except 2008 that contains 2 different datasets the needed to be combined.</p>
+<p>As mentioned in the <a href="Description_of_Data.html">Description of Data</a>, we were able to find the property market values from 2018 back to 2008 with 12 datasets in total, <strong>one dataset for each year</strong> except 2008 that contains 2 different datasets the needed to be combined.</p>
 <p>We were able to find a Data Dictionary containing field codes and descriptions of the data sets, which can be accessed <a href="http://www1.nyc.gov/assets/finance/downloads/tar/tarfieldcodes.pdf" title="Data Dictionary for property market values">here</a>.</p>
 <p>After downloading and extracting the zip files for all the original datasets we read each dataset, take a look at it, read the corresponding Data Dictionary and inspect variables/column names. The data consists of Access databases so we used RODBC library to read the databases using “odbcConnectAccess(‘my_Access_Database_to_read.mdb’)”.</p>
 <p><strong>Note:</strong> The original 12 Access databases have a total size of 4.34Gb, take too long time to be read and can’t be uploaded to GitHub, so we included the following commented code just <strong>to document our work</strong>, but we uploaded the samller data after filetering and selecting our variables of interest.</p>
@@ -491,7 +491,7 @@ show(missing_data.frame(property_upper_east))</code></pre>
 </div>
 <div id="property-assessed-values" class="section level3">
 <h3>Property Assessed Values</h3>
-<p>As mentioned in the Description of Data, we were able to find property “Assessed Values” from 2003 to 2017 in the “Primary Land Use Tax Lot Output” (PLUTO) dataset, developed by the New York City Department of City Planning’s (DCP).</p>
+<p>As mentioned in the <a href="Description_of_Data.html">Description of Data</a>, we were able to find property “Assessed Values” from 2003 to 2017 in the “Primary Land Use Tax Lot Output” (PLUTO) dataset, developed by the New York City Department of City Planning’s (DCP).</p>
 <p>We were able to find a Data Dictionary containing field codes and descriptions of the data sets, which can be accessed <a href="http://www1.nyc.gov/assets/planning/download/pdf/data-maps/open-data/pluto_datadictionary.pdf" title="Data Dictionary for property assessed values">here</a>.</p>
 <p>After downloading and extracting the zip files for the original datasets we read each dataset, take a look at it, read the corresponding Data Dictionary and inspect variables/column names. The datasets are shapefiles so we used the “foreign” library to read the data files of the shapefiles using “read.dbf(‘my_shapefile_to_read.dbf’)”.</p>
 <p><strong>Note:</strong> The original 15 datasets are an extensive land use and geographic data at the tax lot level, containing more than seventy fields derived from data maintained by different city agencies so they have a large size, take too long time to be read and can’t be uploaded to GitHub, so we included the following commented code just <strong>to document our work</strong>, but we uploaded the samller data after filetering and selecting our variables of interest.</p>

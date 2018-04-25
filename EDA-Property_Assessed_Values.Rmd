@@ -12,7 +12,7 @@ knitr::opts_chunk$set(warning = FALSE,
 
 One of the analysis we decided to perform to answer our question, was to see how the 2nd Ave line project has affected the Market Value of property located in the project's area of influence (basically, phase 1 and 2, because phase 3 and 4 have no funding commitments yet). 
 
-The detailed analysis can be found in [EDA - Property Market Values](shapes.html), but we found inconclusive results with regards to whether the 2nd Ave Line project has affected Market Value for properties located in the vicinity to the 2nd Ave Line.
+The detailed analysis can be found in [EDA - Property Market Values](EDA-Property_Market_Values.html), but we found inconclusive results with regards to whether the 2nd Ave Line project has affected Market Value for properties located in the vicinity to the 2nd Ave Line.
 
 As an importance observation we made duirng such analysis, is that the publicly available data offered by the The Department of Finance (DOF) goes back to 2007 only, while news about the project and properties in the area of influence becoming more valued, date many years back.
 

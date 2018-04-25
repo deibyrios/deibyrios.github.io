@@ -4,12 +4,7 @@ output:
       html_document:
         keep_md: true
 ---
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(warning = FALSE,
-                      message = FALSE, 
-                      cache = TRUE)
-library(tidyverse)
-```
+
 
 ## Analysis of Buliding Permits
 
@@ -32,7 +27,8 @@ When determining the distances of the buildings to the 2nd Ave line, we differen
 
 Before starting with the analysis, we needed to convert dates columns/variables from Factor to Date format and Block number variable from Factor to numeric:
 
-```{r}
+
+```r
 permits_upper_east <- read.csv("data/DOB_Permit_Issuance.csv")
 permits_upper_east$Filing.Date = as.Date(permits_upper_east$Filing.Date, format = "%m/%d/%Y")
 permits_upper_east$Issuance.Date = as.Date(permits_upper_east$Issuance.Date, format = "%m/%d/%Y")
@@ -50,7 +46,8 @@ For blocks to the left of the 2nd Ave Line, as we can see in the map above, we c
 
 Using the block numbers for each of the 3 categories detailed above, we can add a column called "Distance" and use the block number to record the approximate distance (in blocks) from each building filing a building permit, to the left of 2nd Ave Line - phase 1:
 
-```{r}
+
+```r
 data_phase1 <- permits_upper_east %>%
   mutate(Distance = ifelse(Block %in% c(1424:1427, 1529:1532,1539:1541,1423,1428:1433,
                                         1525:1528,1533:1538,1646),
@@ -68,7 +65,8 @@ Now we can visualize and compare the variation of new and remodeling building pe
 
 For this purpose, we first summarize by Filing.Date year and Distance, then we scale the data and create an index to visualize variations over time with time series lines for recent years:
 
-```{r fig.height=7, fig.width=14}
+
+```r
 #First, summarize by Filing.Date year and Distance:
 library(lubridate) #dates library
 data_phase1 <- data_phase1 %>%
@@ -91,6 +89,8 @@ ggplot(data_phase1, aes(Filing.Year, index, color = Distance)) + geom_line(lwd =
     theme(legend.title = element_blank()) +
     scale_colour_colorblind()
 ```
+
+<img src="markers_files/figure-html/unnamed-chunk-3-1.png" width="100%" />
 <br>
 
 **Conclusion:** From the graph above, it seems that, for buildings located on the left side of the 2nd Ave phase 1 Line, the number of building permits filed is related to the distance in blocks from the phase 1 of 2nd Ave line project; with buildings closer to the Line, showing a higher increase in filed building permits than buildings far from the Line.  
@@ -108,7 +108,8 @@ For blocks to the right of the 2nd Ave Line, as we can see in the map above, the
 
 Using the block numbers for each of those 3 categories, we followed the same procedure performed to analyze buildings to the left, going back to the original data to add a column called "Distance" and use the block number to record the approximate distance (in blocks) from each building filing a building permit, to the right of 2nd Ave Line - phase 1:
 
-```{r}
+
+```r
 data_phase1 <- permits_upper_east %>%
   mutate(Distance = ifelse(Block %in% c(1444:1447,1546:1549,1556:1558,1443,1448:1453,
                                         1542:1545,1550:1555,1668),
@@ -124,7 +125,8 @@ data_phase1 <- permits_upper_east %>%
 
 Now we can visualize and compare the variation of building permits over time, among the different categories detailed above, by following the same procedure described previously:
 
-```{r fig.height=7, fig.width=14}
+
+```r
 #First, summarize by Filing.Date year and Distance:
 library(lubridate) #dates library
 data_phase1 <- data_phase1 %>%
@@ -147,6 +149,8 @@ ggplot(data_phase1, aes(Filing.Year, index, color = Distance)) + geom_line(lwd =
     theme(legend.title = element_blank()) +
     scale_colour_colorblind()
 ```
+
+<img src="markers_files/figure-html/unnamed-chunk-5-1.png" width="100%" />
 <br>
 
 **Preliminary Conclusions:** Initially, we had plotted just recent years (similar to what we did for buildings on the left side of the line), but we noted that the category '3-4 blocks right from 2nd Ave line' had a higher increase in variation than other lines which was not an expected result.
@@ -167,7 +171,8 @@ Similarly, we further differentiated the category '2 blocks right from 2nd Ave L
 
 Using the block numbers for each of the 4 categories detailed above, we followed the same procedure described previously, adding a column called "Distance" to record the approximate distance (in blocks) to the right of the 2nd Ave Line project - phase 1 and its stations entrances:
 
-```{r}
+
+```r
 data_phase1 <- permits_upper_east %>%
   mutate(Distance = ifelse(Block %in% c(1444:1447,1546:1549,1556:1558),
                                   '1 block radius from station entrance (right side)',
@@ -182,7 +187,8 @@ data_phase1 <- permits_upper_east %>%
 
 Now we can visualize and compare the variation of building permits over time, among the different categories detailed above, by following the same procedure described previously:
 
-```{r fig.height=7, fig.width=14}
+
+```r
 #First, summarize by Filing.Date year and Distance:
 library(lubridate) #dates library
 data_phase1 <- data_phase1 %>%
@@ -205,6 +211,8 @@ ggplot(data_phase1, aes(Filing.Year, index, color = Distance)) + geom_line(lwd =
     theme(legend.title = element_blank()) +
     scale_colour_colorblind()
 ```
+
+<img src="markers_files/figure-html/unnamed-chunk-7-1.png" width="100%" />
 <br>
 
 **Conclusion:** For buildings located on the right side of the 2nd Ave phase 1 Line, it seems that the variation in building permits filed is indeed related to the 2nd Ave Line project, with buildings closer to a phase 1 station, showing a higher increase in filed building permits than buildings far from a phase 1 station.
@@ -224,7 +232,8 @@ With this methodology, we established the following 3 different categories:
 
 Using the coordinates of the buildings (which are variables available in the dataset) and the coordinates of the planned stations, we were able to compute the distance in blocks as follows:
 
-```{r}
+
+```r
 #coordinates of planned phase 2 106 station: 40.790526 / -73.942509
 #coordinates of planned phase 2 116 station: 40.797087 / -73.938084
 #coordinates of planned phase 2 125 station: 40.8041855 / -73.937359
@@ -274,7 +283,8 @@ data_phase2$Distance <- factor(data_phase2$Distance,levels=c('Within 1 block fro
 
 Now we can visualize and compare the variation of building permits during recent years, among the different categories detailed above, by following the same procedure described previously:
 
-```{r fig.height=7, fig.width=14}
+
+```r
 #First, summarize by Filing.Date year and Distance:
 library(lubridate) #dates library
 data_phase2 <- data_phase2 %>%
@@ -297,6 +307,8 @@ ggplot(data_phase2, aes(Filing.Year, index, color = Distance)) + geom_line(lwd =
     theme(legend.title = element_blank()) +
     scale_colour_colorblind()
 ```
+
+<img src="markers_files/figure-html/unnamed-chunk-9-1.png" width="100%" />
 <br>
 
 **Conclusions:** For buildings located in the vicinity of the of the planned 2nd Ave phase 2 Line, it seems that the variation in building permits filed is indeed related to the 2nd Ave Line phase 2 project, with buildings closer to a planned phase 2 station, consistently showing a higher increase in filed building permits than buildings further away from a planned phase 2 station.
@@ -309,7 +321,8 @@ Contrary to our findings in phase 1 which opened on January 1st, 2017, where we 
 
 As final step, we decided to present the results from our EDA in a map, so we summarized and saved our data, using the variables LATITUDE and LONGITUDE, instead of using the Distance variable that we created for EDA purposes:
 
-```{r}
+
+```r
 #First, save frequency (one row per observation):
 data_geo <- permits_upper_east %>%
   mutate(Filing.Year = year(Filing.Date))%>%

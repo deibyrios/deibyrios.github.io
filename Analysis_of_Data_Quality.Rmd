@@ -81,7 +81,7 @@ We were able to find a Data Dictionary containing field codes and descriptions o
 
 After downloading and extracting the zip files for all the original datasets we read each dataset, take a look at it, read the corresponding Data Dictionary and inspect variables/column names. The data consists of Access databases so we used RODBC library to read the databases using "odbcConnectAccess('my_Access_Database_to_read.mdb')".
 
-**Note:** The original 12 Access databases have a total size of 4.34Gb, take too long time to be read and can't be uploaded to GitHub, so we included the following commented code just **to document our work**, but we uploaded the samller data after filetering and selecting our variables of interest. 
+**Note:** The original 12 Access databases have a total size of 4.34Gb, take too long time to be read and can't be uploaded to GitHub, so we included the following commented code just **to document our work**, but we uploaded the smaller data after filtering and selecting our variables of interest. 
 
 ```{r}
 # library(tidyverse)
@@ -300,7 +300,7 @@ We were able to find a Data Dictionary containing field codes and descriptions o
 
 After downloading and extracting the zip files for the original datasets we read each dataset, take a look at it, read the corresponding Data Dictionary and inspect variables/column names. The datasets are shapefiles so we used the "foreign" library to read the data files of the shapefiles using "read.dbf('my_shapefile_to_read.dbf')".
 
-**Note:** The original 15 datasets are an extensive land use and geographic data at the tax lot level, containing more than seventy fields derived from data maintained by different city agencies so they have a large size, take too long time to be read and can't be uploaded to GitHub, so we included the following commented code just **to document our work**, but we uploaded the samller data after filetering and selecting our variables of interest.
+**Note:** The original 15 datasets are an extensive land use and geographic data at the tax lot level, containing more than seventy fields derived from data maintained by different city agencies so they have a large size, take too long time to be read and can't be uploaded to GitHub, so we included the following commented code just **to document our work**, but we uploaded the smaller data after filtering and selecting our variables of interest.
 
 ```{r}
 # library(tidyverse)

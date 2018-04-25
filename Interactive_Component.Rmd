@@ -96,7 +96,7 @@ mutate(Distance = ifelse(Block %in% c(1424:1427, 1529:1532,1539:1541,1423,1428:1
 
 phase1 <- c(1424:1427,1529:1532,1539:1541,1423,1428:1433,1525:1528,1533:1538,1646,1444:1447,1546:1549,1556:1558,1443,1448:1453,1542:1545,1550:1555,1668,1404:1407,1512:1515,1522:1524,1403,1408:1413,1508:1511,1516:1521,1624,1384:1387,1495:1498,1505:1507,1383,1388:1393,1491:1494,1499:1504,1602,1464:1467,1563:1566,1573,1463,1468:1473,1559:1562,1567:1571,1690,1482:1484,1580:1583,1480,1485:1490,1576:1579,1584:1587,1590,1592,1589)
 
-write.table(permits_var,file="permits_var.csv",sep=",",row.names=F)
+#write.table(permits_var,file="permits_var.csv",sep=",",row.names=F)
 
 #Average Var Index per Distance:
 permits_var[is.na(permits_var)] <- 0 #replace NA's by zero
@@ -105,7 +105,7 @@ permits_var <- permits_var %>%
   group_by(Year,Distance) %>%
   mutate(avg.index = mean(index, na.rm = TRUE))
 
-write.table(permits_var,file="permits_avg_var.csv",sep=",",row.names=F)
+#write.table(permits_var,file="permits_avg_var.csv",sep=",",row.names=F)
 #unique(permits_var$Distance)
 #head(permits_var)
 ```
@@ -119,7 +119,7 @@ permits_var <- spread(permits_var, Year, avg.index)
 #head(permits_var)
 colnames(permits_var)[3:17] <- paste("Y", colnames(permits_var)[3:17], sep = "_")
 #colnames(permits_var)
-write.table(permits_var,file="spread_permits_avg_var.csv",sep=",",row.names=F)
+#write.table(permits_var,file="spread_permits_avg_var.csv",sep=",",row.names=F)
 ```
 
 
@@ -142,7 +142,7 @@ NYC_Map2@data$Distance[NYC_Map2@data$Distance==0] <- "other" #replace 0 Distance
 NYC_Map2@data$avg.index[NYC_Map2@data$Distance=="other"] <- 0
 #head(NYC_Map2@data)
 
-write.table(NYC_Map2@data,file="NYC_Map2_data.csv",sep=",",row.names=F)
+#write.table(NYC_Map2@data,file="NYC_Map2_data.csv",sep=",",row.names=F)
 
 #set color scale to be used when mapping variation index for building permits:
 palette <- colorNumeric(palette = "Blues", domain = NYC_Map2$Y_2015) #continuous range

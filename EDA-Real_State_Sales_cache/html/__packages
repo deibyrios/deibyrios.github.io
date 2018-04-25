@@ -1,11 +1,5 @@
 base
-methods
 leaflet
-datasets
-utils
-grDevices
-graphics
-stats
 tidyverse
 ggplot2
 tibble

@@ -27,7 +27,7 @@ m %>% addProviderTiles(providers$CartoDB.Positron)
 m %>% addProviderTiles(providers$Esri.NatGeoWorldMap)
 
 
-m %>% addTiles("http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+m %>% addTiles("http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
 attribution = paste(
 "&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors",
 "&copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>"

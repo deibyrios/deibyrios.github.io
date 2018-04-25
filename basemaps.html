@@ -221,14 +221,14 @@ m %&gt;% addTiles()</code></pre>
 <pre class="r"><code>m %&gt;% addProviderTiles(providers$Esri.NatGeoWorldMap)</code></pre>
 <div id="htmlwidget-65e60ed4f5440bdab363" style="width:100%;height:120px;" class="leaflet html-widget"></div>
 <script type="application/json" data-for="htmlwidget-65e60ed4f5440bdab363">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[42.3601,-71.0589],12,[]],"calls":[{"method":"addProviderTiles","args":["Esri.NatGeoWorldMap",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]}]},"evals":[],"jsHooks":[]}</script>
-<pre class="r"><code>m %&gt;% addTiles(&quot;http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png&quot;,
+<pre class="r"><code>m %&gt;% addTiles(&quot;http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png&quot;,
 attribution = paste(
 &quot;&amp;copy; &lt;a href=\&quot;http://openstreetmap.org\&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&quot;,
 &quot;&amp;copy; &lt;a href=\&quot;http://cartodb.com/attributions\&quot;&gt;CartoDB&lt;/a&gt;&quot;
 )
 ) %&gt;% setView(-122.36, 47.67, zoom = 10)</code></pre>
 <div id="htmlwidget-c6a36a601760297b5cca" style="width:100%;height:120px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c6a36a601760297b5cca">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[47.67,-122.36],10,[]],"calls":[{"method":"addTiles","args":["http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors &copy; <a href=\"http://cartodb.com/attributions\">CartoDB<\/a>"}]}]},"evals":[],"jsHooks":[]}</script>
+<script type="application/json" data-for="htmlwidget-c6a36a601760297b5cca">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[47.67,-122.36],10,[]],"calls":[{"method":"addTiles","args":["http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors &copy; <a href=\"http://cartodb.com/attributions\">CartoDB<\/a>"}]}]},"evals":[],"jsHooks":[]}</script>
 <pre class="r"><code>m %&gt;% addTiles(urlTemplate = &quot;//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
 attribution = NULL, layerId = NULL, group = NULL,
 options = tileOptions())</code></pre>

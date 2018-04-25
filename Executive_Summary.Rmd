@@ -21,7 +21,7 @@ Guys, I need help with Executive Summary please.
 * Take extra care to clean up your graphs, ensuring that best practices for presentation are followed.
 <br><br>   
 
-#### Tips for the plots:
+**Tips for the plots**:
 
 * The order of items on the axes and legends is logical (specially, odinal variables)
 * Error on the side of simplicity. Don't, for example, overuse color when it's not necessary. Ask yourself: does color make this graph any clearer? If it doesn't, leave it out.

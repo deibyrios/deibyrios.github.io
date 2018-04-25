@@ -1008,5 +1008,4 @@ Same than for the analysis for building permits and the analysis for property ma
       
 ### Other Datasets?
 
->>>>>>> 525efa3d7f67f0580900f6e4f6b641b9872c405c
 _Provide a detailed, well-organized description of data quality, including textual description, graphs, and code_

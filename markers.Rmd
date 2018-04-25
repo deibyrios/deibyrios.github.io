@@ -1,8 +1,6 @@
 ---
+keep_md: yes
 pagetitle: EDA - Building Permits
-output:
-      html_document:
-        keep_md: true
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(warning = FALSE,
@@ -241,6 +239,7 @@ data_phase2 <- permits_upper_east %>%
                       (Long+73.937359)*(Long+73.937359))
 #Tidy the data:
 data_phase2 <- gather(data_phase2, Station, Distance, -Block, -Lot, -Lat, -Long)
+#head(data_phase2)
 
 #Summarize by minimum distance to any station:
 data_phase2 <- data_phase2 %>% 

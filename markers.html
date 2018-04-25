@@ -368,6 +368,7 @@ data_phase2 &lt;- permits_upper_east %&gt;%
                       (Long+73.937359)*(Long+73.937359))
 #Tidy the data:
 data_phase2 &lt;- gather(data_phase2, Station, Distance, -Block, -Lot, -Lat, -Long)
+#head(data_phase2)
 
 #Summarize by minimum distance to any station:
 data_phase2 &lt;- data_phase2 %&gt;% 
@@ -456,6 +457,7 @@ data_geo_index &lt;- data_geo2 %&gt;% group_by(LATITUDE, LONGITUDE) %&gt;%
 </div>
 </div>
 
+<<<<<<< HEAD
 <footer>
 <p><small>Work Developed for our EDAV final project.
 </small></p>
@@ -463,6 +465,15 @@ data_geo_index &lt;- data_geo2 %&gt;% group_by(LATITUDE, LONGITUDE) %&gt;%
 
   </div>
 </div>
+=======
+<footer>
+<p><small>Work Developed for our EDAV final project.
+</small></p>
+</footer>
+
+  </div>
+</div>
+>>>>>>> 525efa3d7f67f0580900f6e4f6b641b9872c405c
 
 
 

@@ -25,6 +25,21 @@ As a convenience, leaflet also provides a named list of all the third-party tile
 m %>% addProviderTiles(providers$Stamen.Toner)
 m %>% addProviderTiles(providers$CartoDB.Positron)
 m %>% addProviderTiles(providers$Esri.NatGeoWorldMap)
+
+
+m %>% addTiles("http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",
+attribution = paste(
+"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors",
+"&copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>"
+)
+) %>% setView(-122.36, 47.67, zoom = 10)
+
+
+m %>% addTiles(urlTemplate = "//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+attribution = NULL, layerId = NULL, group = NULL,
+options = tileOptions())
+
+
 ```
 
 Note that some tile set providers require you to register; see the [project page](https://github.com/leaflet-extras/leaflet-providers) for more information. You can pass access tokens/keys, and other options, to the tile provider by populating the `options` argument with the `providerTileOptions()` function.

@@ -221,6 +221,19 @@ m %&gt;% addTiles()</code></pre>
 <pre class="r"><code>m %&gt;% addProviderTiles(providers$Esri.NatGeoWorldMap)</code></pre>
 <div id="htmlwidget-65e60ed4f5440bdab363" style="width:100%;height:120px;" class="leaflet html-widget"></div>
 <script type="application/json" data-for="htmlwidget-65e60ed4f5440bdab363">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[42.3601,-71.0589],12,[]],"calls":[{"method":"addProviderTiles","args":["Esri.NatGeoWorldMap",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]}]},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>m %&gt;% addTiles(&quot;http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png&quot;,
+attribution = paste(
+&quot;&amp;copy; &lt;a href=\&quot;http://openstreetmap.org\&quot;&gt;OpenStreetMap&lt;/a&gt; contributors&quot;,
+&quot;&amp;copy; &lt;a href=\&quot;http://cartodb.com/attributions\&quot;&gt;CartoDB&lt;/a&gt;&quot;
+)
+) %&gt;% setView(-122.36, 47.67, zoom = 10)</code></pre>
+<div id="htmlwidget-c6a36a601760297b5cca" style="width:100%;height:120px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-c6a36a601760297b5cca">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[47.67,-122.36],10,[]],"calls":[{"method":"addTiles","args":["http://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors &copy; <a href=\"http://cartodb.com/attributions\">CartoDB<\/a>"}]}]},"evals":[],"jsHooks":[]}</script>
+<pre class="r"><code>m %&gt;% addTiles(urlTemplate = &quot;//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png&quot;,
+attribution = NULL, layerId = NULL, group = NULL,
+options = tileOptions())</code></pre>
+<div id="htmlwidget-6d8788299161dc56faef" style="width:100%;height:120px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6d8788299161dc56faef">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[42.3601,-71.0589],12,[]],"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false}]}]},"evals":[],"jsHooks":[]}</script>
 <p>Note that some tile set providers require you to register; see the <a href="https://github.com/leaflet-extras/leaflet-providers">project page</a> for more information. You can pass access tokens/keys, and other options, to the tile provider by populating the <code>options</code> argument with the <code>providerTileOptions()</code> function.</p>
 </div>
 <div id="custom-tile-url-template" class="section level3">
@@ -237,8 +250,8 @@ m %&gt;% addTiles()</code></pre>
     options = WMSTileOptions(format = &quot;image/png&quot;, transparent = TRUE),
     attribution = &quot;Weather data Â© 2012 IEM Nexrad&quot;
   )</code></pre>
-<div id="htmlwidget-c6a36a601760297b5cca" style="width:100%;height:240px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-c6a36a601760297b5cca">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addWMSTiles","args":["http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",null,null,{"styles":"","format":"image/png","transparent":true,"version":"1.1.1","attribution":"Weather data Â© 2012 IEM Nexrad","layers":"nexrad-n0r-900913"}]}],"setView":[[42.0285,-93.65],4,[]]},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-e90b79b122bd7002e299" style="width:100%;height:240px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-e90b79b122bd7002e299">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addWMSTiles","args":["http://mesonet.agron.iastate.edu/cgi-bin/wms/nexrad/n0r.cgi",null,null,{"styles":"","format":"image/png","transparent":true,"version":"1.1.1","attribution":"Weather data Â© 2012 IEM Nexrad","layers":"nexrad-n0r-900913"}]}],"setView":[[42.0285,-93.65],4,[]]},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="combining-tile-layers" class="section level3">
 <h3>Combining Tile Layers</h3>
@@ -247,8 +260,8 @@ m %&gt;% addTiles()</code></pre>
   addProviderTiles(providers$Stamen.TonerLines,
     options = providerTileOptions(opacity = 0.35)) %&gt;%
   addProviderTiles(providers$Stamen.TonerLabels)</code></pre>
-<div id="htmlwidget-6d8788299161dc56faef" style="width:100%;height:168px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6d8788299161dc56faef">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[42.3601,-71.0589],12,[]],"calls":[{"method":"addProviderTiles","args":["MtbMap",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Stamen.TonerLines",null,null,{"errorTileUrl":"","noWrap":false,"opacity":0.35,"detectRetina":false}]},{"method":"addProviderTiles","args":["Stamen.TonerLabels",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]}]},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-fb93f5535b798302ff62" style="width:100%;height:168px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fb93f5535b798302ff62">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"setView":[[42.3601,-71.0589],12,[]],"calls":[{"method":"addProviderTiles","args":["MtbMap",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]},{"method":"addProviderTiles","args":["Stamen.TonerLines",null,null,{"errorTileUrl":"","noWrap":false,"opacity":0.35,"detectRetina":false}]},{"method":"addProviderTiles","args":["Stamen.TonerLabels",null,null,{"errorTileUrl":"","noWrap":false,"detectRetina":false}]}]},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 

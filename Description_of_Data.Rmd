@@ -21,9 +21,22 @@ A Data Dictionary containing field codes and descriptions of the data set can be
 
 Choose data from the original source, that is, one that is not included in R (or similar), nor used in Kaggle (or similar) competitions, nor relatively well-known through some other forum. If in doubt, ask! 
 
-_Describe 1) how the data was collected, 2) how you accessed it, and 3) any other noteworthy features_
+The New York City Department of Finance keeps a record of every real estate transactions that are sold in the city from 2003 till 2016, and a rolling sales report of the last year. In addition to this dataset, Baruch College compiled the same dataset with geocoordinates for each of the properties. The two datasets are missing January and February of 2017 because the two months were cut off from the rolling sales dataset, so we found someone's previous dataset also from the NYC DoF and extracted the two months. With the three datasets, we're able to locate all real estate sales in the city and where they are located on the maps. 
+
+The sources of the datasets can be found here:
+
+  1) [NYC Department of Finance](http://www1.nyc.gov/site/finance/taxes/property-annualized-sales-update.page "Data for Real Estate")
+  
+  2) [Baruch College](https://www.baruch.cuny.edu/confluence/display/geoportal/NYC+Geocoded+Real+Estate+Sales "Data for Real Estate")
+  
+  3) [Kaggle Competition](https://www.kaggle.com/new-york-city/nyc-property-sales/ "Data for Real Estate")
+  
+  
+The data sets include all types of real estate property (tax class), coordinates, block numbers, square footage of land, and date of sales. In this dataset, we focused on the date of sales, coordinates, block numbers, and tax class. 
+
+For more information, a description of all of the fields can be found [here](http://www1.nyc.gov/assets/finance/downloads/pdf/07pdf/glossary_rsf071607.pdf "Data for Real Estate")
     
-    
+  
 ### Property Market Values
 
 We got the market values dataset from The Department of Finance (DOF), which every year estimates the property's market value for all New York City properties, comparing each property market value with recent sales in the neighborhood. The estimated market value is used by the DOF to determine the assessed value and then the City's property tax rates are applied to the assessed value to calculate the property taxes for the next tax year.

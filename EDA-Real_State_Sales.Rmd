@@ -1,0 +1,20 @@
+---
+keep_md: yes
+pagetitle: EDA - Real State Sales
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE, 
+                      cache = TRUE)
+```
+
+## Analysis of Real State Sales
+
+Add text here
+
+
+```{r}
+library(tidyverse)
+
+
+```

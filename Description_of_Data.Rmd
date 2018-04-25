@@ -18,6 +18,9 @@ A Data Dictionary containing field codes and descriptions of the data set can be
     
       
 ### Real State Sales
+
+Choose data from the original source, that is, one that is not included in R (or similar), nor used in Kaggle (or similar) competitions, nor relatively well-known through some other forum. If in doubt, ask! 
+
 _Describe 1) how the data was collected, 2) how you accessed it, and 3) any other noteworthy features_
     
     
@@ -52,5 +55,7 @@ The datasets are shapefiles so we used the "foreign" library to read the data fi
   
   
 ### Other Datasets?
-  
+
+Choose data from the original source, that is, one that is not included in R (or similar), nor used in Kaggle (or similar) competitions, nor relatively well-known through some other forum. If in doubt, ask! 
+
 _Describe 1) how the data was collected, 2) how you accessed it, and 3) any other noteworthy features_

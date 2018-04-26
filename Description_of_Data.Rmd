@@ -12,7 +12,7 @@ Before any construction project begins in New York City, an application must be 
   
 The data we were able to get show details for every building permits filed with the Department of Buildings, available for download from [The NYC Open Data portal](https://data.cityofnewyork.us/Housing-Development/DOB-Permit-Issuance/ipu4-2q9a "NYC Open Data portal"). This dataset includes a list of building permits filed for a particular day from 1990 to date. It contains building permits for both new constructions and alterations/remodeling.
   
-A Data Dictionary containing field codes and descriptions of the data set can be found [here](https://data.cityofnewyork.us/api/views/ipu4-2q9a/files/87608d5b-1986-4a21-a8a5-7a38e65f9993?download=true&filename=DD_DOB_Permit_Issuance_2018-03-07.xlsx "Data Dictionary for building permits").
+A Data Dictionary containing field codes and descriptions of the data set can be dowloaded  [here](https://data.cityofnewyork.us/api/views/ipu4-2q9a/files/87608d5b-1986-4a21-a8a5-7a38e65f9993?download=true&filename=DD_DOB_Permit_Issuance_2018-03-07.xlsx "Data Dictionary for building permits").
     
       
 ### Real State Sales

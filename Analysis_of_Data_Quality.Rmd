@@ -68,11 +68,9 @@ As we can see in the graph above, the quality of the data is very good, with jus
 The variables "Block" and "Lot" are of our special interest as those were the main variables used four our main Exploratory Data Analysis as we describe later.
     
        
-### Real State Sales
+### Real Estate Sales
 
-_Provide a detailed, well-organized description of data quality, including textual description, graphs, and code_
-
-In the real estate data, we are able to find all of the sales transaction in New York City since 2003. Because the relevancy of the new subway line and the size of the real estate dataset, we've narrowed down the dataset down from 2014 to early 2018, which is a few years right before the Q line had opened to today, and to the surrounding zip codes near the phase 1 Q line. This dataset also includes different types of real estate assets, such as a commercial property and apartment units. As these two assets are not comparable, we've narrowed it down to apartment units, which is where tax class is 2. 
+In the real estate data, we are able to find all of the sales transactions in New York City since 2003. Because the relevancy of the new subway line and the size of the real estate dataset, we've narrowed the dataset down from 2014 to early 2018, which is a few years right before the Q line had opened to today, and to the surrounding zip codes near the phase 1 Q line. This dataset also includes different types of real estate assets, such as a commercial property and apartment units. As these two assets are not comparable, we've narrowed it down to apartment units, which is where tax class is 2. 
 
 We know that price is likely the biggest indicator to the effects of the Q line on the real estate market, we begin by looking at a boxplot of all of the prices in zip codes 10065,10021, 10075, 10128, 10028 ,10029. As shown below, we can see that prices are highly skewed and have many outliers.
 

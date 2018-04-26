@@ -10,7 +10,7 @@ knitr::opts_chunk$set(warning = FALSE,
 
 ## Executive Summary
 
-In the exploration in the Building Permits, Real Estate Sales, Property Market Values, Property Assessed Values, (and Dog Licencings), we want to present to you our findings of the impact of the Second Avenue subway line. In our findings, we will go over the patterns of real estate and property trends in the area based on the metrics we've looked at, interesting findings, and we'd elaborate on other areas we can pursue if we had more time in the [Conclusion](./) 
+In the exploration in the Building Permits, Real Estate Sales, Property Market Values, Property Assessed Values, (and Dog Licencings), we want to present to you our findings of the impact of the Second Avenue subway line. In our findings, we will go over the patterns of real estate and property trends in the area based on the metrics we've looked at, interesting findings, and we'd elaborate on other areas we can pursue if we had more time in the [conclusion](Conclusion.html) 
 
 ### How we started
 
@@ -38,7 +38,7 @@ For areas to the right of the Second Avenue line, the number of permits issued a
 
 ![](EDA-Building_Permits_files/figure-html/unnamed-chunk-5-1.png)
 
-For more details, please look at the [EDA-Building Permits](./)!
+For more details, please look at the [EDA-Building Permits](EDA-Building Permits.html)!
 
 #### *Real Estate Sales*
 
@@ -56,7 +56,7 @@ Similarly to the building permits, the effects of the subway addition is more dr
 
 Property market and assessed value are often explained by the sales price of the real estate. Therefore, we are not going to talk about it here. 
 
-For more information, please look under the [EDA-Property Market Values](./) and [EDA-Property Assessed Values](./). 
+For more information, please look under the [EDA-Property Market Values](EDA-Property Market Values.html) and [EDA-Property Assessed Values](EDA-Property Assessed Values.html). 
 
 ### Phase 2
 

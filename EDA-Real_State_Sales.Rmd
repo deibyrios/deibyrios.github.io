@@ -116,7 +116,7 @@ Here, we visualize the data by summarizing sales date and distance, and scaling 
 Given that the property values were stemmed to the same index in 2014, the real estate prices that are closest to the subway have grown dramatically compared to areas that are farther away. The Q line was opened on 1/1/2017, and we can see that there was a price inflection in 2017. 
 
 
-```{r}
+```{r fig.height=9, fig.width=17}
 # Left from 2nd Avenue Line
 #First, summarize by Filing.Date year and Distance:
 library(lubridate) #dates library
@@ -192,7 +192,7 @@ Here, we visualize the data by summarizing sales date and distance, and scaling 
 
 Given that the property values were stemmed to the same index in 2014, the real estate prices that are one block away from the subway have grown dramatically while blocks that are two blocks away have dipped, especially since 2017. Blocks that are three/four away have grew with the one block.
 
-```{r}
+```{r fig.height=9, fig.width=17}
 # Right from 2nd Avenue Line
 #First, summarize by Filing.Date year and Distance:
 library(lubridate) #dates library
@@ -224,7 +224,7 @@ data_phase1_right_edited <- data_phase1_right_edited %>% group_by(Distance) %>%
 year_factor <- factor(data_phase1_right_edited$year)
 
 #Plot time series:
-ggplot(data_phase1_right_edited, aes(x= year_factor, y = index, group = Distance, color = Distance)) + geom_line(stat='identity', lwd = 0.75) +
+ggplot(data_phase1_right_edited, aes(x= year_factor, y = index, group = Distance, color = Distance)) + geom_line(stat='identity', lwd = 1) +
     ggtitle("Average Real Estate Sales vs Distance to 2nd Ave (Phase1-left)") +
     labs (x = "Year", y = "Indexed of Average Real Estate Sale") +
     theme_grey(16) +
@@ -269,7 +269,7 @@ data_phase2_1416 <- data_ues %>%
 
 
 
-```{r}
+```{r fig.height=9, fig.width=17}
 #First, summarize by Year and Distance:
 data_phase2_1416_edited <- data_phase2_1416 %>% 
   group_by(year, Distance) %>% 
@@ -296,7 +296,7 @@ year_factor <- factor(data_phase2$year)
 
 #Plot time series:
 ggplot(data_phase2, aes(x= year_factor, y = index, group = Distance, color = Distance)) + 
-  geom_line(stat='identity', lwd = .75) +
+  geom_line(stat='identity', lwd = 1) +
     ggtitle("Average Real Estate Sales Vs Distance to 2nd Ave (Phase 2)") +
     labs (x = "Year", y = "Indexed of Average Real Estate Sale") +
     theme_grey(16) +

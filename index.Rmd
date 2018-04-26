@@ -8,26 +8,27 @@ pagetitle: EDAV Project - Introduction
 
 ## Introduction
 
-The main question we are interested in studying is, if the $17 Billion Dollars and 100 years long New York City 2nd Ave Line subway project is positively affecting the economical development of upper east side? _(Note: I just included 'economical', not sure if we did any analysys for 'social' development?)_
+The main question we are interested in studying is, if the $17 Billion Dollars and 100 years long New York City 2nd Ave Line subway project is positively affecting the economical development of upper east side?
+<span style="color:red">I just included 'economical' development, not sure if we did any analysys for 'social' development? please modify if necessary, otherwise, delete this please</span> 
 
 To answer our main (and ambitious) question, our strategy was to develop different analysis to answer smaller questions including, whether the project has positively influenced the following economical aspects in it's inmediate area of influence: 
 
 * Remodeling of existing and construction of new, buildings
 * Real State Sales
 * Property Market Values
-* . _please add other analysis performed here_
+* <span style="color:red">please add other analysis performed here, otherwise, delete this please</span>
 
 
 ### Why we chose this topic
-_Jason/Sharon, please help here_ Overbudget and overdue, the 2nd Ave Subway is one of the most ambitious transportation development projects in NYC. We wanted to assess whether the wait and money spent on planning and constructing the subway was put to good use.
+<span style="color:red">@Jason/@Sharon, please help here:</span> Overbudget and overdue, the 2nd Ave Subway is one of the most ambitious transportation development projects in NYC. We wanted to assess whether the wait and money spent on planning and constructing the subway was put to good use.
   
   
 ### The Team
 
-* Addison Li (yl3870): _Addison please add here_
-* Andres Rios (dar2196): Building permits (EDA & interactive map), Property Market Values
-* Jason Kuo (jk4097): Strategic question, Mapping Real State Sales... _Jason please add more here_
-* Sharon Tsao (sjt2141): Real State Sales _Sharon please add more here (Great Cookies)_
+* Addison Li (yl3870): <span style="color:red">@Addison please add here</span>
+* Andres Rios (dar2196): Building permits (EDA & interactive map), Github Page, Property Market Values
+* Jason Kuo (jk4097): Strategic question, Mapping Real State Sales <span style="color:red">@Jason please add more here</span>
+* Sharon Tsao (sjt2141): Real State Sales <span style="color:red">@Sharon please add more here (Great Cookies)</span>
   
   
 ### Project Background

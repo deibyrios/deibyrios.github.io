@@ -344,8 +344,10 @@ ggplot(data_phase1, aes(Filing.Year, index, color = Distance)) + geom_line(lwd =
     scale_colour_colorblind()</code></pre>
 <p><img src="EDA-Building_Permits_files/figure-html/unnamed-chunk-7-1.png" /><!-- --> <br></p>
 <p><strong>Conclusion:</strong> For buildings located on the right side of the 2nd Ave phase 1 Line, it seems that the variation in building permits filed is indeed related to the 2nd Ave Line project, with buildings closer to a phase 1 station, showing a higher increase in filed building permits than buildings far from a phase 1 station. <br><br></p>
-<div id="analysis-of-building-permits-for-phase-2" class="section level5">
-<h5><strong>Analysis of Building Permits for Phase 2</strong></h5>
+</div>
+</div>
+<div id="analysis-of-building-permits-for-phase-2" class="section level3">
+<h3>Analysis of Building Permits for Phase 2</h3>
 <p>For phase 2 of the project, it is not as straightforward just to select blocks to the left and block to the right because, as we can see in the figure presented in the background, the phase 2 is not just a straight line like phase 1, but it turns left (west) near 125th street, to connect with the existing Lexington-Fourth Avenue green Line.</p>
 <p>As a solution, we decided not to determine the distance left or right from the line but to compute the distance (in blocks) from each station, using the coordinates of the planned stations and the coordinates of the buildings filing a building permit.</p>
 <p>With this methodology, we established the following 3 different categories:</p>
@@ -454,8 +456,6 @@ data_geo_index &lt;- data_geo2 %&gt;% group_by(LATITUDE, LONGITUDE) %&gt;%
 #save results to be used for presentation purposes:
 #write.table(data_geo_index,file=&quot;Building_Permits_Lat-Long-index.csv&quot;,sep=&quot;,&quot;,row.names=F)</code></pre>
 <p><br></p>
-</div>
-</div>
 </div>
 </div>
 

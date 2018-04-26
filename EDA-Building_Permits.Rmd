@@ -209,7 +209,7 @@ ggplot(data_phase1, aes(Filing.Year, index, color = Distance)) + geom_line(lwd =
 **Conclusion:** For buildings located on the right side of the 2nd Ave phase 1 Line, it seems that the variation in building permits filed is indeed related to the 2nd Ave Line project, with buildings closer to a phase 1 station, showing a higher increase in filed building permits than buildings far from a phase 1 station.
 <br><br>
 
-#####**Analysis of Building Permits for Phase 2**
+###Analysis of Building Permits for Phase 2
 
 For phase 2 of the project, it is not as straightforward just to select blocks to the left and block to the right because, as we can see in the figure presented in the background, the phase 2 is not just a straight line like phase 1, but it turns left (west) near 125th street, to connect with the existing Lexington-Fourth Avenue green Line.
 

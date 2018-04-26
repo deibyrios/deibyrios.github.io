@@ -10,7 +10,7 @@ knitr::opts_chunk$set(warning = FALSE,
 
 ## Executive Summary
 
-In the exploration in the Building Permits, Real Estate Sales, Property Market Values, Property Assessed Values, (and Dog Licencings), we want to present to you our findings of the impact of the Second Avenue subway line. In our findings, we will go over the patterns of real estate and property trends in the area based on the metrics we've looked at, interesting findings, and other areas we can pursue if we had more time. 
+In the exploration in the Building Permits, Real Estate Sales, Property Market Values, Property Assessed Values, (and Dog Licencings), we want to present to you our findings of the impact of the Second Avenue subway line. In our findings, we will go over the patterns of real estate and property trends in the area based on the metrics we've looked at, interesting findings, and we'd elaborate on other areas we can pursue if we had more time in the [Conclusion](./) 
 
 ### How we started
 
@@ -19,6 +19,10 @@ When we first started this project, we first thought a comparison between the af
 In the Phase 1 construction of the Q line, as shown below, we can see where the new line and stations are on the Upper East Side. Based on the location of the new line, we've looked at granularly how close each building permits filed, real estate sales, property market and assessed values properties are closed to the line and assessed its impact. Moreover, we also split our findings between blocks on the left and right of the Second Avenue line. 
 
 ![](images/blocksphase1.png)
+
+When we look at Phase 2, we cannot use the same methodology to measure the block distances in Phase 1 because the Q Line does not go in a straight line like it does in Phase 1 area. The line turns west (not drawn out in the image) close to 125th street to connect with the existing 4/5/6 Line. The below image shows where the line would be after it opens.  
+
+![](images/blocksphase2.png)
 
 ### Phase 1 
 
@@ -56,7 +60,17 @@ For more information, please look under the [EDA-Property Market Values](./) and
 
 ### Phase 2
 
+In terms of the second phase, our observations are more ambiguous compared to phase 1 as the line has not opened yet. However, we can still see there have been some activities going on since the opening of Phase 1.
 
+#### *Building Permits*
 
+Because the Second Avenue line does not go in a straight line, we have observations for a radius measurement (for when the line turns), and discrete block measurement (for when the subway still goes in a line). From the chart below, we can see that the one block radius from the station has been having more permits filed despite that the two block radius used to be a leading contender. Moreover, the two blocks right of the subway line have stayed low compared to the other locations in recent years. 
 
+![](EDA-Building_Permits_files/figure-html/unnamed-chunk-7-1.png)
+
+#### *Real Estate Sales*
+
+As for real estate sales, it doesn't seem like the prices have caught up with the Phase 2 trends. As shown below, all average sale prices have been at its all time low since 2014 despite the building of the Second Avenue line. Also, because there's a lag compared to the permits, we think that real estate sales trend would be more defined once the permits pattern stabilize. 
+
+![](EDA-Real_State_Sales_files/figure-html/unnamed-chunk-9-1.png)
 

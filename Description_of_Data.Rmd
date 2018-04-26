@@ -58,8 +58,14 @@ A Data Dictionary containing field codes and descriptions of the datasets can be
 The datasets are shapefiles so we used the "foreign" library to read the data files of the shapefiles using "read.dbf('my_shapefile_to_read.dbf')". 
   
   
-### Other Datasets?
+### NYC Dog Licensing Dataset 
 
-<span style="color:red">please add other datasets here if any, otherwise, delete this section/subtitle please</span>
+As all dog owners residing in NYC are required by law to license their dogs, we acquired this dataset through NYC Open Data: 
+https://data.cityofnewyork.us/Health/NYC-Dog-Licensing-Dataset/nu7n-tubp 
 
-<span style="color:red">Describe 1) how the data was collected, 2) how you accessed it, and 3) any other noteworthy features</span>
+The dataset is sourced from the DOHMH Dog Licensing System (https://a816-healthpsi.nyc.gov/DogLicense), where owners can apply for and renew dog licenses. 
+
+The dataset contains fifteen columns, informing us the general information of a registered pet dog: the animal name, animal gender, animal birth month, breed name, borough, zip code, to name a few. We focused on the dog’s breed, gender, date of birth, zip codes for our analysis. 
+
+A complete description and preview of the variables are available here: 
+https://data.cityofnewyork.us/Health/NYC-Dog-Licensing-Dataset/nu7n-tubp

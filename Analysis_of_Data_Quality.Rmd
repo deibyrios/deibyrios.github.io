@@ -85,7 +85,7 @@ library("RSQLite")
 
 Importing files
 
-```{r}
+```{r fig.height=9, fig.width=17}
 
 data_ues_1718  <- read.csv(file="data/all_ues_sales_geocode_2017-2018.csv", header=TRUE, sep=",")
 boxplot(data_ues_1718$SALE.PRICE)

@@ -11,7 +11,8 @@ knitr::opts_chunk$set(warning = FALSE,
 ## Analysis of Buliding Permits
 
 One of the analysis we decided to perform to answer our main question, was to see if the 2nd Ave line project has affected the construction of new buildings (and remodeling of existing ones) in the project's area of influence (basically, phase 1 and 2, because phase 3 and 4 have no funding commitments yet).
-   
+
+**Note**: Please see [Analysis of Data Quality](Analysis_of_Data_Quality.html), which includes a description of the data cleaning process.
     
 ### Analysis of Building Permits for Phase 1
 
@@ -98,7 +99,7 @@ Since the phase 1 opened on January 1st, 2017; we see the decrease in building p
 
 ####Buildings on the right side of the 2nd Ave Line - Phase 1
 
-For blocks to the right of the 2nd Ave Line, as we can see in the map above, there are just 3 blocks between the 2nd Ave Line and the East River, except for a small row of few blocks located four blocks from the line(at the north end), so we established 3 different categories as follows:
+For blocks to the right of the 2nd Ave Line, as we can see in the map above, there are just 3 blocks between the 2nd Ave Line and the East River, except for a small row of few blocks located four blocks from the line (at the north end), so we established 3 different categories as follows:
 
 1) block numbers that are within 1 block to the right;
 2) block numbers that are within 2 blocks to the right; and

@@ -230,7 +230,7 @@ colnames(permits) #print variables / column names</code></pre>
 <p>We were able to find a Data Dictionary containing field codes and descriptions of the data sets, which can be downloaded <a href="https://data.cityofnewyork.us/api/views/ipu4-2q9a/files/87608d5b-1986-4a21-a8a5-7a38e65f9993?download=true&amp;filename=DD_DOB_Permit_Issuance_2018-03-07.xlsx" title="Data Dictionary for building permits">here</a>.</p>
 <p>This is a brief description of the variables of our interest:</p>
 <ul>
-<li>BOROUGH: The name of the NYC borough</li>
+<li><strong>BOROUGH</strong>: The name of the NYC borough</li>
 <li>House: The house number for the building</li>
 <li>Street Name: The street name (combined with house number completes the address)</li>
 <li>Zip Code: ZIP Code for the building’s address</li>
@@ -259,10 +259,9 @@ visna(permits_upper_east)</code></pre>
 <p>As we can see in the graph above, the quality of the data is very good, with just very few rows missing the Building Type column.</p>
 <p>The variables “Block” and “Lot” are of our special interest as those were the main variables used four our main Exploratory Data Analysis as we describe later.</p>
 </div>
-<div id="real-state-sales" class="section level3">
-<h3>Real State Sales</h3>
-<p><em>Provide a detailed, well-organized description of data quality, including textual description, graphs, and code</em></p>
-<p>In the real estate data, we are able to find all of the sales transaction in New York City since 2003. Because the relevancy of the new subway line and the size of the real estate dataset, we’ve narrowed down the dataset down from 2014 to early 2018, which is a few years right before the Q line had opened to today, and to the surrounding zip codes near the phase 1 Q line. This dataset also includes different types of real estate assets, such as a commercial property and apartment units. As these two assets are not comparable, we’ve narrowed it down to apartment units, which is where tax class is 2.</p>
+<div id="real-estate-sales" class="section level3">
+<h3>Real Estate Sales</h3>
+<p>In the real estate data, we are able to find all of the sales transactions in New York City since 2003. Because the relevancy of the new subway line and the size of the real estate dataset, we’ve narrowed the dataset down from 2014 to early 2018, which is a few years right before the Q line had opened to today, and to the surrounding zip codes near the phase 1 Q line. This dataset also includes different types of real estate assets, such as a commercial property and apartment units. As these two assets are not comparable, we’ve narrowed it down to apartment units, which is where tax class is 2.</p>
 <p>We know that price is likely the biggest indicator to the effects of the Q line on the real estate market, we begin by looking at a boxplot of all of the prices in zip codes 10065,10021, 10075, 10128, 10028 ,10029. As shown below, we can see that prices are highly skewed and have many outliers.</p>
 <pre class="r"><code>library(&quot;readxl&quot;)
 library(reshape)

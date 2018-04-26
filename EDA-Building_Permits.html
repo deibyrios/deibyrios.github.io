@@ -190,6 +190,7 @@ $(document).ready(function () {
 <div id="analysis-of-buliding-permits" class="section level2">
 <h2>Analysis of Buliding Permits</h2>
 <p>One of the analysis we decided to perform to answer our main question, was to see if the 2nd Ave line project has affected the construction of new buildings (and remodeling of existing ones) in the project’s area of influence (basically, phase 1 and 2, because phase 3 and 4 have no funding commitments yet).</p>
+<p><strong>Note</strong>: Please see <a href="Analysis_of_Data_Quality.html">Analysis of Data Quality</a>, which includes a description of the data cleaning process.</p>
 <div id="analysis-of-building-permits-for-phase-1" class="section level3">
 <h3>Analysis of Building Permits for Phase 1</h3>
 <p>To try to see if the 2nd Ave Line project has affected the construction of new buildings (and remodeling of existing ones) located near the Line, we added a column called “Distance” and used the block number to record the approximate distance (in blocks) from each building filing a building permit, to the 2nd Ave Line.</p>
@@ -254,7 +255,7 @@ ggplot(data_phase1, aes(Filing.Year, index, color = Distance)) + geom_line(lwd =
 </div>
 <div id="buildings-on-the-right-side-of-the-2nd-ave-line---phase-1" class="section level4">
 <h4>Buildings on the right side of the 2nd Ave Line - Phase 1</h4>
-<p>For blocks to the right of the 2nd Ave Line, as we can see in the map above, there are just 3 blocks between the 2nd Ave Line and the East River, except for a small row of few blocks located four blocks from the line(at the north end), so we established 3 different categories as follows:</p>
+<p>For blocks to the right of the 2nd Ave Line, as we can see in the map above, there are just 3 blocks between the 2nd Ave Line and the East River, except for a small row of few blocks located four blocks from the line (at the north end), so we established 3 different categories as follows:</p>
 <ol style="list-style-type: decimal">
 <li>block numbers that are within 1 block to the right;</li>
 <li>block numbers that are within 2 blocks to the right; and</li>

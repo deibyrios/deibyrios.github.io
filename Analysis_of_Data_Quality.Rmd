@@ -100,7 +100,7 @@ When we went through the datasets, we could see many real estate transactions at
 
 ```{r}
 # source: NYC DoF
-data_ues_1718  <- read.csv(file="all_ues_sales_geocode_2017-2018.csv", header=TRUE, sep=",")
+data_ues_1718  <- read.csv(file="data/all_ues_sales_geocode_2017-2018.csv", header=TRUE, sep=",")
 colnames(data_ues_1718)[colnames(data_ues_1718) == "SALE.PRICE"] <- 'price'
 colnames(data_ues_1718)[colnames(data_ues_1718) == "YEAR"] <- 'year'
 colnames(data_ues_1718)[colnames(data_ues_1718) == "ZIP.CODE"] <- 'zipcode'
@@ -112,35 +112,35 @@ data_ues_1718 <- data_ues_1718[data_ues_1718$price < 5000000,]
 
 ```{r}
 #Baruch College
-
-sqlite<- dbDriver("SQLite")
-realestate <- dbConnect(sqlite,"/Users/sharontsao/Desktop/2003-2016 NYC_geocoded_real_estate_sales/NYC_RealEstate_Sales.sqlite")
-
-dbListTables(realestate)
-
-data_all = dbGetQuery(realestate,'select sale_id, year, nbhd, block, lot, address, zip, sale_date, price, long, lat
-                      from yr_2016 where zip in (10065,10021, 10075, 10028 ,10029) 
-                      AND usable = "True" 
-                      AND tax_cls_s = 2
-                      AND price > 100000
-                      AND price < 5000000
-                      
-            UNION
-                      select sale_id, year, nbhd, block, lot, address, zip, sale_date, price, long, lat
-                      from yr_2015 where zip in (10065,10021, 10075, 10028 ,10029) 
-                      AND usable = "True" 
-                      AND tax_cls_s = 2
-                      AND price > 100000
-                      AND price < 5000000
-
-            UNION
-
-                      select sale_id, year, nbhd, block, lot, address, zip, sale_date, price, long, lat
-                      from yr_2014 where zip in (10065,10021, 10075, 10028 ,10029) 
-                      AND usable = "True" 
-                      AND tax_cls_s = 2
-                      AND price > 100000
-                      AND price < 5000000')
+# 
+# sqlite<- dbDriver("SQLite")
+# realestate <- dbConnect(sqlite,"/Users/sharontsao/Desktop/2003-2016 NYC_geocoded_real_estate_sales/NYC_RealEstate_Sales.sqlite")
+# 
+# dbListTables(realestate)
+# 
+# data_all = dbGetQuery(realestate,'select sale_id, year, nbhd, block, lot, address, zip, sale_date, price, long, lat
+#                       from yr_2016 where zip in (10065,10021, 10075, 10028 ,10029) 
+#                       AND usable = "True" 
+#                       AND tax_cls_s = 2
+#                       AND price > 100000
+#                       AND price < 5000000
+#                       
+#             UNION
+#                       select sale_id, year, nbhd, block, lot, address, zip, sale_date, price, long, lat
+#                       from yr_2015 where zip in (10065,10021, 10075, 10028 ,10029) 
+#                       AND usable = "True" 
+#                       AND tax_cls_s = 2
+#                       AND price > 100000
+#                       AND price < 5000000
+# 
+#             UNION
+# 
+#                       select sale_id, year, nbhd, block, lot, address, zip, sale_date, price, long, lat
+#                       from yr_2014 where zip in (10065,10021, 10075, 10028 ,10029) 
+#                       AND usable = "True" 
+#                       AND tax_cls_s = 2
+#                       AND price > 100000
+#                       AND price < 5000000')
 ```
 
 With the Baruch dataset above, I've only shown the code and the output because the dataset is also too big to import to github.

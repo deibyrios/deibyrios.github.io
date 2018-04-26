@@ -14,9 +14,9 @@ Guys, this is a summary of my conclusions so you can make a final overall projec
 
 * Has the 2nd Ave Line subway project positively affected the Remodeling of existing and construction of new buildings in the area?
 
-After our [EDA](EDA-Building_Permits.html "Our EDA Journey") we came to the conclusion that, it seems that the number of building permits filed, is actually related to the distance from the 2nd Ave Line subway project, with buildings closer to the project, generally showing a higher increase in filed building permits, than buildings away from the project.
+After our [EDA](EDA-Building_Permits.html "Our EDA Journey") we came to the conclusion that that the number of building permits filed is related to the distance from the 2nd Ave Line subway project. The buildings closer to the project generally show a higher increase in filed building permits than buildings away from the project.
 
-As an interesting observation for both phase 1 and phase 2, we noted that for buildings located to right of the 2nd Ave Line project, there still seems to be an association between the distance from the project and the average increase in building permits, but also, buildings located further to the right, on the edge of the East river, show a slightly higher increase back, which we think may be caused by the fact that such buildings attract a higher number of projects, due to the water views. 
+As an interesting observation for both phase 1 and phase 2, there is an association between the distance from the project and the average increase in building permits for buildings located to right of the 2nd Ave Line project. Also, buildings located the most East by the East river show a slightly higher increase in permit counts, which we think may be caused by the fact that such buildings attract a higher number of projects, due to the water views. 
 
 * Has the 2nd Ave Line subway project positively affected the Property Market Values in the area?
 

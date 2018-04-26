@@ -238,7 +238,14 @@ From the Building Permits observation, we think that locations that are three/fo
 
 #####**Analysis of Market Values for Phase 2**
 
+For Phase 2, we're using a similar approach as Phase 1. We've gathered distance of blocks away from the line of the real estate sales and plotted out the average price sold for these locations. Our methodology is seen below and is similar to our methods in building permits. 
 
+Again, we have determined the following 4 categories:
+
+1) block numbers that are within 1 block to the left;
+2) block numbers that are within 1 block to the right;
+2) block numbers that are within 2-3 blocks to the left; and
+3) block numbers that are within 2-3 blocks to the right; from the 2nd Ave Line
 
 ```{r}
 
@@ -266,10 +273,11 @@ data_phase2_1416 <- data_ues %>%
 
 ```
 
-
-
+From our graph below, the patterns are a bit inconclusive as the subway line has not opened yet. One block left of the subway line has been having the most fluctuation in prices as it dropped down to index 45 in 2015 and went back up in 2016, then down again. Two/Three blocks from the right was doing slightly better in 2016, but dipped again with the rest of the real estate sales. 
 
 ```{r fig.height=9, fig.width=17}
+#library(dplyr)
+
 #First, summarize by Year and Distance:
 data_phase2_1416_edited <- data_phase2_1416 %>% 
   group_by(year, Distance) %>% 
@@ -278,29 +286,32 @@ data_phase2_1416_edited <- data_phase2_1416 %>%
 
 data_phase2_1416_edited$year <- as.numeric(data_phase2_1416_edited$year)
 
-data_phase2_1718_edited1718 <- data_phase2_1718 %>%
+data_phase2_1718_edited <- data_phase2_1718 %>%
   group_by(year, Distance) %>%
   summarise(Mean = mean(price, na.rm=TRUE)) %>%
   arrange(year)
 
 year_factor <- factor(data_phase2_1416_edited$year)
 
-data_phase2 = rbind(data_phase2_1718_edited1718, data_phase2_1416_edited)
+#colnames(data_phase2_1718_edited)[colnames(data_phase2_1718_edited) == "YEAR"] <- 'year'
+
+data_phase2_edited = rbind(data_phase2_1416_edited, data_phase2_1718_edited)
+
 
 #Now, scale the data and create an index to visualize variations over time, then plot:
-data_phase2 <- data_phase2 %>% group_by(Distance) %>%
+data_phase2_edited <- data_phase2_edited %>% group_by(Distance) %>%
   filter(Distance != "other") %>%
   mutate(index = 100*Mean/Mean[1]) %>% ungroup()
 
-year_factor <- factor(data_phase2$year)
+year_factor <- factor(data_phase2_edited$year)
 
 #Plot time series:
-ggplot(data_phase2, aes(x= year_factor, y = index, group = Distance, color = Distance)) + 
+ggplot(data_phase2_edited, aes(x= year_factor, y = index, group = Distance, color = Distance)) + 
   geom_line(stat='identity', lwd = 1) +
     ggtitle("Average Real Estate Sales Vs Distance to 2nd Ave (Phase 2)") +
     labs (x = "Year", y = "Indexed of Average Real Estate Sale") +
     theme_grey(16) +
     theme(legend.title = element_blank()) 
-
-
 ```
+
+**Conclusions:** From our observation on the Phase 2 line, it's hard to predict how fast the real estate prices around these subway lines would respond to the constructions of the Second Avenue line. Since the lines haven't been built, the growth/decline of the real estate around Phase 2 area is not as defined as the areas in Phase 1. Hence, we'd get a better idea once we're closer to the finishing of the Phase 2 areas. 

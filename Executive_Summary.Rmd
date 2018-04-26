@@ -10,7 +10,35 @@ knitr::opts_chunk$set(warning = FALSE,
 
 ## Executive Summary
 
-Guys, I need help with Executive Summary please.  
+In the exploration in the Building Permits, Real Estate Sales, Property Market Values, Property Assessed Values, (and Dog Licencings), we want to present to you our findings of the impact of the Second Avenue subway line. In our findings, we will go over the patterns of real estate and property trends in the area based on the metrics we've looked at, interesting findings, and other areas we can pursue if we had more time. 
+
+### How we started
+
+When we first started this project, we first thought a comparison between the affected zip codes to other non-Upper East Side areas were going to be enough for us to see a major difference in prices -- and we did see an effect the changes in housing prices between neighborhoods in Manhatta, but we didn't have enough parameters to help us determine what were the driving forces. Therefore, we started to think about what was important to us as a buyer or a renter of an apartment on a daily basis. *Do I take the subway to work or should I walk to work? Do I mind a 10-minute walk to the subvway line? How long does it take me to get to the central business district? Are there a lot of businesses around my apartment?* These are all questions we think about before we decide to settle down at a place. As a result, we realized that the the block distances to a subway station may be a better indicator of whether someone buys/rents a place. 
+
+In the Phase 1 construction of the Q line, as shown below, we can see where the new line and stations are on the Upper East Side. Based on the location of the new line, we've looked at granularly how close each building permits filed, real estate sales, property market and assessed values properties are closed to the line and assessed its impact. Moreover, we also split our findings between blocks on the left and right of the Second Avenue line. 
+
+![](images/blocksphase1.png)
+
+### Phase 1 
+
+Here we're going to describe trends in the building permits and real estate sections. 
+
+#### *Building Permits*
+
+With building permits, we've taken a look at how all of the building permits from 1990 and saw that generally speaking the count of building permits issued were more or less constant. There's a dip in 2008 because of the economic crisis. Otherwise, counts of permits issued are increasing for blocks that are at any distance from the Second Avenue line. However, when we look down to the block level, we do see that there has been a spike in 2015, which is right before the line opened, for blocks that are one block left of the subway line, while all the permits issued dropped for the other blocks in that same here. This seems to indicate that the line is affecting neighboring permit issuance. 
+
+![](EDA-Building_Permits_files/figure-html/unnamed-chunk-3-1.png)
+
+For areas to the right of the Second Avenue line, the number of permits issued are also fairly constant, but grows at a faster rate. Its current index is at around 500 as of 2018! Originally, we only looked at more recent years and thought that areas that are closer to the Second Avenue line would more permits. However, our findings contradicts with our hypothesis. When we looked at a longer time frame, we realized that there have been more building permits issued 3/4 blocks right of the Second Avenue line than other areas! Then, the one block over follows. We think the root of the cause may be the close proximity to the water; there are more other types of constructions, in addition to residential constructions, closer to the water. 
+
+![](EDA-Building_Permits_files/figure-html/unnamed-chunk-5-1.png)
+
+For more details, please look at the [EDA-Building Permits](./)!
+
+#### *Real Estate Sales*
+
+
 
 * Provide a short nontechnical summary of the most revealing findings of your analysis  written for a nontechnical audience (your family should be able to understand). 
 
@@ -25,13 +53,20 @@ Guys, I need help with Executive Summary please.
 
 * The order of items on the axes and legends is logical (specially, odinal variables)
 * Error on the side of simplicity. Don't, for example, overuse color when it's not necessary. Ask yourself: does color make this graph any clearer? If it doesn't, leave it out.
+
 * Colors should be color vision deficiency friendly.
+
 * Test your graphs on nontechnical friends and family and ask for feedback.
+
 * The font size should be large enough to read clearly. The default in ggplot2 is generally too small. You can easily change it by passing the base font size to the theme, such as + theme_grey(16). (The default base font size is 11.)
+
 * Units should be intuitive (Extreme example: an axis labeled in month/day/year format is intuitive, one labeled in seconds since January 1, 1970 is not.)
+
 * If categorical variable levels are long, set up the graph so the categorical variable is on the y-axis and the names are horizontal. A better option, if possible, is to shorten the names of the levels.
 * Not all EDA graphs lend themselves to presentation, either because the graph form is hard to understand without practice or it's not well labeled. The labeling problem can be solved by adding text in an image editor.
+
 * Tick marks should not be labeled in scientific notation or with long strings of zeros, such as 3000000000. Instead, convert to smaller numbers and change the units: 3000000000 becomes "3" and the axis label "billions of views".
+
 * Title, axis labels, tick mark labels, and legends should be comprehensible (easy to understand) and legible (easy to read / decipher).
 <br><br>
 

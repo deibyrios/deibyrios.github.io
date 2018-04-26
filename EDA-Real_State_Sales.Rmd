@@ -22,6 +22,7 @@ library("readxl")
 library(reshape)
 library(dplyr)
 library("RSQLite")
+library("ggthemes")
 
 ```
 
@@ -149,7 +150,8 @@ ggplot(data_phase1_left_edited, aes(x= year_factor, y = index, group = Distance,
     ggtitle("Average Real Estate Sales vs Distance to 2nd Ave (Phase1-left)") +
     labs (x = "Year", y = "Real Estate Price Index") +
     theme_grey(16) +
-    theme(legend.title = element_blank())
+    theme(legend.title = element_blank()) +
+    scale_colour_colorblind()
 ```
 
 **Conclusions:** From the graph above, it seems that the prices are correlated by the availability of the new subway stations. 
@@ -228,7 +230,8 @@ ggplot(data_phase1_right_edited, aes(x= year_factor, y = index, group = Distance
     ggtitle("Average Real Estate Sales vs Distance to 2nd Ave (Phase1-left)") +
     labs (x = "Year", y = "Indexed of Average Real Estate Sale") +
     theme_grey(16) +
-    theme(legend.title = element_blank())
+    theme(legend.title = element_blank()) +
+  scale_colour_colorblind()
 
 ```
 
@@ -311,7 +314,8 @@ ggplot(data_phase2_edited, aes(x= year_factor, y = index, group = Distance, colo
     ggtitle("Average Real Estate Sales Vs Distance to 2nd Ave (Phase 2)") +
     labs (x = "Year", y = "Indexed of Average Real Estate Sale") +
     theme_grey(16) +
-    theme(legend.title = element_blank()) 
+    theme(legend.title = element_blank()) +
+    scale_colour_colorblind()
 ```
 
 **Conclusions:** From our observation on the Phase 2 line, it's hard to predict how fast the real estate prices around these subway lines would respond to the constructions of the Second Avenue line. Since the lines haven't been built, the growth/decline of the real estate around Phase 2 area is not as defined as the areas in Phase 1. Hence, we'd get a better idea once we're closer to the finishing of the Phase 2 areas. 

@@ -196,7 +196,8 @@ library(ggplot2)
 library(&quot;readxl&quot;)
 library(reshape)
 library(dplyr)
-library(&quot;RSQLite&quot;)</code></pre>
+library(&quot;RSQLite&quot;)
+library(&quot;ggthemes&quot;)</code></pre>
 <pre class="r"><code>data_ues_1718  &lt;- read.csv(file=&quot;data/all_ues_sales_geocode_2017-2018.csv&quot;, header=TRUE, sep=&quot;,&quot;)
 colnames(data_ues_1718)[colnames(data_ues_1718) == &quot;SALE.PRICE&quot;] &lt;- &#39;price&#39;
 colnames(data_ues_1718)[colnames(data_ues_1718) == &quot;YEAR&quot;] &lt;- &#39;year&#39;
@@ -307,7 +308,8 @@ ggplot(data_phase1_left_edited, aes(x= year_factor, y = index, group = Distance,
     ggtitle(&quot;Average Real Estate Sales vs Distance to 2nd Ave (Phase1-left)&quot;) +
     labs (x = &quot;Year&quot;, y = &quot;Real Estate Price Index&quot;) +
     theme_grey(16) +
-    theme(legend.title = element_blank())</code></pre>
+    theme(legend.title = element_blank()) +
+    scale_colour_colorblind()</code></pre>
 <p><img src="EDA-Real_State_Sales_files/figure-html/unnamed-chunk-5-1.png" /><!-- --></p>
 <p><strong>Conclusions:</strong> From the graph above, it seems that the prices are correlated by the availability of the new subway stations.</p>
 <p>From the graph above, blocks one block left of the subway line have grew up to an index of ~115 since the Q line opening, blocks two/three blocks left of the subway line have stayed around the same, and blocks that are four/five blocks away have dropped to below 90 of index recently (2018). However, prices dipped for blocks that are one block away on 2017 while others grew a little bit. It’s hard to attribute what exactly is causing the sharp price change.</p>
@@ -377,7 +379,8 @@ ggplot(data_phase1_right_edited, aes(x= year_factor, y = index, group = Distance
     ggtitle(&quot;Average Real Estate Sales vs Distance to 2nd Ave (Phase1-left)&quot;) +
     labs (x = &quot;Year&quot;, y = &quot;Indexed of Average Real Estate Sale&quot;) +
     theme_grey(16) +
-    theme(legend.title = element_blank())</code></pre>
+    theme(legend.title = element_blank()) +
+  scale_colour_colorblind()</code></pre>
 <p><img src="EDA-Real_State_Sales_files/figure-html/unnamed-chunk-7-1.png" /><!-- --></p>
 <p><strong>Conclusions:</strong> From the graph above, it seems like the new subway line has some effects on the real estate prices, but there probably is a bigger driver that’s keep the three/four blocks right of the Second Avenue line in sync with the One block.</p>
 <p>From the Building Permits observation, we think that locations that are three/four blocks right from the Second Avenue line may always be a popular area because buildings there have a water view.</p>
@@ -448,7 +451,8 @@ ggplot(data_phase2_edited, aes(x= year_factor, y = index, group = Distance, colo
     ggtitle(&quot;Average Real Estate Sales Vs Distance to 2nd Ave (Phase 2)&quot;) +
     labs (x = &quot;Year&quot;, y = &quot;Indexed of Average Real Estate Sale&quot;) +
     theme_grey(16) +
-    theme(legend.title = element_blank()) </code></pre>
+    theme(legend.title = element_blank()) +
+    scale_colour_colorblind()</code></pre>
 <p><img src="EDA-Real_State_Sales_files/figure-html/unnamed-chunk-9-1.png" /><!-- --></p>
 <p><strong>Conclusions:</strong> From our observation on the Phase 2 line, it’s hard to predict how fast the real estate prices around these subway lines would respond to the constructions of the Second Avenue line. Since the lines haven’t been built, the growth/decline of the real estate around Phase 2 area is not as defined as the areas in Phase 1. Hence, we’d get a better idea once we’re closer to the finishing of the Phase 2 areas.</p>
 </div>

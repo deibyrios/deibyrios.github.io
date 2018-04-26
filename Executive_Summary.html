@@ -214,33 +214,30 @@ $(document).ready(function () {
 <img src="EDA-Building_Permits_files/figure-html/unnamed-chunk-5-1.png" />
 
 </div>
-<p>For more details, please look at the “EDAV - Building Permits” section!</p>
+<p>For more details, please look at the <a href="./">EDA-Building Permits</a>!</p>
 </div>
 <div id="real-estate-sales" class="section level4">
 <h4><em>Real Estate Sales</em></h4>
-<ul>
-<li><p>Provide a short nontechnical summary of the most revealing findings of your analysis written for a nontechnical audience (your family should be able to understand).</p></li>
-<li><p>The length should be approximately <strong>two pages</strong> (if we were using pages…)</p></li>
-<li><p>Presentation-style, meaning graphs that are cleaned up for presentation, as opposed to the rough ones we often use for EDA.</p></li>
-<li><p>Take extra care to clean up your graphs, ensuring that best practices for presentation are followed. <br><br></p></li>
-</ul>
-<p><strong>Tips for the plots</strong>:</p>
-<ul>
-<li>The order of items on the axes and legends is logical (specially, odinal variables)</li>
-<li><p>Error on the side of simplicity. Don’t, for example, overuse color when it’s not necessary. Ask yourself: does color make this graph any clearer? If it doesn’t, leave it out.</p></li>
-<li><p>Colors should be color vision deficiency friendly.</p></li>
-<li><p>Test your graphs on nontechnical friends and family and ask for feedback.</p></li>
-<li><p>The font size should be large enough to read clearly. The default in ggplot2 is generally too small. You can easily change it by passing the base font size to the theme, such as + theme_grey(16). (The default base font size is 11.)</p></li>
-<li><p>Units should be intuitive (Extreme example: an axis labeled in month/day/year format is intuitive, one labeled in seconds since January 1, 1970 is not.)</p></li>
-<li>If categorical variable levels are long, set up the graph so the categorical variable is on the y-axis and the names are horizontal. A better option, if possible, is to shorten the names of the levels.</li>
-<li><p>Not all EDA graphs lend themselves to presentation, either because the graph form is hard to understand without practice or it’s not well labeled. The labeling problem can be solved by adding text in an image editor.</p></li>
-<li><p>Tick marks should not be labeled in scientific notation or with long strings of zeros, such as 3000000000. Instead, convert to smaller numbers and change the units: 3000000000 becomes “3” and the axis label “billions of views”.</p></li>
-<li><p>Title, axis labels, tick mark labels, and legends should be comprehensible (easy to understand) and legible (easy to read / decipher). <br><br></p></li>
-</ul>
+<p>In terms of real estate sales, we believe there’s a lag of the effects compared to the building permits. Building permits are a better representation of what happens before something is built, while real estate sales are a better representation of what happens later.</p>
+<p>From our observations below for blocks left of the Second Avenue line, we can see that there’s an infection point in 2017, which is when the subway line opened! We cannot pinpoint down to the exact reason, but we can see that the average price has increased since 2017 for areas one block left, and areas that are 2-3 blocks/4-5 blocks have turned have fallen at a more drastic rate. This seems to indicate that, however minimally, that the subway line is changing the residential pattern on the Upper East Side.</p>
+<div class="figure">
+<img src="EDA-Real_State_Sales_files/figure-html/unnamed-chunk-5-1.png" />
+
+</div>
+<p>Similarly to the building permits, the effects of the subway addition is more drastic on blocks right of the Second Avenue line. We can see in the graph below that the average price for sales that are two blocks right from the line has fallen much drastically since 2017, while average prices for one block right have surpassed sales price of 3-4 blocks. As for the high price of 3-4 blocks on the right, we think it attributes to the location which it has a close proximity to the water.</p>
+<div class="figure">
+<img src="EDA-Real_State_Sales_files/figure-html/unnamed-chunk-7-1.png" />
+
 </div>
 </div>
-<div id="subtitle-here" class="section level3">
-<h3>Subtitle here</h3>
+<div id="property-market-valuesproperty-assessed-value" class="section level4">
+<h4><em>Property Market Values/Property Assessed Value</em></h4>
+<p>Property market and assessed value are often explained by the sales price of the real estate. Therefore, we are not going to talk about it here.</p>
+<p>For more information, please look under the <a href="./">EDA-Property Market Values</a> and <a href="./">EDA-Property Assessed Values</a>.</p>
+</div>
+</div>
+<div id="phase-2" class="section level3">
+<h3>Phase 2</h3>
 </div>
 </div>
 

@@ -38,39 +38,25 @@ For more details, please look at the [EDA-Building Permits](./)!
 
 #### *Real Estate Sales*
 
+In terms of real estate sales, we believe there's a lag of the effects compared to the building permits. Building permits are a better representation of what happens before something is built, while real estate sales are a better representation of what happens later. 
+
+From our observations below for blocks left of the Second Avenue line, we can see that there's an infection point in 2017, which is when the subway line opened! We cannot pinpoint down to the exact reason, but we can see that the average price has increased since 2017 for areas one block left, and areas that are 2-3 blocks/4-5 blocks have turned have fallen at a more drastic rate. This seems to indicate that, however minimally, that the subway line is changing the residential pattern on the Upper East Side. 
+
+![](EDA-Real_State_Sales_files/figure-html/unnamed-chunk-5-1.png)
+
+Similarly to the building permits, the effects of the subway addition is more drastic on blocks right of the Second Avenue line. We can see in the graph below that the average price for sales that are two blocks right from the line has fallen much drastically since 2017, while average prices for one block right have surpassed sales price of 3-4 blocks. As for the high price of 3-4 blocks on the right, we think it attributes to the location which it has a close proximity to the water. 
+
+![](EDA-Real_State_Sales_files/figure-html/unnamed-chunk-7-1.png)
+
+#### *Property Market Values/Property Assessed Value*
+
+Property market and assessed value are often explained by the sales price of the real estate. Therefore, we are not going to talk about it here. 
+
+For more information, please look under the [EDA-Property Market Values](./) and [EDA-Property Assessed Values](./). 
+
+### Phase 2
 
 
-* Provide a short nontechnical summary of the most revealing findings of your analysis  written for a nontechnical audience (your family should be able to understand). 
 
-* The length should be approximately __two pages__ (if we were using pages...) 
-
-* Presentation-style, meaning graphs that are cleaned up for presentation, as opposed to the rough ones we often use for EDA. 
-
-* Take extra care to clean up your graphs, ensuring that best practices for presentation are followed.
-<br><br>   
-
-**Tips for the plots**:
-
-* The order of items on the axes and legends is logical (specially, odinal variables)
-* Error on the side of simplicity. Don't, for example, overuse color when it's not necessary. Ask yourself: does color make this graph any clearer? If it doesn't, leave it out.
-
-* Colors should be color vision deficiency friendly.
-
-* Test your graphs on nontechnical friends and family and ask for feedback.
-
-* The font size should be large enough to read clearly. The default in ggplot2 is generally too small. You can easily change it by passing the base font size to the theme, such as + theme_grey(16). (The default base font size is 11.)
-
-* Units should be intuitive (Extreme example: an axis labeled in month/day/year format is intuitive, one labeled in seconds since January 1, 1970 is not.)
-
-* If categorical variable levels are long, set up the graph so the categorical variable is on the y-axis and the names are horizontal. A better option, if possible, is to shorten the names of the levels.
-* Not all EDA graphs lend themselves to presentation, either because the graph form is hard to understand without practice or it's not well labeled. The labeling problem can be solved by adding text in an image editor.
-
-* Tick marks should not be labeled in scientific notation or with long strings of zeros, such as 3000000000. Instead, convert to smaller numbers and change the units: 3000000000 becomes "3" and the axis label "billions of views".
-
-* Title, axis labels, tick mark labels, and legends should be comprehensible (easy to understand) and legible (easy to read / decipher).
-<br><br>
-
-
-### Subtitle here
 
 

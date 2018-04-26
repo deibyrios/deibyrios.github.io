@@ -262,6 +262,61 @@ visna(permits_upper_east)</code></pre>
 <div id="real-state-sales" class="section level3">
 <h3>Real State Sales</h3>
 <p><em>Provide a detailed, well-organized description of data quality, including textual description, graphs, and code</em></p>
+<p>In the real estate data, we are able to find all of the sales transaction in New York City since 2003. Because the relevancy of the new subway line and the size of the real estate dataset, we’ve narrowed down the dataset down from 2014 to early 2018, which is a few years right before the Q line had opened to today, and to the surrounding zip codes near the phase 1 Q line. This dataset also includes different types of real estate assets, such as a commercial property and apartment units. As these two assets are not comparable, we’ve narrowed it down to apartment units, which is where tax class is 2.</p>
+<p>We know that price is likely the biggest indicator to the effects of the Q line on the real estate market, we begin by looking at a boxplot of all of the prices in zip codes 10065,10021, 10075, 10028 ,10029. As shown below, we can see that prices are highly skewed and have many outliers.</p>
+<pre class="r"><code>library(&quot;readxl&quot;)
+library(reshape)
+#install.packages(&#39;RSQLite&#39;)
+library(&quot;RSQLite&quot;)</code></pre>
+<p>Importing files</p>
+<pre class="r"><code>data_ues_1718  &lt;- read.csv(file=&quot;data/all_ues_sales_geocode_2017-2018.csv&quot;, header=TRUE, sep=&quot;,&quot;)
+boxplot(data_ues_1718$SALE.PRICE)</code></pre>
+<p><img src="Analysis_of_Data_Quality_files/figure-html/unnamed-chunk-6-1.png" /><!-- --></p>
+<pre class="r"><code>#note, this is for 17/18 data only</code></pre>
+<p>In the boxplot above, I’ve shown a sample of 2017-2018 data with tax class 2 because the original dataset is too big. However, the rest of 2014-2016 have similar trends in outliers.</p>
+<p>When we went through the datasets, we could see many real estate transactions at price 0 or above 10s of millions! We believe that some properties were sold at a low price as a transaction between family members, and that there are actually relatively few numbers of properties sold above five millions. Therefore, we’ve narrowed down to looking at properties between 100K and 5M. We do this for both the datasets from NYC DoF and the Baruch dataset.</p>
+<pre class="r"><code># source: NYC DoF
+data_ues_1718  &lt;- read.csv(file=&quot;data/all_ues_sales_geocode_2017-2018.csv&quot;, header=TRUE, sep=&quot;,&quot;)
+colnames(data_ues_1718)[colnames(data_ues_1718) == &quot;SALE.PRICE&quot;] &lt;- &#39;price&#39;
+colnames(data_ues_1718)[colnames(data_ues_1718) == &quot;YEAR&quot;] &lt;- &#39;year&#39;
+colnames(data_ues_1718)[colnames(data_ues_1718) == &quot;ZIP.CODE&quot;] &lt;- &#39;zipcode&#39;
+colnames(data_ues_1718)[colnames(data_ues_1718) == &quot;TAX.CLASS.AT.PRESENT&quot;] &lt;- &#39;TaxClass&#39;
+data_ues_1718 &lt;- data_ues_1718[data_ues_1718$price &gt; 100000,]
+data_ues_1718 &lt;- data_ues_1718[data_ues_1718$price &lt; 5000000,]</code></pre>
+<pre class="r"><code>#Baruch College
+# 
+# sqlite&lt;- dbDriver(&quot;SQLite&quot;)
+# realestate &lt;- dbConnect(sqlite,&quot;/Users/sharontsao/Desktop/2003-2016 NYC_geocoded_real_estate_sales/NYC_RealEstate_Sales.sqlite&quot;)
+# 
+# dbListTables(realestate)
+# 
+# data_all = dbGetQuery(realestate,&#39;select sale_id, year, nbhd, block, lot, address, zip, sale_date, price, long, lat
+#                       from yr_2016 where zip in (10065,10021, 10075, 10028 ,10029) 
+#                       AND usable = &quot;True&quot; 
+#                       AND tax_cls_s = 2
+#                       AND price &gt; 100000
+#                       AND price &lt; 5000000
+#                       
+#             UNION
+#                       select sale_id, year, nbhd, block, lot, address, zip, sale_date, price, long, lat
+#                       from yr_2015 where zip in (10065,10021, 10075, 10028 ,10029) 
+#                       AND usable = &quot;True&quot; 
+#                       AND tax_cls_s = 2
+#                       AND price &gt; 100000
+#                       AND price &lt; 5000000
+# 
+#             UNION
+# 
+#                       select sale_id, year, nbhd, block, lot, address, zip, sale_date, price, long, lat
+#                       from yr_2014 where zip in (10065,10021, 10075, 10028 ,10029) 
+#                       AND usable = &quot;True&quot; 
+#                       AND tax_cls_s = 2
+#                       AND price &gt; 100000
+#                       AND price &lt; 5000000&#39;)</code></pre>
+<p>With the Baruch dataset above, I’ve only shown the code and the output because the dataset is also too big to import to github.</p>
+<p>The above steps lay the groudwork of the dataset of focus. These are a brief description of the columns we’re using:</p>
+<p><strong>Tax Class</strong>: The class of the building helps us identify the real estate type (Houses, Apartments, Building) <strong>Block</strong>: Block number helps us identify the location of the block <strong>Lot</strong>: Lot number helps us identify the location of the lot <strong>Zip Code</strong>: Zip code of the real estate property <strong>Sale Date</strong>: Date the real estate transaction was closed <strong>Sale Price</strong>: Price the buyer paid for <strong>Lat/Long</strong>: The Coordinates of the real estate property</p>
+<p>We’re using these variables to help us analyze trends in real estate prices.</p>
 </div>
 <div id="property-market-values" class="section level3">
 <h3>Property Market Values</h3>

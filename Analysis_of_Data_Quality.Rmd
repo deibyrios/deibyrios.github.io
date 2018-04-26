@@ -77,10 +77,9 @@ In the real estate data, we are able to find all of the sales transaction in New
 We know that price is likely the biggest indicator to the effects of the Q line on the real estate market, we begin by looking at a boxplot of all of the prices in zip codes 10065,10021, 10075, 10028 ,10029. As shown below, we can see that prices are highly skewed and have many outliers.
 
 ```{r}
-library("ggplot2")
 library("readxl")
 library(reshape)
-library(dplyr)
+#install.packages('RSQLite')
 library("RSQLite")
 ```
 

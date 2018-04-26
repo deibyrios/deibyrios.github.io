@@ -60,4 +60,6 @@ The datasets are shapefiles so we used the "foreign" library to read the data fi
   
 ### Other Datasets?
 
-_Describe 1) how the data was collected, 2) how you accessed it, and 3) any other noteworthy features_
+<span style="color:red">please add other datasets here if any, otherwise, delete this section/subtitle please</span>
+
+<span style="color:red">Describe 1) how the data was collected, 2) how you accessed it, and 3) any other noteworthy features</span>

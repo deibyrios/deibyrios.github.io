@@ -10,21 +10,18 @@ knitr::opts_chunk$set(warning = FALSE,
 
 ## Conclusion
 
-Guys, this is a summary of my conclusions so you can make a final overall project conclusion using mine and yours:
+* So does the newly built Second Avenue line affect the economy on the Upper East Side? 
 
-* Has the 2nd Ave Line subway project positively affected the Remodeling of existing and construction of new buildings in the area?
+After our [EDA](EDA-Building_Permits.html "our EDA Journey") we've come to the conclusion that that the number of building permits filed is related to the distance from the 2nd Ave Line subway project. The buildings closer to the project generally show a higher increase in building permits than buildings away from the project. Similarly, we can see patterns in the Phase 1 of the [real estate sales](EDA-Real_State_Sales.html "our EDA Journey") that show activities for the opening of the Second Avenue line. However, we think there is a lack of activity in the current Phase 2 location because the subway has not opened yet. 
 
-After our [EDA](EDA-Building_Permits.html "Our EDA Journey") we came to the conclusion that that the number of building permits filed is related to the distance from the 2nd Ave Line subway project. The buildings closer to the project generally show a higher increase in filed building permits than buildings away from the project.
-
-As an interesting observation for both phase 1 and phase 2, there is an association between the distance from the project and the average increase in building permits for buildings located to right of the 2nd Ave Line project. Also, buildings located the most East by the East river show a slightly higher increase in permit counts, which we think may be caused by the fact that such buildings attract a higher number of projects, due to the water views. 
-
-* Has the 2nd Ave Line subway project positively affected the Property Market Values in the area?
-
-After our [EDA](EDA-Property_Market_Values.html), we found it inconclusive whether the already in operation phase 1 or the planned phase 2, of the 2nd Ave Line project is having an impact on the increase in Property Market Value for properties located in the vicinity of the Line.
-
-We only analyzed properties within few blocks from the Line and the results we got were that the increase in market value is very similar across the different categories of properties that we defined (based on their distance from the project), so we think that these inconclusive results are caused by the way in which the New York City Department of Finance (DOF) estimates the increase in market values of the properties, as their estimates are based on recent sales in the whole neighborhood 
-( [see FAQs - What is Market Value? in the DOF's assessments website](http://www1.nyc.gov/site/finance/taxes/property-assessments.page "DOF's website - Assessment") ), so our analysis being performed with only few blocks of difference is just showing very similar increase patterns.
+Based on our analysis of [EDA](EDA-Property_Market_Values.html), we found its effect inconclusive for both phase 1 and phase 2 to the 2nd Ave Line project. However, we also analyzed properties within few blocks from the Second Avenue line and the increase in market value is very similar across different categories of properties based on their distance from the project. Hence, we think that these inconclusive results are caused by the way in which the New York City Department of Finance (DOF) estimates the increase in market values of the properties, as their estimates are based on recent sales in the whole neighborhood 
+( [see FAQs - What is Market Value? in the DOF's assessments website](http://www1.nyc.gov/site/finance/taxes/property-assessments.page "DOF's website - Assessment") ).
 
 We didn't performed further analysis by comparing with other neighborhoods because we think that other neighborhoods may have their own realities and their own causes for increases and decreases in values.
 
-_Note_:Since the Property Market Value data offered by the The Department of Finance (DOF) goes back to 2008 only, while news about the project and properties in the area of influence becoming more valued, date many years back, we also performed an [Analysis of Property 'Assessed Values'](EDA-Property_Assessed_Values.html "EDA - Property Assessed Values") which are used for Property Tax purposes and are linearly correlated to Property 'Market Values' (just applying a percentage depending on the tax class, see https://www.tax.ny.gov/pit/property/learn/howassess.htm) because we were able to find property "Assessed Values" back to 2003; but we got very similar results, again, may be due to the fact in which the Property 'Market Values' (and consequently 'Assessed Values') are estimated.
+In conclusion, we think the newly built Second Avenue line does affect the economy of the Upper East Side.
+
+_Note_:
+1) Since the Property Market Value data offered by the The Department of Finance (DOF) goes back to 2008 only, while news about the project and properties in the area of influence becoming more valued, date many years back, we also performed an [Analysis of Property 'Assessed Values'](EDA-Property_Assessed_Values.html "EDA - Property Assessed Values") which are used for Property Tax purposes and are linearly correlated to Property 'Market Values' (just applying a percentage depending on the tax class, see https://www.tax.ny.gov/pit/property/learn/howassess.htm) because we were able to find property "Assessed Values" back to 2003; but we got very similar results, again, may be due to the fact in which the Property 'Market Values' (and consequently 'Assessed Values') are estimated.
+
+2) As an interesting finding for both phase 1 and phase 2, there is an association between the distance from the project and the average increase in building permits for buildings located to right of the 2nd Ave Line project. Also, buildings located the most East by the East river show a slightly higher increase in permit counts, which we think may be caused by the fact that such buildings attract a higher number of projects, due to the water views. 

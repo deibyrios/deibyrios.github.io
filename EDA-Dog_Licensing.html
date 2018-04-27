@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>EDA-Dog Licensing</title>
+
+<script src="libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="libs/navigation-1.1/tabsets.js"></script>
+<link href="libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+<style type="text/css">
+  body {
+    padding-top: 20px;
+  }
+  .navbar-brand {
+    font-weight: bold;
+  }
+  footer {
+    border-top: 1px solid #CCC;
+    margin-top: 60px;
+    margin-bottom: 48px;
+    opacity: 0.75;
+  }
+  .content-body>:first-child, .content-body>:first-child>:first-child {
+    margin-top: 0 !important;
+  }
+  p code {
+    white-space: inherit;
+  }
+  .leaflet-container {
+    margin: 0 0 10.5px;
+  }
+</style>
+
+<div class="fluid-row">
+  <div class="col-sm-12">
+    <nav class="navbar navbar-inverse">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <a class="navbar-brand" href="./">EDAV final Project  -  2nd Ave NYC Line subway</a>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<div class="fluid-row">
+  <div class="col-sm-3">
+    <div class="list-group">
+      <a class="list-group-item" href="./">Introduction</a>
+      <a class="list-group-item" href="Description_of_Data.html">Description of Data</a>
+      <a class="list-group-item" href="Analysis_of_Data_Quality.html">Analysis of Data Quality</a>
+      <a class="list-group-item" href="EDA-Building_Permits.html">EDA - Building Permits</a>
+      <a class="list-group-item" href="EDA-Real_State_Sales.html">EDA - Real State Sales</a>
+      <a class="list-group-item" href="EDA-Property_Market_Values.html">EDA - Property Market Values</a>
+      <a class="list-group-item" href="EDA-Property_Assessed_Values.html">EDA - Property Assessed Values</a>
+      <a class="list-group-item" href="Executive_Summary.html">Executive Summary</a>
+      <a class="list-group-item" href="Interactive_Component.html">Interactive Component</a>
+      <a class="list-group-item" href="Conclusion.html">Conclusion</a>
+      <a class="list-group-item" href="Suggested_Grading.html">Suggested Grading</a>   
+<!--      <a class="list-group-item" href="showhide.html">Show/Hide Layers</a>
+      <a class="list-group-item" href="choropleths.html">Choropleths</a>
+      <a class="list-group-item" href="projections.html">Projections</a>
+      <a class="list-group-item" href="morefeatures.html">Additional Features</a>-->
+    </div>
+    <script>
+      // manage active state of toc based on current page
+      var href = window.location.pathname;
+      href = href.substr(href.lastIndexOf('/') + 1);
+      if (href === "" || href === "index.html")
+        href = "./";
+      $('a.list-group-item[href="' + href + '"]').addClass('active');
+    </script>
+  </div>
+  <div class="col-sm-9 content-body">
+
+<div class="fluid-row" id="header">
+
+
+
+
+</div>
+
+
+<p>In order to understand how adding a new subway line influences the nearby community, we looked from both economic and social perspective. To measure economical influence, we looked at two data sets: Department of Building permit issuances, and Real Estate prices (Sharon plz edit the correct /formal name). In addition to the economical impact, we explored the social perspective by looking at NYC Dog licensing Dataset, to gain insights about their owners – the upper east side residents.</p>
+<p>We first looked at the zip codes in Manhattan. ZipCode map: <a href="https://github.com/blooraspberry/subwayproject/blob/master/visualization/NYC-Zip-Code-Map.jpg" class="uri">https://github.com/blooraspberry/subwayproject/blob/master/visualization/NYC-Zip-Code-Map.jpg</a></p>
+<p>Since the Q line (phase 1) starts at 63rd street and ends at 96th street, we focused on the areas with zip codes along the line, which are “10065”, “10021”, “10075”, “10028”, “10128”, “10029”. We stopped at 117th street because it is 20 blocks away from the last stop at Q line (phase 1) and we think the impact of the subway attenuates.</p>
+<p>We accessed our data set from New York City Public data: <a href="https://data.cityofnewyork.us/Health/NYC-Dog-Licensing-Dataset/nu7n-tubp" class="uri">https://data.cityofnewyork.us/Health/NYC-Dog-Licensing-Dataset/nu7n-tubp</a></p>
+<p>It contains 121,949 observations of 15 variables.</p>
+<pre class="r"><code>library(tidyverse)
+library(forcats)
+library(ggplot2)
+library(ggthemes)
+
+path &lt;- &quot;/Users/sharontsao/Desktop/deibyrios.github.io/Dogs.csv&quot;
+dogs &lt;- read.csv(path, 1)
+
+head(dogs)</code></pre>
+<pre><code>##   RowNumber AnimalName AnimalGender       AnimalBirthMonth BreedName
+## 1      1753    SHADOW             M 01/01/2000 12:00:00 AM    Beagle
+## 2      2415      ROCCO            M 10/01/2011 12:00:00 AM     Boxer
+## 3      3328      LUIGI            M 09/01/2005 12:00:00 AM   Maltese
+## 4      7537    PETUNIA            F 08/01/2013 12:00:00 AM       Pug
+## 5      8487      ROMEO            M 10/01/2008 12:00:00 AM   Maltese
+## 6     10503    BRANDY             M 01/01/2004 12:00:00 AM   Unknown
+##    Borough ZipCode CommunityDistrict CensusTract2010  NTA
+## 1 Brooklyn   11236               318            1014 BK50
+## 2 Brooklyn   11210               314             756 BK43
+## 3    Bronx   10464               210             516 BX10
+## 4 Brooklyn   11221               304             419 BK78
+## 5    Bronx   10451               201              65 BX34
+## 6 Brooklyn   11225               309             800 BK60
+##   CityCouncilDistrict CongressionalDistrict StateSenatorialDistrict
+## 1                  46                     8                      19
+## 2                  45                     9                      17
+## 3                  13                    14                      34
+## 4                  34                     7                      18
+## 5                  17                    15                      32
+## 6                  40                     9                      20
+##   LicenseIssuedDate LicenseExpiredDate
+## 1        12/29/2014         01/30/2016
+## 2        01/07/2015         01/30/2016
+## 3        01/17/2015         02/02/2016
+## 4        03/01/2015         03/28/2016
+## 5        03/09/2015         03/09/2016
+## 6        03/27/2015         03/29/2016</code></pre>
+<p>The first thing we are curious to find out is that if there are any noticeable differences that how dog population is distributed across different zip codes in the Upper East Side neighborhood. We shortened some variable names for simplicity and filtered the dataset by the target upper east side zipcodes with a selection of our preferred variables. We found that some zipcodes have significantly more dogs than the others and looked into why. Very quickly we noticed that each zipcode can cover different numbers of blocks. Therefore, instead of comparing the dogs population by zipcodes, we find it more reasonable to compare the average number of dogs by block within a given zipcode. We found out that, zipcode 10028, which covers streets from 81 to 86th street has the highest number of dogs per block.</p>
+<pre class="r"><code># simplify varible names 
+colnames(dogs)[colnames(dogs) == &#39;AnimalName&#39;] &lt;- &#39;name&#39;
+colnames(dogs)[colnames(dogs) == &#39;AnimalGender&#39;] &lt;- &#39;gender&#39;
+colnames(dogs)[colnames(dogs) == &#39;BreedName&#39;] &lt;- &#39;breed&#39;
+
+
+# the geographic dynamics
+# Q line phase 1 impact areas: 
+# 97 - 116 st: 10029  # of blocks: 19
+# 87 - 96 st: 10128  
+# 81 - 86 st: 10028  # 5 most dogs
+# 61 - 80 st: 10021 (7), 10065 (7), 10075 (7)  
+
+zip_blocks &lt;- tibble(ZipCode = c(10065,10021, 10075,  10028,10128 ,10029), nBlocks = c(7, 7, 7, 5, 9, 19))
+
+
+phase1 &lt;- c(&quot;10065&quot;,&quot;10021&quot;, &quot;10075&quot;,  &quot;10028&quot;,&quot;10128&quot; ,&quot;10029&quot; ) 
+
+#subsetting df to phase1 area 
+dogs1 &lt;- subset(dogs, dogs$ZipCode %in% phase1, select = c(&quot;Borough&quot;, &quot;ZipCode&quot;, &quot;breed&quot;, &quot;gender&quot;,&quot;LicenseIssuedDate&quot;, &quot;LicenseExpiredDate&quot;))
+#zip_phase1 &lt;- factor(dogs2$ZipCode)
+
+#%&gt;% left_join(zip_blocks, by = &quot;ZipCode&quot;) %&gt;% group_by(ZipCode) %&gt;% summarize(block_avg=n()/max(nBlocks)) 
+
+dogs2 &lt;- dogs1 %&gt;% group_by(ZipCode) %&gt;% summarize(block_cnt=n()) %&gt;% left_join(zip_blocks, by = &quot;ZipCode&quot;) %&gt;% mutate(block_avg = block_cnt/nBlocks)
+
+zip_phase1 &lt;- factor(dogs2$ZipCode)
+ggplot(dogs2, aes(x = zip_phase1, y = block_avg)) + geom_bar(stat=&quot;identity&quot;) +
+geom_text(aes(label = round(block_avg, digits = 0)), vjust = 1.6, color = &quot;white&quot;, size = 3.5) + theme_minimal() + scale_color_colorblind()</code></pre>
+<p><img src="EDA-Dog_Licensing_files/figure-html/unnamed-chunk-3-1.png" /><!-- --></p>
+<p>As the living space by and large is limited in the city, we are curious to see what the popular dog breeds are in Upper East Side and whether the breeds echo with certain aspects of the real estate landscape of this neighborhood. We excluded the “unknown” breeds for a more specific understanding, even though the “unknown” breeds are of a significantly higher quantity. We find out that from a gender perspective, female dogs and male dogs are at around the same quantity, male dogs holding a small lead.</p>
+<pre class="r"><code># cleaning: drop empty levels &quot;&quot; and &quot; &quot;
+dogs1$gender[dogs1$gender == &quot;&quot;] &lt;- &quot;F&quot;
+dogs1$gender[dogs1$gender == &quot; &quot;] &lt;- &quot;M&quot;
+dogs1$gender &lt;- droplevels(dogs1$gender)
+
+# the gender difference of dogs 
+ggplot(dogs1, aes(x = dogs1$gender, fill = factor(dogs1$gender))) + 
+  ylab(&quot;Number of dogs&quot;) + 
+  xlab(&quot;Gender of the dogs&quot;) + 
+  geom_bar() + coord_flip() +
+  theme(legend.position = &quot;top&quot;) +
+  theme(legend.title=element_blank()) +
+  scale_color_colorblind()</code></pre>
+<p><img src="EDA-Dog_Licensing_files/figure-html/unnamed-chunk-4-1.png" /><!-- --></p>
+<p>This gender preference is mostly consistent across different breeds, with an exception of Maltese, Havanese, and Toy Poodle and Labrador crossbreed, in which breeds female dogs outnumbered their male counterparts by a small margin.</p>
+<pre class="r"><code>ues_dogs &lt;- dogs1 %&gt;% filter(ZipCode %in% phase1) 
+
+ues_dogs_counts &lt;- ues_dogs %&gt;% group_by(breed) %&gt;% summarize(countBreed = n()) %&gt;% arrange(-countBreed)
+
+top_10_dogs &lt;- ues_dogs_counts$breed[2:11]
+
+ues_dogs_gender&lt;- ues_dogs %&gt;% filter(breed %in% top_10_dogs) %&gt;% group_by(breed, gender) %&gt;% summarize(countGender = n()) %&gt;% select(c(breed, gender, countGender))
+
+ues_dogs_sorted_gender &lt;- ues_dogs_gender %&gt;% group_by(breed) %&gt;% mutate(countBreed = sum(countGender)) %&gt;% ungroup %&gt;% arrange(-countBreed)
+
+ues_dogs_sorted_gender$breed &lt;- fct_rev(factor(ues_dogs_sorted_gender$breed, levels=unique(ues_dogs_sorted_gender$breed)))
+
+ggplot(ues_dogs_sorted_gender, aes(countGender, breed)) +
+    geom_point(aes(color = gender), size = 4) + scale_color_colorblind() +
+    ggtitle(&quot;UES breeds and their gender&quot;) +
+    xlab(&quot;Count&quot;)</code></pre>
+<p><img src="EDA-Dog_Licensing_files/figure-html/unnamed-chunk-5-1.png" /><!-- --></p>
+<p>In terms of sizes, smaller dogs are unsurprisingly popular, with Shih Tzu and Yorkshire Terrier of leading quantities over 400. Out of ten most popular dog breeds in Upper East Side, only three breeds of medium to large size made to the list, which are Labrador Retriever, Golden Retriever, and Labrador Retriever Crossbreed. (This is understandable considering the real estate prices in this neighborhood. ??)</p>
+<pre class="r"><code>#{r pressure, echo=FALSE}
+
+dogs1_breed &lt;- dogs1 %&gt;% group_by(dogs1$breed) %&gt;% summarize(counts = n()) %&gt;% arrange(-counts) 
+
+# top 10 known breeds
+top10 &lt;- dogs1_breed[2:11,]
+names(top10) &lt;- c(&quot;breed&quot;, &quot;counts&quot;)
+
+# ordering the breeds by counts
+top10$breed &lt;- factor(top10$breed, levels = top10$breed[order(top10$counts)])
+
+ggplot(top10, aes(x=breed, y=counts)) + 
+  geom_col(fill = &quot;tan3&quot;) +
+  theme(axis.text.x=element_text(angle= 70, hjust=1)) +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  ggtitle(&quot;The most popular dog breeds in UES&quot;)</code></pre>
+<p><img src="EDA-Dog_Licensing_files/figure-html/unnamed-chunk-6-1.png" /><!-- --></p>
+<p>To understand how adding a new subway line may have influenced the neighborhood, we picked Upper West Side and compared how the dog registrations differ over the period of 2014 to 2016. We selected Upper West Side because it is a neighborhood similar to Upper East Side in many regards. They are both uptown, both are close to central park, and both are preferable residential choices for many. However, since there is no subway construction addition planned for Upper West Side, comparing it with Q line covered Upper East Side can help us gain some insights. We grouped all the registrations in these two neighborhoods and plotted over the years. It is quite obvious that both neighborhoods started at similar registration amounts, while the number in Upper East Side grew much faster than Upper West Side. It has 1000 more dogs than Upper West Side in 2015 and almost 1400 more by 2016. It is inconclusive that the subway addition is a main drive for this difference, yet it is a considerable factor that may have contributed to this result.</p>
+<pre class="r"><code># compare the dog registartions before and after the subway was built for the three neighborhoods with subways 
+
+# UES - areas that have subway
+ues &lt;- c(&quot;10065&quot;,&quot;10021&quot;, &quot;10075&quot;,  &quot;10028&quot;,&quot;10128&quot; ,&quot;10029&quot; ) 
+
+#morning side heights
+morHeights &lt;- c(&quot;10024&quot;, &quot;10025&quot;, &quot;10027&quot;)
+
+total_area = c(ues, morHeights)
+
+test &lt;- dogs %&gt;% filter(dogs$ZipCode %in% total_area) %&gt;% mutate(year = substring(LicenseIssuedDate,7,10))
+
+#test %&gt;% group_by(test$year) %&gt;% summarize(count = n()) %&gt;% arrange(-count)
+
+ues_uws&lt;- test %&gt;% mutate(neighborhood = ifelse(ZipCode %in% morHeights, &quot;Morningside Heights&quot;, &quot;Upper East Side&quot;))
+
+ues_uws$neighborhood &lt;- factor(ues_uws$neighborhood)
+ues_uws$year &lt;- factor(ues_uws$year)
+
+ggplot(ues_uws, aes( year, fill = neighborhood)) + geom_bar(position = &quot;dodge&quot;)+ 
+theme(plot.title = element_text(hjust = 0.5)) +
+  theme(legend.title = element_blank()) + 
+ggtitle(&quot;Dogs population: UWS VS UES&quot;)</code></pre>
+<p><img src="EDA-Dog_Licensing_files/figure-html/unnamed-chunk-7-1.png" /><!-- --></p>
+
+<footer>
+<p><small>Work Developed for our EDAV final project.
+</small></p>
+</footer>
+
+  </div>
+</div>
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

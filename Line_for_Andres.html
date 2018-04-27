@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title> real estate line graph </title>
+				<script src="https://d3js.org/d3.v4.min.js"></script>
+				<style type = "text/css">
+
+        .linestyle {
+          fill: none;
+          stroke: red;
+          stroke-width: 2px;
+        }
+
+
+        </style>
+    </head>
+    <body>
+
+      <p>
+        <input type="radio" name="filterPreset" value="<1" checked="true"> Within 1-block east from a station entrance
+        <input type="radio" name="filterPreset" value="1R"> Within 1-block east not near a station entrance
+      <br>
+        <input type="radio" name="filterPreset" value="<2"> Within 2-blocks east from a station entrance
+        <input type="radio" name="filterPreset" value="2R"> Within 2-blocks east not near a subway entrance
+      </p>
+
+    <script type="text/javascript">
+
+//   // set width and height
+  var w = 800;
+  var h = 600;
+
+  var margin = {top: 25, right: 25, bottom: 80, left: 45};
+  var innerHeight = h - margin.top - margin.bottom;
+  var innerWidth = w - margin.left - margin.right;
+
+  var svg = d3.select("body")
+              .append("svg")
+              .attr("width", w)
+              .attr("height", h);
+
+// data
+var years = d3.range(2001,2018);
+
+var one_block = [[2001, 100], [2002, 93.1216931216931], [2003, 103.174603174603],
+                 [2004, 147.619047619048], [2005, 137.566137566138],
+                 [2006, 157.671957671958], [2007, 176.190476190476],
+                 [2008, 158.201058201058], [2009, 	156.613756613757],
+                 [2010, 162.433862433862], [2011, 195.767195767196],
+                 [2012, 184.126984126984], [2013, 218.518518518519],
+                 [2014,160.846560846561], [2015, 187.301587301587],
+                 [2016, 206.349206349206], [2017, 214.285714285714]];
+
+var two_block = [[2001, 100], [2002, 126.548672566372], [2003,142.477876106195],
+                 [2004, 281.41592920354], [2005, 248.672566371681],
+                 [2006, 265.486725663717], [2007, 192.035398230089],
+                 [2008, 156.637168141593], [2009, 160.176991150442],
+                 [2010, 128.318584070796], [2011, 186.725663716814],
+                 [2012, 239.823008849558], [2013, 215.929203539823],
+                 [2014,169.911504424779], [2015, 171.681415929204],
+                 [2016, 249.557522123894], [2017, 207.964601769911]];
+
+var right_1 = [[2001, 100], [2002, 100.554016620499], [2003,93.0747922437673],
+                 [2004, 78.393351800554], [2005,103.87811634349],
+                 [2006, 101.662049861496], [2007, 107.756232686981],
+                 [2008, 136.01108033241], [2009, 	98.3379501385042],
+                 [2010, 96.9529085872576], [2011, 104.709141274238],
+                 [2012, 132.963988919668], [2013, 139.612188365651],
+                 [2014,142.382271468144], [2015,163.711911357341],
+                 [2016,151.523545706371], [2017, 130.470914127424]];
+
+var right_2 = [[2001, 100], [2002, 126.548672566372], [2003, 85.989010989011],
+                 [2004, 75.8241758241758], [2005, 87.9120879120879],
+                 [2006,	90.6593406593407], [2007, 111.813186813187],
+                 [2008, 103.021978021978], [2009, 78.021978021978],
+                 [2010, 96.1538461538462], [2011, 123.351648351648],
+                 [2012, 125.824175824176], [2013, 140.384615384615],
+                 [2014,93.4065934065934], [2015, 106.318681318681],
+                 [2016,	110.164835164835 ], [2017, 118.406593406593]];
+
+var sample = one_block
+
+
+// add x and y scale
+// for scaleBand(): making sure the input is integer bc it wont accept float
+var xScale = d3.scaleBand()
+               .domain(years)
+               .range([0, innerWidth]);
+
+var yScale = d3.scaleLinear()
+               .domain([d3.min(sample, d => d[1]),
+                        d3.max(sample, d => d[1])])
+               .range([innerHeight, 0]);
+
+ // creating x and y axis
+ var xAxis = d3.axisBottom()
+               .scale(xScale)
+               .ticks(17);
+
+     svg.append("g")
+        .attr("transform", `translate (${margin.left}, ${margin.top+innerHeight})`)
+        .call(xAxis);
+
+ var yAxis = d3.axisLeft()
+               .scale(yScale)
+
+     svg.append("g")
+        .attr("class", "yAxis")
+        .attr("transform", `translate (${margin.left}, ${margin.top})`)
+        .call(yAxis);
+
+// create a line generator , it will give us a path
+var lineGen = d3.line()
+                .x(d => xScale(d[0]))
+                .y(d => yScale(d[1]))
+                .curve(d3.curveBasis);
+
+    svg.append("path")
+       .datum(one_block) // assgin the initial line
+       .attr("class", "linestyle")
+       .attr("d", lineGen) // feed d the path
+       .attr("transform", `translate (${margin.left}, ${margin.top})`);
+
+function line_update(new_data){
+
+  d3.selectAll("path.linestyle").remove();
+
+  yScale.domain([d3.min(new_data, d => d[1]),
+                          d3.max(new_data, d => d[1])]);
+
+  svg.select(".yAxis").call(yAxis);
+
+  svg.append("path")
+     .datum(new_data) // assgin the initial line
+     .attr("class", "linestyle")
+     .attr("d", lineGen) // feed d the path
+     .attr("transform", `translate (${margin.left}, ${margin.top})`)
+     .transition();
+
+}
+
+
+//swich lines for different years
+d3.selectAll("input")
+  .on("click", function(){
+
+    var year = d3.select(this).node().value;
+
+    // change the lines:
+    switch (year){
+
+      case "<1":
+      var sample = one_block
+      line_update(sample);
+        break;
+
+        case "<2":
+      var sample = two_block
+      line_update(sample);
+        break;
+
+        case "1R":
+        var sample = right_1
+        line_update(sample);
+          break;
+
+          case "2R":
+        var sample = right_2
+        line_update(sample);
+          break;
+   }
+  });
+// //
+//
+// // define the line generator: expects data in an array of 2
+// var mylinegen = d3.line()
+//          .x(d => xScale(d[0])+ xScale.bandwidth()/2)// shifting
+//          .y(d => yScale(d[1]))
+//          .curve(d3.curveBasis);
+//
+//     svg.append("path")
+//        .attr("id", "line1")
+//        .datum(sample) // -> determined the line
+//        .attr("class", "linestyle")
+//        .attr("d", mylinegen)
+//        .attr("transform", `translate (${margin.left}, ${margin.top})`);
+//
+
+
+// // var line2 = d3.line()
+//               .x(d => xScale(d[0])+ xScale.bandwidth()/2)// shifting
+//               .y(d => yScale(d[1]))
+//               .curve(d3.curveBasis);
+//
+//   svg.append("path")
+//        .attr("id", "line2")
+//        .datum(sample2) // -> determined the line
+//        .attr("class", "linestyle2")
+//        .attr("d", line2)
+//        .attr("transform", `translate (${margin.left}, ${margin.top})`)
+
+  //
+  // svg.on("mouseover", function(d){
+  //   var xPosi = d3.select("g").attr("x") + 100;
+  //   var yPosi = d3.select(this).attr("y") + 100;
+  //
+  //     svg.append("text")
+  //        .attr("id", "tooltip")
+  //        .attr("x",xPosi)
+  //        .attr("y", yPosi)
+  //        .attr("text-anchor", "middle")
+  //        .attr("font-family", "sans-serif")
+  //        .attr("font-size", "11px")
+  //        .attr("font-weight", "bold")
+  //        .attr("fill", "black")
+  //        .text("2001")
+  //
+  // })
+
+//  generate symbol stars
+//var symbolGenerator = d3.symbol()
+//    .type(d3.symbolStar)
+//    .size(80);
+//
+// // var pathData = symbolGenerator();
+//  d3.select("path")
+//    .datum(sample)
+//    .attr("class", "linestyle")
+//    .attr("d", symbolGenerator);
+
+
+
+
+
+        </script>
+
+
+    </body>
+</html>

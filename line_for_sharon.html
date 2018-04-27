@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title> real estate line graph </title>
+				<script src="https://d3js.org/d3.v4.min.js"></script>
+				<style type = "text/css">
+
+        .linestyle {
+          fill: none;
+          stroke: teal;
+          stroke-width: 2px;
+        }
+
+
+        </style>
+    </head>
+    <body>
+
+      <p>
+        <input type="radio" name="filterPreset" value="2014" checked="true"> 2014
+        <input type="radio" name="filterPreset" value="2015"> 2015
+        <input type="radio" name="filterPreset" value="2016"> 2016
+        <input type="radio" name="filterPreset" value="2017"> 2017
+      </p>
+
+    <script type="text/javascript">
+
+//   // set width and height
+  var w = 600;
+  var h = 400;
+
+  var margin = {top: 25, right: 25, bottom: 80, left: 45};
+  var innerHeight = h - margin.top - margin.bottom;
+  var innerWidth = w - margin.left - margin.right;
+
+  var svg = d3.select("body")
+              .append("svg")
+              .attr("width", w)
+              .attr("height", h);
+
+// // create a dynamic, random dataset
+// var sample = [];
+// var size = 12;
+// var xRange = 1000;
+// var yRange = 1000;
+// for ( var i = 0; i < size; i++){
+//   var new_x = Math.floor(Math.random() * xRange);
+//   var new_y = Math.floor(Math.random() * xRange);
+//   sample.push([new_x, new_y]);
+// }
+// //
+var years =  ["2014" , "2015", "2016", "2017"];
+var months = d3.range(1,13);
+//
+//
+// // data
+
+var price_14 = [[1, 60], [2, 43], [3, 43], [4, 56], [5, 45], [6, 62], [7, 49],
+              [8, 80], [9, 90], [10, 25], [11, 72], [12, 33]];
+
+var price_15 = [[1, 50], [2,80], [3, 40], [4, 60], [5, 70], [6, 40], [7, 10],
+              [8, 30], [9, 10], [10, 30], [11, 10], [12, 30]];
+
+var price_16 = [[1, 70], [2, 53], [3, 37], [4, 65], [5, 54], [6, 26], [7, 94],
+              [8, 18], [9, 59], [10, 25], [11, 67], [12, 13]];
+
+var price_17 = [[1, 20], [2 ,90], [3, 60], [4, 77], [5, 7], [6, 98], [7, 40],
+              [8, 70], [9, 80], [10, 70], [11, 50], [12, 60]];
+
+var sample = price_14
+
+
+// add x and y scale
+// for scaleBand(): making sure the input is integer bc it wont accept float
+var xScale = d3.scaleBand()
+               .domain(months)
+               .range([0, innerWidth]);
+
+var yScale = d3.scaleLinear()
+               .domain([d3.min(sample, d => d[1]) - 20,
+                        d3.max(sample, d => d[1]) + 20])
+               .range([innerHeight, 0]);
+
+ // creating x and y axis
+ var xAxis = d3.axisBottom()
+               .scale(xScale)
+               .ticks(12);
+
+     svg.append("g")
+        .attr("transform", `translate (${margin.left}, ${margin.top+innerHeight})`)
+        .call(xAxis);
+
+ var yAxis = d3.axisLeft()
+               .scale(yScale)
+
+     svg.append("g")
+        .attr("transform", `translate (${margin.left}, ${margin.top})`)
+        .call(yAxis);
+
+// create a line generator , it will give us a path
+var lineGen = d3.line()
+                .x(d => xScale(d[0]))
+                .y(d => yScale(d[1]))
+                .curve(d3.curveBasis);
+
+    svg.append("path")
+       .datum(price_14) // assgin the initial line
+       .attr("class", "linestyle")
+       .attr("d", lineGen) // feed d the path
+       .attr("transform", `translate (${margin.left}, ${margin.top})`);
+
+function line_update(new_data){
+
+  d3.selectAll("path.linestyle").remove();
+
+  svg.append("path")
+     .datum(new_data) // assgin the initial line
+     .attr("class", "linestyle")
+     .attr("d", lineGen) // feed d the path
+     .attr("transform", `translate (${margin.left}, ${margin.top})`)
+     .transition();
+
+}
+
+
+//swich lines for different years
+d3.selectAll("input")
+  .on("click", function(){
+
+    var year = d3.select(this).node().value;
+
+    // change the lines:
+    switch (year){
+
+      case "2014":
+      var sample = price_14
+      line_update(sample);
+        break;
+
+        case "2015":
+      var sample = price_15
+      line_update(sample);
+        break;
+
+        case "2016":
+        var sample = price_16
+        line_update(sample);
+          break;
+
+          case "2017":
+        var sample = price_17
+        line_update(sample);
+          break;
+   }
+  });
+// //
+//
+// // define the line generator: expects data in an array of 2
+// var mylinegen = d3.line()
+//          .x(d => xScale(d[0])+ xScale.bandwidth()/2)// shifting
+//          .y(d => yScale(d[1]))
+//          .curve(d3.curveBasis);
+//
+//     svg.append("path")
+//        .attr("id", "line1")
+//        .datum(sample) // -> determined the line
+//        .attr("class", "linestyle")
+//        .attr("d", mylinegen)
+//        .attr("transform", `translate (${margin.left}, ${margin.top})`);
+//
+
+
+// // var line2 = d3.line()
+//               .x(d => xScale(d[0])+ xScale.bandwidth()/2)// shifting
+//               .y(d => yScale(d[1]))
+//               .curve(d3.curveBasis);
+//
+//   svg.append("path")
+//        .attr("id", "line2")
+//        .datum(sample2) // -> determined the line
+//        .attr("class", "linestyle2")
+//        .attr("d", line2)
+//        .attr("transform", `translate (${margin.left}, ${margin.top})`)
+
+  //
+  // svg.on("mouseover", function(d){
+  //   var xPosi = d3.select("g").attr("x") + 100;
+  //   var yPosi = d3.select(this).attr("y") + 100;
+  //
+  //     svg.append("text")
+  //        .attr("id", "tooltip")
+  //        .attr("x",xPosi)
+  //        .attr("y", yPosi)
+  //        .attr("text-anchor", "middle")
+  //        .attr("font-family", "sans-serif")
+  //        .attr("font-size", "11px")
+  //        .attr("font-weight", "bold")
+  //        .attr("fill", "black")
+  //        .text("2001")
+  //
+  // })
+
+//  generate symbol stars
+//var symbolGenerator = d3.symbol()
+//    .type(d3.symbolStar)
+//    .size(80);
+//
+// // var pathData = symbolGenerator();
+//  d3.select("path")
+//    .datum(sample)
+//    .attr("class", "linestyle")
+//    .attr("d", symbolGenerator);
+
+
+
+
+
+        </script>
+
+
+    </body>
+</html>

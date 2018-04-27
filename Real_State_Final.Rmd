@@ -279,7 +279,7 @@ show(missing_data.frame(sales_upper_east))
 
 As we can see above, there are just very few observations missing the tax class so, missing values are not a concern.
 
-Since we are interested in the sale price, we also looked for zero vlues:
+Since we are interested in the sale price, we also looked for zero values:
 
 ```{r}
 summarize(sales_upper_east, n_obs = n(), min_price = min(SALE.PRICE), max_price = max(SALE.PRICE),
@@ -291,11 +291,11 @@ As we can see above, there is a considerable number of transactions at price 0. 
 
 ## EDA - Analysis of Real Estate Sales
 
-One of the analysis we decided to perform to answer our main question, was to see if the 2nd Ave line project has affected the real estate sale transactions, specifically the Sale Price, in the areas inmediately in the vicinity of phase 1 and 2 of the 2 Ave Subway Line project (phase 3 and 4 have no funding commitments yet).
+One of the analysis we decided to perform to answer our main question, was to see if the 2nd Ave line project has affected the real estate sale transactions, specifically the Sale Price, in the areas immediately in the vicinity of phase 1 and 2 of the 2 Ave Subway Line project (phase 3 and 4 have no funding commitments yet).
 
 **Note**: Please see [Analysis of Data Quality](Analysis_of_Data_Quality.html), which includes a description of the data cleaning process.
 
-To reduce noise, we decided to perform our analysis aggregating by 'Block', so as a first step, to reduce the size of the datasets and variables with which we will be working, we aggregate the data grouping by 'Block' number to analyse how the sales price vary by year (grouping won't affect our analysis, since for being able to make comparisons, we will look at precentage of increase in sales prices rether than looking at absolute values):
+To reduce noise, we decided to perform our analysis aggregating by 'Block', so as a first step, to reduce the size of the datasets and variables with which we will be working, we aggregate the data grouping by 'Block' number to analyse how the sales price vary by year (grouping won't affect our analysis, since for being able to make comparisons, we will look at percentage of increase in sales prices rather than looking at absolute values):
 
 ```{r}
 blocks_df <- sales_upper_east%>%
@@ -370,7 +370,7 @@ plot <- ggplot(data_phase1 , aes(Year, avg.index, color = Distance)) + geom_line
 plot
 ```
 
-The graphs above doesn't allow us to make strong conclusions at first, be something that we inmediately noted (as we are finance geeks) is that during the first year of the 2008 recession year, the sales price increased for properties within one block left to the line, while it decreased for the other categories, which may have been caused by the start of the construction of phased 1, during mid 2007 but then it started to decrease again, mybe due to due to news of financial problems with the project (whose construction had already been started and halted several times in the past).
+The graphs above doesn't allow us to make strong conclusions at first, be something that we immediately noted (as we are finance geeks) is that during the first year of the 2008 recession year, the sales price increased for properties within one block left to the line, while it decreased for the other categories, which may have been caused by the start of the construction of phased 1, during mid 2007 but then it started to decrease again, maybe due to due to news of financial problems with the project (whose construction had already been started and halted several times in the past).
 
 Using the 2008 recession period 2007/12/01-2009/06/01 which is is the period used by the FRED (The Research Division of the Federal Reserve Bank of St. Louis) when plotting recession bars (see  [What Dates are Used for the U.S. Recession Bars?](https://fredhelp.stlouisfed.org/fred/data/understanding-the-data/recession-bars/ "Recession Bars")) to highlight this abnormality:
 
@@ -387,7 +387,7 @@ plot + annotate("rect", xmin = start, xmax = end,
 
 ```
 
-We will now perfom the analysis for buildings to the right of the Line and see if our theory above about during recession may become stronger or not.
+We will now perform the analysis for buildings to the right of the Line and see if our theory above about during recession may become stronger or not.
 <br>
 
 #### Properties on the right side of the 2nd Ave Line - Phase 1
@@ -439,7 +439,7 @@ data_phase1 <- blocks_dfR_var %>%
   filter(Distance != "other")
 library(ggthemes)
 ggplot(data_phase1 , aes(Year, avg.index, color = Distance)) + geom_line(lwd = 1) +
-    ggtitle("Market Value Vs Distance to 2nd Ave (Phase1 - Left)") +
+    ggtitle("Market Value Vs Distance to 2nd Ave (Phase1 - Right)") +
     labs (x = "Year", y = "Indexed Variation in Market Value") +
     theme_grey(16) +
     theme(legend.title = element_blank()) +
@@ -458,7 +458,7 @@ ggplot(data_phase1 , aes(Year, avg.index, color = Distance)) + geom_line(lwd = 1
              color = "red", hjust = 0, size=7, fontface="italic")
 ```
 
-From the graph above, as we had to some extempt anticipated, ithe 2nd Ave Line project seems to clearly affect properties located to the right, but not so much properties to the left, because hte pre-existing Lexington-Fourth Avenue green Line is just 2 blocks left from the new 2nd Ave Line.
+From the graph above, as we had to some exempt anticipated, the 2nd Ave Line project seems to clearly affect properties located to the right, but not so much properties to the left, because the pre-existing Lexington-Fourth Avenue green Line is just 2 blocks left from the new 2nd Ave Line.
 
 However, our theory that properties located within 1 block of the Line during showed an increase in prices during the first year of recession 2008 recession, maybe due to the start of the construction seems to be discarded.
 
@@ -472,13 +472,13 @@ However, we can see 2 interesting patterns for properties located within 1 block
   
   As example, early in 2013, due to the continuous delay during almost one century and uncertainty about completion, at that moment being New York City's Mayor, [Michael Bloomberg said he's got "a 50-50 chance of living to see" it open for service, "but not much more than that"](http://www.nydailynews.com/new-york/mayor-bloomberg-ave-subway-delay-article-1.1337997 "Michael Bloomberg's comments about 2nd Ave line delays").
   
-  However, during 2013, the MTA started a campaign to change the image of the project and started to publish [photos of completion of important project milestones](https://blog.flickr.net/en/2013/06/14/nycs-massive-subway-project/ "Example of MTA's photos campaign"), which got a lot of public interest and [were published by many important news providers](http://www.businessinsider.com/these-stunning-photos-show-subway-tunnel-construction-in-manhattan-2014-12 "Example of news providers re-publishing MTA's campaign photos"), in addition to MTA's President of Capital Construction publicly speaking several times during 2013, to confirm phase 1 project would be completed by December 2016 as planned at that moment (and finally acomplished). 
+  However, during 2013, the MTA started a campaign to change the image of the project and started to publish [photos of completion of important project milestones](https://blog.flickr.net/en/2013/06/14/nycs-massive-subway-project/ "Example of MTA's photos campaign"), which got a lot of public interest and [were published by many important news providers](http://www.businessinsider.com/these-stunning-photos-show-subway-tunnel-construction-in-manhattan-2014-12 "Example of news providers re-publishing MTA's campaign photos"), in addition to MTA's President of Capital Construction publicly speaking several times during 2013, to confirm phase 1 project would be completed by December 2016 as planned at that moment (and finally accomplished). 
 <br><br>
 
 
 ## Interactive Component
 
-One of the analysis we performed, was to find out if the NYC 2nd Ave Line subway project has affected the the Sale Price of real state transactions in the areas inmediately in its vicinity.
+One of the analysis we performed, was to find out if the NYC 2nd Ave Line subway project has affected the the Sale Price of real state transactions in the areas immediately in its vicinity.
 
 ###**Did the NYC 2nd Ave Subway (yellow line), increase the sales price of properties in the area?**
 
@@ -522,7 +522,7 @@ blocks_df_var <- blocks_df %>%
 #Now, scale the data and create an index to visualize variations over time, then plot:
 blocks_df_var <- blocks_df_var %>%
   group_by(Distance) %>%
-  mutate(avg.index = 100*Total/Total[1]) %>% ungroup()
+  mutate(avg.index = Total/Total[1]) %>% ungroup()
 
 #Plot time series:
 data_phase1 <- blocks_df_var %>%
@@ -530,7 +530,7 @@ data_phase1 <- blocks_df_var %>%
   filter(Distance != "other")
 library(ggthemes)
 plot <- ggplot(data_phase1 , aes(Year, avg.index, color = Distance)) + geom_line(lwd = 1) +
-    ggtitle("Market Value Vs Distance to 2nd Ave (Phase1 - Left)") +
+    ggtitle("Market Value Vs Distance to 2nd Ave (Phase1)") +
     labs (x = "Year", y = "Indexed Variation in Market Value") +
     theme_grey(16) +
     theme(legend.title = element_blank()) +
@@ -621,20 +621,20 @@ library(scales)
 library(htmltools)
 
 #Set interactive labels for 2005-2007 Layer:  
-block_labels2007 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in Sales Prices (2005-2007)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map2$Distance,
-                            ifelse(NYC_Map2@data$Distance=='other',"NA", percent(NYC_Map2$Y_2007/100)),
+block_labels2007 <- sprintf("<strong>%s:</strong> %s avg. increase<br/>in Sales Prices (2005-2007)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map2$Distance,
+                            ifelse(NYC_Map2@data$Distance=='other',"NA", percent(NYC_Map2$Y_2007)),
                             NYC_Map2$ZipCode, NYC_Map2$Block, NYC_Map2$Lot, NYC_Map2$Address) %>%
   lapply(htmltools::HTML)
 
 #Set interactive labels for 2005-2014 Layer: 
-block_labels2014 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in Sales Prices (2005-2014)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map2$Distance,
-                            ifelse(NYC_Map2@data$Distance=='other',"NA", percent(NYC_Map2$Y_2014/100)),
+block_labels2014 <- sprintf("<strong>%s:</strong> %s avg. increase<br/>in Sales Prices (2005-2014)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map2$Distance,
+                            ifelse(NYC_Map2@data$Distance=='other',"NA", percent(NYC_Map2$Y_2014)),
                             NYC_Map2$ZipCode, NYC_Map2$Block, NYC_Map2$Lot, NYC_Map2$Address) %>%
   lapply(htmltools::HTML)
 
 #Set interactive labels for 2005-2017 Layer Shapefile:
-block_labels2017 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in Sales Prices (2005-2017)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map2$Distance,
-                            ifelse(NYC_Map2@data$Distance=='other',"NA", percent(NYC_Map2$Y_2017/100)),
+block_labels2017 <- sprintf("<strong>%s:</strong> %s avg. increase<br/>in Sales Prices (2005-2017)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map2$Distance,
+                            ifelse(NYC_Map2@data$Distance=='other',"NA", percent(NYC_Map2$Y_2017)),
                             NYC_Map2$ZipCode, NYC_Map2$Block, NYC_Map2$Lot, NYC_Map2$Address) %>%
   lapply(htmltools::HTML)
 
@@ -744,7 +744,7 @@ attribution = paste(
             values = NYC_Map2$Y_2014,
             labFormat = labelFormat(prefix="",suffix="%",between=", ",transform=function(x) 100*x),
             opacity = 0.7,
-            title = "Avg. increase in Bldg. Permits",
+            title = "Avg. increase in R.E. Sales price",
             position = "bottomright") %>%
   
   #legend for the Subway Lines:

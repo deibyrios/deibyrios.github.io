@@ -11,11 +11,11 @@ pagetitle: EDAV Project - Introduction
 
 How does $17 Billion Dollars and the 100-year-old, and still ongoing, New York City Second Ave Line project affect the economical development on the Upper East Side? To answer our main (and ambitious) question, our strategy was to look into different economic aspects of the economy to see whether the project has positively influenced the following measurement in its immediate area of influence: 
 
-* Remodeling of existing and new construction of buildings
+* Remodeling of existing and new construction buildings
 * Real Estate Sales
 * Property Market Values
 
-Lastly, as a fun section in the end, we have also decided to look into the New York City Dog Licensing Dataset as a comparison of how the subway line may have affected dog owners on the Upper East Side! 
+Lastly, as a fun section in the end, we have also decided to look into the New York City Dog Licensing Dataset as a comparison to how the subway line may have affected dog owners on the Upper East Side! 
 
 ![](images/dog pic.jpg)
 
@@ -39,7 +39,7 @@ Over budget and overdue, the 2nd Ave Subway is one of the most ambitious transpo
 Image from: http://www.apta.com/previousmc/multimodal/previous/2010/Presentations/Planning-for-the-Second-Avenue-Subway-From-Dream-to.pdf
 <br>
 
-The Second Avenue Subway, which runs under Second Avenue on the East Side of Manhattan, has been proposed since 1920. The first phase of the line, consisting of three stations on the Upper East Side, started construction in 2007 and opened in 2017, ninety-seven years after the route was first proposed. Many distinct plans for the Second Avenue subway line were never carried out up until the 1960s, although small segments were built in the 1970s. The complex reasons for these delays are why the line is sometimes referred to as "the line that time forgot" (source: Wikipedia).
+The Second Avenue Subway, which runs under Second Avenue on the East Side of Manhattan, has been proposed since 1920. The first phase of the line, consisting of three stations on the Upper East Side, started construction in 2007 and opened in 2017 - ninety-seven years after the route was first proposed. Many distinct plans for the Second Avenue subway lines were never carried out up until the 1960s although small segments were built in the 1970s. The complex reasons for these delays are why the line is sometimes referred to as "the line that time forgot" (source: Wikipedia).
 
 A brief summary of more important milestones:
 

@@ -21,7 +21,9 @@ We didn't performed further analyses by comparing with other neighborhoods becau
 
 In conclusion, we think the newly built Second Avenue line does affect the economy of the Upper East Side.
 
-_Note_: <br>
+_Note_: 
+<br>
+
 1) Since the Property Market Value data offered by the The Department of Finance (DOF) goes back to 2008 only, while news about the project and properties in the area of influence becoming more valued, date many years back, we also performed an [Analysis of Property 'Assessed Values'](EDA-Property_Assessed_Values.html "EDA - Property Assessed Values") which are used for Property Tax purposes and are linearly correlated to Property 'Market Values' (just applying a percentage depending on the tax class, see https://www.tax.ny.gov/pit/property/learn/howassess.htm) because we were able to find property "Assessed Values" back to 2003; but we got very similar results, again, may be due to the fact in which the Property 'Market Values' (and consequently 'Assessed Values') are estimated.
 
 2) As an interesting finding of both phases, there is an association between the distance to the project and the average increase in building permits for buildings located to the right of the 2nd Ave Line. Also, buildings located by the East river show a slightly higher increase in permit counts, which may be caused by water views, which attracts more projects. 

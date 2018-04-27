@@ -4,8 +4,8 @@ pagetitle: Interactive Component
 ---
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(warning = FALSE,
-                      message = FALSE)
-                   #   cache = TRUE)
+                      message = FALSE, 
+                      cache = TRUE)
 ```
 See: [Our Exploratory Data Analysis (EDA) Journey](EDA-Building_Permits.html "Our EDA Journey")
 
@@ -19,7 +19,6 @@ One of the analysis we performed, was to find out if the NYC 2nd Ave Line subway
 ```{r, include=FALSE}
 library(tidyverse)
 permits_upper_east <- read.csv("data/DOB_Permit_Issuance.csv")
-
 #Source of Data: https://data.cityofnewyork.us/Housing-Development/DOB-Permit-Issuance/ipu4-2q9a
 #the data in the link above was previously pre-processed using the following code:
 # permits <- read.csv("DOB_Permit_Issuance.csv")
@@ -36,7 +35,6 @@ permits_upper_east$Job.Start.Date = as.Date(permits_upper_east$Job.Start.Date, f
 permits_upper_east$Block = as.numeric(permits_upper_east$Block)
 #head(permits_upper_east)
 ```
-
 
 
 ```{r fig.height=10, fig.width=10, include=FALSE}
@@ -115,92 +113,17 @@ permits_var <- permits_var %>%
 
 ```{r, include=FALSE}
 #Before merging, lets spread permits_var so each year is a column containing the avg.index: 
-permits_var_prep <- permits_var %>%
+permits_var <- permits_var %>%
   select(-contains("Total"), -starts_with("index")) 
-permits_var_spread <- spread(permits_var_prep, Year, avg.index)
+permits_var <- spread(permits_var, Year, avg.index)
 #head(permits_var)
-colnames(permits_var_spread)[3:17] <- paste("Y", colnames(permits_var_spread)[3:17], sep = "_")
+colnames(permits_var)[3:17] <- paste("Y", colnames(permits_var)[3:17], sep = "_")
 #colnames(permits_var)
 #write.table(permits_var,file="spread_permits_avg_var.csv",sep=",",row.names=F)
 ```
 
 
-```{r, include = FALSE}
-# section for real estate data
-
-pre_subway_re_data <- read.csv("ues_data_14-16.csv", header = TRUE)
-post_subway_re_data <- read.csv("data/all_ues_sales_geocode_2017-2018.csv", header = TRUE)
-
-```
-
-```{r, include = FALSE}
-# process real estate data
-
-blocked_pre_subway_re <- pre_subway_re_data %>% filter(price > 0) %>% select(year, block, price) %>% group_by(year, block) %>% summarize(qty_sales=n(), notional_sales = sum(price)) %>% rename(Year = year, Block = block)
-
-blocked_post_subway_re <- post_subway_re_data %>% filter(SALE.PRICE > 0) %>% select(YEAR, BLOCK, SALE.PRICE) %>% group_by(YEAR, BLOCK) %>% summarize(qty_sales=n(), notional_sales = sum(SALE.PRICE)) %>% rename(Year = YEAR, Block = BLOCK)
-
-blocked_subway_re <- blocked_pre_subway_re %>% bind_rows(blocked_post_subway_re)
-
-
-re_var <- blocked_subway_re %>%
-  group_by(Block) %>%
-  mutate(qty_index = qty_sales/qty_sales[1]-1, notional_index = notional_sales/notional_sales[1]-1) %>% ungroup()
-
-re_var <- re_var %>%
-mutate(Distance = ifelse(Block %in% c(1424:1427, 1529:1532,1539:1541,1423,1428:1433,
-                                        1525:1528,1533:1538,1646,1444:1447,1546:1549,1556:1558,1443,
-                                      1448:1453,1542:1545,1550:1555,1668), 
-                                  '1 block',
-                          ifelse(Block %in% c(1404:1407,1512:1515,1522:1524,1403,1408:1413,
-                                              1508:1511,1516:1521,1624),
-                                 '2-3 blocks left',
-                          ifelse(Block %in% c(1384:1387,1495:1498,1505:1507,1383,1388:1393,
-                                              1491:1494,1499:1504,1602),
-                                 '4-5 blocks left',
-                          ifelse(Block %in% c(1464:1467,1563:1566,1573,1463,1468:1473,
-                                              1559:1562,1567:1571,1690),
-                                 '2 blocks right',
-                          ifelse(Block %in% c(1482:1484,1580:1583,1480,1485:1490,1576:1579,
-                                              1584:1587,1590,1592,1589),
-                                 '3-4 blocks right',
-                                 'other'))))))
-
-#Average Var Index per Distance:
-re_var[is.na(re_var)] <- 0 #replace NA's by zero
-re_var <- re_var %>%
-  filter(Block != 1111) %>% #this is central park!
-  group_by(Year,Distance) %>%
-  mutate(avg.qty_index = mean(qty_index, na.rm = TRUE), avg.notional_index = mean(notional_index, na.rm = TRUE))
-
-```
-
-```{r, include = FALSE}
-
-# Spread this too
-re_var_prep_qty <- re_var %>%
-  select(-c(qty_sales, notional_sales, qty_index, notional_index, avg.notional_index)) 
-re_var_spread_qty <- spread(re_var_prep_qty, Year, avg.qty_index)
-colnames(re_var_spread_qty)[3:7] <- paste("Qty_Y", colnames(re_var_spread_qty)[3:7], sep = "_")
-
-re_var_prep_notional <- re_var %>%
-  select(-c(qty_sales, notional_sales, qty_index, notional_index, avg.qty_index)) 
-re_var_spread_notional <- spread(re_var_prep_notional, Year, avg.notional_index)
-colnames(re_var_spread_notional)[3:7] <- paste("Notional_Y", colnames(re_var_spread_notional)[3:7], sep = "_")
-
-re_var_spread <- re_var_spread_qty %>% bind_cols(re_var_spread_notional) %>% select(-c(Block1, Distance1))
-
-```
-
-
-
 ```{r fig.height=5, fig.width=7, echo=FALSE}
-
-#prep shape file
-
-library(scales)
-library(htmltools)
-
 #Filter shapefile by zipcodes of interest:
 NYC_Map2 <- NYC_Map[NYC_Map@data$ZipCode %in% c(10065,10021,10075,10028,10128,10029,10035) ,]
 #Remove Central Park:
@@ -208,43 +131,41 @@ NYC_Map2 <- NYC_Map2[NYC_Map2@data$Block != 1111,]
 #Select Phase 1 Blocks only: 
 NYC_Map2 <- NYC_Map2[NYC_Map2@data$Block %in% phase1 ,]
 #head(NYC_Map2@data)
-```
-
-
-
-```{r fig.height=5, fig.width=7, echo=FALSE}
 
 # #Before merging, lets filter permits_var index by year 2015 (so we get cummulative variation index): 
 # permits_var <- filter(permits_var, Year == 2015)
 
 #merge both datasets and replace NA's with zero:
-NYC_Map_Permits <- merge(NYC_Map2, permits_var_spread, by="Block")
-NYC_Map_Permits@data[is.na(NYC_Map_Permits@data)] <- 0
-NYC_Map_Permits@data$Distance[NYC_Map_Permits@data$Distance==0] <- "other" #replace 0 Distance with "other"
-NYC_Map_Permits@data$avg.index[NYC_Map_Permits@data$Distance=="other"] <- 0
-#head(NYC_Map_Permits@data)
+NYC_Map2 <- merge(NYC_Map2, permits_var, by="Block")
+NYC_Map2@data[is.na(NYC_Map2@data)] <- 0
+NYC_Map2@data$Distance[NYC_Map2@data$Distance==0] <- "other" #replace 0 Distance with "other"
+NYC_Map2@data$avg.index[NYC_Map2@data$Distance=="other"] <- 0
+#head(NYC_Map2@data)
 
-#write.table(NYC_Map_Permits@data,file="NYC_Map_Permits_data.csv",sep=",",row.names=F)
+#write.table(NYC_Map2@data,file="NYC_Map2_data.csv",sep=",",row.names=F)
 
 #set color scale to be used when mapping variation index for building permits:
-palette <- colorNumeric(palette = "Blues", domain = NYC_Map_Permits$Y_2015) #continuous range
+palette <- colorNumeric(palette = "Blues", domain = NYC_Map2$Y_2015) #continuous range
+
+library(scales)
+library(htmltools)
 
 #Set interactive labels for 2001-2005 Layer: 
-block_labels2005 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in Bldg Permits (2001-2005)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map_Permits$Distance,
-                            ifelse(NYC_Map_Permits@data$Distance=='other',"NA", percent(NYC_Map_Permits$Y_2005)),
-                            NYC_Map_Permits$ZipCode, NYC_Map_Permits$Block, NYC_Map_Permits$Lot, NYC_Map_Permits$Address) %>%
+block_labels2005 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in Bldg Permits (2001-2005)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map2$Distance,
+                            ifelse(NYC_Map2@data$Distance=='other',"NA", percent(NYC_Map2$Y_2005)),
+                            NYC_Map2$ZipCode, NYC_Map2$Block, NYC_Map2$Lot, NYC_Map2$Address) %>%
   lapply(htmltools::HTML)
 
 #Set interactive labels for 2001-2010 Layer: 
-block_labels2010 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in Bldg Permits (2001-2010)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map_Permits$Distance,
-                            ifelse(NYC_Map_Permits@data$Distance=='other',"NA", percent(NYC_Map_Permits$Y_2010)),
-                            NYC_Map_Permits$ZipCode, NYC_Map_Permits$Block, NYC_Map_Permits$Lot, NYC_Map_Permits$Address) %>%
+block_labels2010 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in Bldg Permits (2001-2010)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map2$Distance,
+                            ifelse(NYC_Map2@data$Distance=='other',"NA", percent(NYC_Map2$Y_2010)),
+                            NYC_Map2$ZipCode, NYC_Map2$Block, NYC_Map2$Lot, NYC_Map2$Address) %>%
   lapply(htmltools::HTML)
 
 #Set interactive labels for 2001-2015 Layer Shapefile: 
-block_labels2015 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in Bldg Permits (2001-2015)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map_Permits$Distance,
-                            ifelse(NYC_Map_Permits@data$Distance=='other',"NA", percent(NYC_Map_Permits$Y_2015)),
-                            NYC_Map_Permits$ZipCode, NYC_Map_Permits$Block, NYC_Map_Permits$Lot, NYC_Map_Permits$Address) %>%
+block_labels2015 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in Bldg Permits (2001-2015)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map2$Distance,
+                            ifelse(NYC_Map2@data$Distance=='other',"NA", percent(NYC_Map2$Y_2015)),
+                            NYC_Map2$ZipCode, NYC_Map2$Block, NYC_Map2$Lot, NYC_Map2$Address) %>%
   lapply(htmltools::HTML)
 
 
@@ -289,7 +210,7 @@ attribution = paste(
                            ifelse(subway_lines$name=="Q","#FCCC0A","grey"))) %>%
   
   #2001-2005 Layer:
-  addPolygons(data = NYC_Map_Permits,group="2001-2005",
+  addPolygons(data = NYC_Map2,group="2001-2005",
               color = "#444444",
               weight = 1,
               #smoothFactor = 0.2,
@@ -309,7 +230,7 @@ attribution = paste(
                                           offset=c(0,-10))) %>%
   
   #2001-2010 Layer:
-  addPolygons(data = NYC_Map_Permits,group="2001-2010",
+  addPolygons(data = NYC_Map2,group="2001-2010",
               color = "#444444",
               weight = 1,
               #smoothFactor = 0.2,
@@ -329,7 +250,7 @@ attribution = paste(
                                           offset=c(0,-10))) %>%
   
   #2001-2015 Layer:
-  addPolygons(data = NYC_Map_Permits,group="2001-2015",
+  addPolygons(data = NYC_Map2,group="2001-2015",
               color = "#444444",
               weight = 1,
               #smoothFactor = 0.2,
@@ -350,7 +271,7 @@ attribution = paste(
   
   # legend 2001-2015
   leaflet::addLegend(pal = palette,
-            values = NYC_Map_Permits$Y_2015,
+            values = NYC_Map2$Y_2015,
             labFormat = labelFormat(prefix="",suffix="%",between=", ",transform=function(x) 100*x),
             group = "2001-2015",
             opacity = 0.7,
@@ -395,337 +316,5 @@ In the interactive map above, if we click to select the complete 2001-2015 perio
 
 As an interesting observation (after selecting the complete 2001-2015 period), if we look with attention we can see that, while for buildings located to left, the average increase in building permits decreases with the distance (in blocks) from the 2nd Ave Line, for buildings to right, we can see an initial decrease from one block distance to 2 blocks distance, but it slightly increases back for buildings located within 3-4 blocks to the right of the line. During [our exploratory data analysis](EDA-Building_Permits.html "Our EDA Journey"), we concluded that this seems to be caused due to the fact that this last category includes buildings that are right on the edge of the East River, which attract a higher number of projects, due to the water views. 
 
-See: [Our Exploratory Data Analysis (EDA) Journey](EDA-Building_Permits.html "Our EDA Journey") <br><br>     
-      
-      
-###**Did the NYC 2nd Ave Subway Line, positively affect the number of real estate sales in the area?**
-
-Similarly, it also seems that the number of real estate transactions is related to the distance in blocks from the phase 1 of the 2nd Ave Line subway project. We can see a strong increase in sales activty immediately around the subway line in the 2016 and 2017 periods from the baseline of 2014 as more and more people recognize the utility of the subway. 
-
-
-```{r fig.height=5, fig.width=7, echo=FALSE}
-
-# #Before merging, lets filter re_var index by year 2015 (so we get cummulative variation index): 
-# permits_var <- filter(permits_var, Year == 2015)
-
-#merge both datasets and replace NA's with zero:
-NYC_Map_RE_Q <- merge(NYC_Map2, re_var_spread, by="Block")
-NYC_Map_RE_Q@data[is.na(NYC_Map_RE_Q@data)] <- 0
-NYC_Map_RE_Q@data$avg.index[NYC_Map_RE_Q@data$Distance=="other"] <- 0
-
-#set color scale to be used when mapping variation index for RE sales:
-palette <- colorNumeric(palette = "Blues", domain = NYC_Map_RE_Q$Qty_Y_2017) #continuous range
-
-#Set interactive labels for 2014-2015 Layer:
-block_labels2015 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in RE Sales (2014-2015)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map_RE_Q$Distance,
-                            ifelse(NYC_Map_RE_Q@data$Distance=='other',"NA", percent(NYC_Map_RE_Q$Qty_Y_2015)),
-                            NYC_Map_RE_Q$ZipCode, NYC_Map_RE_Q$Block, NYC_Map_RE_Q$Lot, NYC_Map_RE_Q$Address) %>%
-  lapply(htmltools::HTML)
-
-#Set interactive labels for 2014-2016 Layer: 
-block_labels2016 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in RE Sales (2014-2016)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map_RE_Q$Distance,
-                            ifelse(NYC_Map_RE_Q@data$Distance=='other',"NA", percent(NYC_Map_RE_Q$Qty_Y_2016)),
-                            NYC_Map_RE_Q$ZipCode, NYC_Map_RE_Q$Block, NYC_Map_RE_Q$Lot, NYC_Map_RE_Q$Address) %>%
-  lapply(htmltools::HTML)
-
-#Set interactive labels for 2001-2015 Layer Shapefile: 
-block_labels2017 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in RE Sales (2014-2017)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map_RE_Q$Distance,
-                            ifelse(NYC_Map_RE_Q@data$Distance=='other',"NA", percent(NYC_Map_RE_Q$Qty_Y_2017)),
-                            NYC_Map_RE_Q$ZipCode, NYC_Map_RE_Q$Block, NYC_Map_RE_Q$Lot, NYC_Map_RE_Q$Address) %>%
-  lapply(htmltools::HTML)
-
-
-#Set interactive labels for Subway Stations: 
-stations_labels <- sprintf("<strong>Station:</strong> %s<br/><strong>Line:</strong> %s",
-                           subway_stations$name, subway_stations$line) %>%
-  lapply(htmltools::HTML)
-
-#Set interactive labels for Subway Lines: 
-line_labels <- ifelse(subway_lines$name=="4-5-6", "<strong>Pre-existing 4th Avenue Line</strong>",
-                          ifelse(subway_lines$name=="Q","<strong>2nd Ave Line</strong>", "Other lines")) %>% lapply(htmltools::HTML)
-
-myNYCmap_re_q <- leaflet(options = leafletOptions(minZoom = 9, maxZoom = 18)) %>% #restringe/limit Zoom
-  #addTiles() %>%  # Add default OpenStreetMap base map
-  
-  # addTiles() %>% #this base map looks better (see http://leaflet-extras.github.io/leaflet-providers/preview/index.html for other base maps)
-  
-  addTiles("http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-attribution = paste(
-"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors",
-"&copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>"
-)
-) %>%
-  
-  
-  setView(lng = -73.954477, lat = 40.776522, zoom = 14.8) %>% #initial center point and zoom
-
-  
-  #Add subway stations:
-  addCircles(data = subway_stations, group = "See Subway Stations", radius = 20,
-             color="red", opacity=1.0, fill = TRUE, fillColor = "red", fillOpacity=1.0,
-             stroke=FALSE, label = stations_labels, labelOptions=labelOptions(textsize = "12px",
-                                                    direction='top', offset=c(0,-10))) %>%
-  #Add subway Lines:  
-  addPolylines(data = subway_lines, group="See Subway Lines",label = line_labels,
-               labelOptions=labelOptions(textsize = "12px", direction='top',
-                                         offset=c(0,-10)),
-               color=ifelse(subway_lines$name=="4-5-6","#00933C",
-                           ifelse(subway_lines$name=="Q","#FCCC0A","grey"))) %>%
-  
-  #2014-2015 Layer:
-  addPolygons(data = NYC_Map_RE_Q,group="2014-2015",
-              color = "#444444",
-              weight = 1,
-              #smoothFactor = 0.2,
-              opacity = 1.0,
-              fillOpacity = 0.7,
-              fillColor = ~palette(Qty_Y_2015),
-              # change display properties while mouse cursor hovers on the polygon
-              highlightOptions = highlightOptions(color="orange", 
-                                                  weight=2, opacity=1, fillOpacity=1,
-                                                  bringToFront = TRUE, sendToBack = TRUE),
-              label = block_labels2015,
-              # label display options:
-              labelOptions = labelOptions(style = list("font-weight" = "normal", 
-                                          padding = "3px 8px"),
-                                          textsize = "12px",
-                                          direction = "top",
-                                          offset=c(0,-10))) %>%
-  
-  #2014-2016 Layer:
-  addPolygons(data = NYC_Map_RE_Q,group="2014-2016",
-              color = "#444444",
-              weight = 1,
-              #smoothFactor = 0.2,
-              opacity = 1.0,
-              fillOpacity = 0.7,
-              fillColor = ~palette(Qty_Y_2016),
-              # change display properties while mouse cursor hovers on the polygon
-              highlightOptions = highlightOptions(color="orange", 
-                                                  weight=2, opacity=1, fillOpacity=1,
-                                                  bringToFront = TRUE, sendToBack = TRUE),
-              label = block_labels2016,
-              # label display options:
-              labelOptions = labelOptions(style = list("font-weight" = "normal", 
-                                          padding = "3px 8px"),
-                                          textsize = "12px",
-                                          direction = "top",
-                                          offset=c(0,-10))) %>%
-  
-  #2014-2017 Layer:
-  addPolygons(data = NYC_Map_RE_Q,group="2014-2017",
-              color = "#444444",
-              weight = 1,
-              #smoothFactor = 0.2,
-              opacity = 1.0,
-              fillOpacity = 0.7,
-              fillColor = ~palette(Qty_Y_2017),
-              # change display properties while mouse cursor hovers on the polygon
-              highlightOptions = highlightOptions(color="orange", 
-                                                  weight=2, opacity=1, fillOpacity=1,
-                                                  bringToFront = TRUE, sendToBack = TRUE),
-              label = block_labels2017,
-              # label display options:
-              labelOptions = labelOptions(style = list("font-weight" = "normal", 
-                                          padding = "3px 8px"),
-                                          textsize = "12px",
-                                          direction = "top",
-                                          offset=c(0,-10))) %>%
-  
-  # legend 2014-2017
-  leaflet::addLegend(pal = palette,
-            values = NYC_Map_RE_Q$Qty_Y_2017,
-            labFormat = labelFormat(prefix="",suffix="%",between=", ",transform=function(x) 100*x),
-            group = "2014-2017",
-            opacity = 0.7,
-            title = "Avg. increase in RE Sales Qty",
-            position = "bottomright") %>%
-  
-  #legend for the Subway Lines:
-  addLegend("topleft",
-  colors =c("#FCCC0A","#00933C"),
-  labels= c("2nd Ave Line", "Pre-existing 4th Avenue Line"),
-  title= "Subway Lines",
-  group="See Subway Lines",
-  opacity = 0.7) %>%
-
-  # Layers control
-  addLayersControl(
-    baseGroups = c("2014-2015","2014-2016","2014-2017"),
-    overlayGroups = c("See Subway Lines", "See Subway Stations"),
-    position = "topleft",
-    options = layersControlOptions(collapsed = FALSE))
-
-myNYCmap_re_q  # Display the map
-
-htmlwidgets::saveWidget(myNYCmap_re_q, 'Interactive_RE_Sales_Qty_Map-Html Widget.html', selfcontained = TRUE)
-
-```
-
-<br><br>
-
-###**Did the NYC 2nd Ave Subway Line, positively affect the real estate sales by notional volume in the area?**
-
-By looking at the notional sales activity, we can see the compounding effect of sales prices being higher in the area along with increased transaction activity near the subway line. This highlights the economic benefits of building the line as rising real estate sales prices generate larger taxable transactions that can justify the expense of the subway.
-
-
-```{r fig.height=5, fig.width=7, echo=FALSE}
-
-# #Before merging, lets filter re_var index by year 2015 (so we get cummulative variation index): 
-# permits_var <- filter(permits_var, Year == 2015)
-
-#merge both datasets and replace NA's with zero:
-NYC_Map_RE_Notional <- merge(NYC_Map2, re_var_spread, by="Block")
-NYC_Map_RE_Notional@data[is.na(NYC_Map_RE_Notional@data)] <- 0
-NYC_Map_RE_Notional@data$avg.index[NYC_Map_RE_Notional@data$Distance=="other"] <- 0
-
-#set color scale to be used when mapping variation index for RE sales:
-palette <- colorNumeric(palette = "Blues", domain = NYC_Map_RE_Notional$Notional_Y_2017) #continuous range
-
-#Set interactive labels for 2014-2015 Layer:
-block_labels2015 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in RE Notional Sales (2014-2015)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map_RE_Notional$Distance,
-                            ifelse(NYC_Map_RE_Notional@data$Distance=='other',"NA", percent(NYC_Map_RE_Notional$Notional_Y_2015)),
-                            NYC_Map_RE_Notional$ZipCode, NYC_Map_RE_Notional$Block, NYC_Map_RE_Notional$Lot, NYC_Map_RE_Notional$Address) %>%
-  lapply(htmltools::HTML)
-
-#Set interactive labels for 2014-2016 Layer: 
-block_labels2016 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in RE Notional Sales (2014-2016)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map_RE_Notional$Distance,
-                            ifelse(NYC_Map_RE_Notional@data$Distance=='other',"NA", percent(NYC_Map_RE_Notional$Notional_Y_2016)),
-                            NYC_Map_RE_Notional$ZipCode, NYC_Map_RE_Notional$Block, NYC_Map_RE_Notional$Lot, NYC_Map_RE_Notional$Address) %>%
-  lapply(htmltools::HTML)
-
-#Set interactive labels for 2001-2015 Layer Shapefile: 
-block_labels2017 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in RE Notional Sales (2014-2017)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map_RE_Notional$Distance,
-                            ifelse(NYC_Map_RE_Notional@data$Distance=='other',"NA", percent(NYC_Map_RE_Notional$Notional_Y_2017)),
-                            NYC_Map_RE_Notional$ZipCode, NYC_Map_RE_Notional$Block, NYC_Map_RE_Notional$Lot, NYC_Map_RE_Notional$Address) %>%
-  lapply(htmltools::HTML)
-
-
-#Set interactive labels for Subway Stations: 
-stations_labels <- sprintf("<strong>Station:</strong> %s<br/><strong>Line:</strong> %s",
-                           subway_stations$name, subway_stations$line) %>%
-  lapply(htmltools::HTML)
-
-#Set interactive labels for Subway Lines: 
-line_labels <- ifelse(subway_lines$name=="4-5-6", "<strong>Pre-existing 4th Avenue Line</strong>",
-                          ifelse(subway_lines$name=="Q","<strong>2nd Ave Line</strong>", "Other lines")) %>% lapply(htmltools::HTML)
-
-myNYCmap_re_notional <- leaflet(options = leafletOptions(minZoom = 9, maxZoom = 18)) %>% #restringe/limit Zoom
-  #addTiles() %>%  # Add default OpenStreetMap base map
-  
-  # addTiles() %>% #this base map looks better (see http://leaflet-extras.github.io/leaflet-providers/preview/index.html for other base maps)
-  
-  addTiles("http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
-attribution = paste(
-"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors",
-"&copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>"
-)
-) %>%
-  
-  
-  setView(lng = -73.954477, lat = 40.776522, zoom = 14.8) %>% #initial center point and zoom
-
-  
-  #Add subway stations:
-  addCircles(data = subway_stations, group = "See Subway Stations", radius = 20,
-             color="red", opacity=1.0, fill = TRUE, fillColor = "red", fillOpacity=1.0,
-             stroke=FALSE, label = stations_labels, labelOptions=labelOptions(textsize = "12px",
-                                                    direction='top', offset=c(0,-10))) %>%
-  #Add subway Lines:  
-  addPolylines(data = subway_lines, group="See Subway Lines",label = line_labels,
-               labelOptions=labelOptions(textsize = "12px", direction='top',
-                                         offset=c(0,-10)),
-               color=ifelse(subway_lines$name=="4-5-6","#00933C",
-                           ifelse(subway_lines$name=="Q","#FCCC0A","grey"))) %>%
-  
-  #2014-2015 Layer:
-  addPolygons(data = NYC_Map_RE_Notional,group="2014-2015",
-              color = "#444444",
-              weight = 1,
-              #smoothFactor = 0.2,
-              opacity = 1.0,
-              fillOpacity = 0.7,
-              fillColor = ~palette(Notional_Y_2015),
-              # change display properties while mouse cursor hovers on the polygon
-              highlightOptions = highlightOptions(color="orange", 
-                                                  weight=2, opacity=1, fillOpacity=1,
-                                                  bringToFront = TRUE, sendToBack = TRUE),
-              label = block_labels2015,
-              # label display options:
-              labelOptions = labelOptions(style = list("font-weight" = "normal", 
-                                          padding = "3px 8px"),
-                                          textsize = "12px",
-                                          direction = "top",
-                                          offset=c(0,-10))) %>%
-  
-  #2014-2016 Layer:
-  addPolygons(data = NYC_Map_RE_Notional,group="2014-2016",
-              color = "#444444",
-              weight = 1,
-              #smoothFactor = 0.2,
-              opacity = 1.0,
-              fillOpacity = 0.7,
-              fillColor = ~palette(Notional_Y_2016),
-              # change display properties while mouse cursor hovers on the polygon
-              highlightOptions = highlightOptions(color="orange", 
-                                                  weight=2, opacity=1, fillOpacity=1,
-                                                  bringToFront = TRUE, sendToBack = TRUE),
-              label = block_labels2016,
-              # label display options:
-              labelOptions = labelOptions(style = list("font-weight" = "normal", 
-                                          padding = "3px 8px"),
-                                          textsize = "12px",
-                                          direction = "top",
-                                          offset=c(0,-10))) %>%
-  
-  #2014-2017 Layer:
-  addPolygons(data = NYC_Map_RE_Notional,group="2014-2017",
-              color = "#444444",
-              weight = 1,
-              #smoothFactor = 0.2,
-              opacity = 1.0,
-              fillOpacity = 0.7,
-              fillColor = ~palette(Notional_Y_2017),
-              # change display properties while mouse cursor hovers on the polygon
-              highlightOptions = highlightOptions(color="orange", 
-                                                  weight=2, opacity=1, fillOpacity=1,
-                                                  bringToFront = TRUE, sendToBack = TRUE),
-              label = block_labels2017,
-              # label display options:
-              labelOptions = labelOptions(style = list("font-weight" = "normal", 
-                                          padding = "3px 8px"),
-                                          textsize = "12px",
-                                          direction = "top",
-                                          offset=c(0,-10))) %>%
-  
-  # legend 2014-2017
-  leaflet::addLegend(pal = palette,
-            values = NYC_Map_RE_Notional$Notional_Y_2017,
-            labFormat = labelFormat(prefix="",suffix="%",between=", ",transform=function(x) 100*x),
-            group = "2014-2017",
-            opacity = 0.7,
-            title = "Avg. increase in RE Sales Notional Sales",
-            position = "bottomright") %>%
-  
-  #legend for the Subway Lines:
-  addLegend("topleft",
-  colors =c("#FCCC0A","#00933C"),
-  labels= c("2nd Ave Line", "Pre-existing 4th Avenue Line"),
-  title= "Subway Lines",
-  group="See Subway Lines",
-  opacity = 0.7) %>%
-
-  # Layers control
-  addLayersControl(
-    baseGroups = c("2014-2015","2014-2016","2014-2017"),
-    overlayGroups = c("See Subway Lines", "See Subway Stations"),
-    position = "topleft",
-    options = layersControlOptions(collapsed = FALSE))
-
-myNYCmap_re_notional  # Display the map
-
-htmlwidgets::saveWidget(myNYCmap_re_notional, 'Interactive_RE_Sales_Notional_Map-Html Widget.html', selfcontained = TRUE)
-
-```
-
+See: [Our Exploratory Data Analysis (EDA) Journey](EDA-Building_Permits.html "Our EDA Journey") <br><br>
 

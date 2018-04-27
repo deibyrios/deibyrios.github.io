@@ -159,12 +159,12 @@ $(document).ready(function () {
       <a class="list-group-item" href="EDA-Real_State_Sales.html">EDA - Real State Sales</a>
       <a class="list-group-item" href="EDA-Property_Market_Values.html">EDA - Property Market Values</a>
       <a class="list-group-item" href="EDA-Property_Assessed_Values.html">EDA - Property Assessed Values</a>
+      <a class="list-group-item" href="EDA-Dog_Licensing.html">Fun section - Dog Licensing</a>
       <a class="list-group-item" href="Executive_Summary.html">Executive Summary</a>
       <a class="list-group-item" href="Interactive_Component.html">Interactive Component</a>
       <a class="list-group-item" href="Conclusion.html">Conclusion</a>
       <a class="list-group-item" href="Suggested_Grading.html">Suggested Grading</a>   
-<!--      <a class="list-group-item" href="showhide.html">Show/Hide Layers</a>
-      <a class="list-group-item" href="choropleths.html">Choropleths</a>
+<!--      <a class="list-group-item" href="choropleths.html">Choropleths</a>
       <a class="list-group-item" href="projections.html">Projections</a>
       <a class="list-group-item" href="morefeatures.html">Additional Features</a>-->
     </div>
@@ -187,7 +187,7 @@ $(document).ready(function () {
 </div>
 
 
-<p>In order to understand how adding a new subway line influences the nearby community, we looked from both economic and social perspective. To measure economical influence, we looked at two data sets: Department of Building permit issuances, and Real Estate prices (Sharon plz edit the correct /formal name). In addition to the economical impact, we explored the social perspective by looking at NYC Dog licensing Dataset, to gain insights about their owners – the upper east side residents.</p>
+<p>In order to understand how adding a new subway line influences the nearby community, we looked from both economic and social perspective. To measure economical influence, we looked at two data sets: Department of Building permit issuances, and Real Estate prices (Sharon plz edit the correct /formal name). In addition to the economical impact, we explored the social perspective by looking at NYC Dog licensing Dataset, to gain insights about their owners â the upper east side residents.</p>
 <p>We first looked at the zip codes in Manhattan. ZipCode map: <a href="https://github.com/blooraspberry/subwayproject/blob/master/visualization/NYC-Zip-Code-Map.jpg" class="uri">https://github.com/blooraspberry/subwayproject/blob/master/visualization/NYC-Zip-Code-Map.jpg</a></p>
 <p>Since the Q line (phase 1) starts at 63rd street and ends at 96th street, we focused on the areas with zip codes along the line, which are “10065”, “10021”, “10075”, “10028”, “10128”, “10029”. We stopped at 117th street because it is 20 blocks away from the last stop at Q line (phase 1) and we think the impact of the subway attenuates.</p>
 <p>We accessed our data set from New York City Public data: <a href="https://data.cityofnewyork.us/Health/NYC-Dog-Licensing-Dataset/nu7n-tubp" class="uri">https://data.cityofnewyork.us/Health/NYC-Dog-Licensing-Dataset/nu7n-tubp</a></p>
@@ -260,7 +260,7 @@ zip_phase1 &lt;- factor(dogs2$ZipCode)
 ggplot(dogs2, aes(x = zip_phase1, y = block_avg)) + geom_bar(stat=&quot;identity&quot;) +
 geom_text(aes(label = round(block_avg, digits = 0)), vjust = 1.6, color = &quot;white&quot;, size = 3.5) + theme_minimal() + scale_color_colorblind()</code></pre>
 <p><img src="EDA-Dog_Licensing_files/figure-html/unnamed-chunk-3-1.png" /><!-- --></p>
-<p>As the living space by and large is limited in the city, we are curious to see what the popular dog breeds are in Upper East Side and whether the breeds echo with certain aspects of the real estate landscape of this neighborhood. We excluded the “unknown” breeds for a more specific understanding, even though the “unknown” breeds are of a significantly higher quantity. We find out that from a gender perspective, female dogs and male dogs are at around the same quantity, male dogs holding a small lead.</p>
+<p>As the living space by and large is limited in the city, we are curious to see what the popular dog breeds are in Upper East Side and whether the breeds echo with certain aspects of the real estate landscape of this neighborhood. We excluded the âunknownâ breeds for a more specific understanding, even though the âunknownâ breeds are of a significantly higher quantity. We find out that from a gender perspective, female dogs and male dogs are at around the same quantity, male dogs holding a small lead.</p>
 <pre class="r"><code># cleaning: drop empty levels &quot;&quot; and &quot; &quot;
 dogs1$gender[dogs1$gender == &quot;&quot;] &lt;- &quot;F&quot;
 dogs1$gender[dogs1$gender == &quot; &quot;] &lt;- &quot;M&quot;

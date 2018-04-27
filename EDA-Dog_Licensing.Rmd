@@ -1,6 +1,6 @@
 ---
 keep_md: yes
-pagetitle: EDA-Dog Licensing 
+pagetitle: EDA-Dog Licensing
 ---
 ```{r, include=FALSE}
 knitr::opts_chunk$set(warning = FALSE,

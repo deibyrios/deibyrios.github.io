@@ -620,18 +620,21 @@ palette <- colorNumeric(palette = "Blues", domain = NYC_Map2$Y_2014) #continuous
 library(scales)
 library(htmltools)
 
-#Set interactive labels for 2005-2007 Layer: 
-block_labels2007 <- sprintf("%s avg. increase<br/>in sales price (2005-2007)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",percent(NYC_Map2$Y_2007/100),
+#Set interactive labels for 2005-2007 Layer:  
+block_labels2007 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in Sales Prices (2005-2007)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map2$Distance,
+                            ifelse(NYC_Map2@data$Distance=='other',"NA", percent(NYC_Map2$Y_2007)),
                             NYC_Map2$ZipCode, NYC_Map2$Block, NYC_Map2$Lot, NYC_Map2$Address) %>%
   lapply(htmltools::HTML)
 
 #Set interactive labels for 2005-2014 Layer: 
-block_labels2014 <- sprintf("%s avg. increase<br/>in Bldg Permits (2005-2014)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",percent(NYC_Map2$Y_2014/100),
+block_labels2014 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in Sales Prices (2005-2014)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map2$Distance,
+                            ifelse(NYC_Map2@data$Distance=='other',"NA", percent(NYC_Map2$Y_2014)),
                             NYC_Map2$ZipCode, NYC_Map2$Block, NYC_Map2$Lot, NYC_Map2$Address) %>%
   lapply(htmltools::HTML)
 
-#Set interactive labels for 2005-2017 Layer Shapefile: 
-block_labels2017 <- sprintf("%s avg. increase<br/>in Bldg Permits (2005-2017)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",percent(NYC_Map2$Y_2017/100),
+#Set interactive labels for 2005-2017 Layer Shapefile:
+block_labels2017 <- sprintf("<strong>%s from 2nd Ave Line:</strong> %s avg. increase<br/>in Sales Prices (2005-2017)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",NYC_Map2$Distance,
+                            ifelse(NYC_Map2@data$Distance=='other',"NA", percent(NYC_Map2$Y_2017)),
                             NYC_Map2$ZipCode, NYC_Map2$Block, NYC_Map2$Lot, NYC_Map2$Address) %>%
   lapply(htmltools::HTML)
 

@@ -289,7 +289,7 @@ summarize(sales_upper_east, n_obs = n(), min_price = min(SALE.PRICE), max_price 
 As we can see above, there is a considerable number of transactions at price 0. We believe that some properties were sold at a low price as transaction between family members and that may be causing the considerably number of zero's.
 
 
-## Analysis of Property Market Values
+## EDA - Analysis of Real Estate Sales
 
 One of the analysis we decided to perform to answer our main question, was to see if the 2nd Ave line project has affected the real estate sale transactions, specifically the Sale Price, in the areas inmediately in the vicinity of phase 1 and 2 of the 2 Ave Subway Line project (phase 3 and 4 have no funding commitments yet).
 
@@ -482,7 +482,7 @@ One of the analysis we performed, was to find out if the NYC 2nd Ave Line subway
 
 ###**Did the NYC 2nd Ave Subway (yellow line), increase the sales price of properties in the area?**
 
-```{r, eacho=FALSE}
+```{r, include=FALSE}
 blocks_df <- sales_upper_east%>%
   group_by(Year, BLOCK) %>%
   summarise(Total = sum(SALE.PRICE))       #total sale price per Block per year
@@ -507,7 +507,7 @@ blocks_df <- blocks_df %>%
 ```
 
 
-```{r, eacho=FALSE}
+```{r, include=FALSE}
 
 blocks_df$Total[blocks_df$Total==0] <- 1     # US$1, just to avoid division by zero
 
@@ -541,7 +541,7 @@ plot
 
 
 
-```{r, eacho=FALSE}
+```{r, include=FALSE}
 blocks_df_var <- blocks_df_var %>%
   select(Year, Distance, avg.index) 
 blocks_df <- blocks_df %>%

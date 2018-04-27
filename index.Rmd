@@ -5,7 +5,7 @@ output:
   pdf_document: default
 pagetitle: EDAV Project - Introduction
 ---
-# How does the newly built Second Avenue line affect the economy on the Upper East Side? 
+# Does the newly built Second Avenue line affect the economy on the Upper East Side? 
 
 ## Introduction
 

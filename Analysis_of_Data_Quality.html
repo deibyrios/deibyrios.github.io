@@ -231,16 +231,16 @@ colnames(permits) #print variables / column names</code></pre>
 <p>This is a brief description of the variables of our interest:</p>
 <ul>
 <li><strong>BOROUGH</strong>: The name of the NYC borough</li>
-<li>House: The house number for the building</li>
-<li>Street Name: The street name (combined with house number completes the address)</li>
-<li>Zip Code: ZIP Code for the building’s address</li>
-<li>Job Type: Type of job to be performed.</li>
-<li>Block: Tax Block number of the location (assigned by by the Department of Finance)</li>
-<li>Lot: Tax Lot number of the location (assigned by by the Department of Finance)</li>
-<li>Bldg Type: Legal occupancy classification</li>
-<li>Work Type: The specific type of work covered by the permit.</li>
-<li>Filing Date: The date the permit application was filed with DOB.</li>
-<li>Owner’s Business Type: The type of entity that owns the building.</li>
+<li><strong>House</strong>: The house number for the building</li>
+<li><strong>Street Name</strong>: The street name (combined with house number completes the address)</li>
+<li><strong>Zip Code</strong>: ZIP Code for the building’s address</li>
+<li><strong>Job Type</strong>: Type of job to be performed.</li>
+<li><strong>Block</strong>: Tax Block number of the location (assigned by by the Department of Finance)</li>
+<li><strong>Lot</strong>: Tax Lot number of the location (assigned by by the Department of Finance)</li>
+<li><strong>Bldg Type</strong>: Legal occupancy classification</li>
+<li><strong>Work Type</strong>: The specific type of work covered by the permit.</li>
+<li><strong>Filing Date</strong>: The date the permit application was filed with DOB.</li>
+<li><strong>Owner’s Business Type</strong>: The type of entity that owns the building.</li>
 </ul>
 <p>Now we proceed to filter Manhattan Zip codes that are within the area of influence of phase1 and phase 2 of the 2nd Ave Line project (10065, 10021, 10075, 10028, 10128, 10029, 10035) and selected the columns of our interest:</p>
 <pre class="r"><code>#filter Manahattan zip codes of interest:
@@ -312,9 +312,7 @@ data_ues_1718 &lt;- data_ues_1718[data_ues_1718$price &lt; 5000000,]</code></pre
 #                       AND tax_cls_s = 2
 #                       AND price &gt; 100000
 #                       AND price &lt; 5000000&#39;)</code></pre>
-<p>With the Baruch dataset above, I’ve only shown the code and the output because the dataset is also too big to import to github.</p>
-<p>The above steps lay the groudwork of the dataset of focus. These are a brief description of the columns we’re using:</p>
-<p><strong>Tax Class</strong>: The class of the building helps us identify the real estate type (Houses, Apartments, Building) <strong>Block</strong>: Block number helps us identify the location of the block <strong>Lot</strong>: Lot number helps us identify the location of the lot <strong>Zip Code</strong>: Zip code of the real estate property <strong>Sale Date</strong>: Date the real estate transaction was closed <strong>Sale Price</strong>: Price the buyer paid for <strong>Lat/Long</strong>: The Coordinates of the real estate property</p>
+<p>With the Baruch dataset above, I’ve only shown the code and the output because the dataset is also too big to import to github. <br> The above steps lay the groudwork of the dataset of focus. These are a brief description of the columns we’re using: <br> - <strong>Tax Class</strong>: The class of the building helps us identify the real estate type (Houses, Apartments, Building) <br> - <strong>Block</strong>: Block number helps us identify the location of the block <br> - <strong>Lot</strong>: Lot number helps us identify the location of the lot <br> - <strong>Zip Code</strong>: Zip code of the real estate property <br> - <strong>Sale Date</strong>: Date the real estate transaction was closed <br> - <strong>Sale Price</strong>: Price the buyer paid for <br> - <strong>Lat/Long</strong>: The Coordinates of the real estate property <br></p>
 <p>We’re using these variables to help us analyze trends in real estate prices.</p>
 </div>
 <div id="property-market-values" class="section level3">

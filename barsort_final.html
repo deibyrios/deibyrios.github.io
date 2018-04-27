@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title> NYC dogs sorting </title>
+				<script src="https://d3js.org/d3.v4.min.js"></script>
+				<style type = "text/css">
+
+					rect:hover {
+						fill: pink;
+					}
+				</style>
+    </head>
+    <body>
+        <script type="text/javascript">
+
+// set width and height
+var w = 800;
+var h = 400;
+
+var margin = {top: 25, right: 25, bottom: 80, left: 45};
+var innerHeight = h - margin.top - margin.bottom;
+var innerWidth = w - margin.left - margin.right;
+
+// original dataset
+var dataset = [{"breed": "Labrador Retriever", "count":268},
+							 {"breed": "Shih Tzu", "count":361 },
+							 {"breed": "Lab X Retriever ", "count":132 },
+						   {"breed": "Chihuahua", "count":277 },
+						   {"breed": "Havanese", "count":270 },
+						   {"breed": "Yorkshire Terrier", "count":332 },
+						   {"breed": "Maltese", "count": 245},
+						   {"breed": "Golden Retriever", "count":177},
+						   {"breed": "Poodle, Toy", "count":140 },
+						   {"breed": "Cavalier", "count":126 },
+						 ];
+
+var count = dataset.map(function(d){
+	return d.count ;
+})
+
+var breed = dataset.map(function(d){
+	return d.breed ;
+})
+
+// make a comprehensive list so it can sort easily
+// var sort_helper = []
+// dataset.forEach(function(d,i){
+// 	sort_helper.push({
+// 		breed: d
+// 		count: data.count
+// 		idx: i
+// 	})
+// })
+
+
+// create scalers
+var xScale = d3.scaleBand()
+							 .domain(d3.range(breed.length))
+							 .range([0, innerWidth])
+							 .paddingInner(0.2);
+
+var yScale = d3.scaleLinear()
+							 .domain([0, d3.max(count)])
+							 .range([innerHeight, 0]);
+
+var adjust = d3.scaleLinear()
+							 .domain([0,d3.max(count)])
+							 .range([0, innerHeight]);
+
+// creating svg
+var svg = d3.select("body")
+						.append("svg")
+						.attr("width", w)
+						.attr("height", h);
+
+  // creating y axis
+  var yAxis = d3.axisLeft()
+  							.scale(yScale);
+
+  			svg.append("g")
+  				 .attr("class", "yAxis")
+  				 .attr("transform", `translate(${margin.left-10},${margin.top})`)
+  				 .attr("stroke-width", 1.5).attr("stroke", "black")
+  				 .call(yAxis);
+
+
+// creating the bars
+					svg.selectAll("rect")
+						 .data(count)
+						 .enter()
+						 .append("rect")
+						 .attr("x",function(d, i){return xScale(i);})
+						 .attr("y", function(d){return innerHeight - adjust(d);})
+						 .attr("width", xScale.bandwidth())
+						 .attr("height", function(d){
+							 return adjust(d);
+						 })
+						 .attr("fill", function(d){
+							 return "rgb(0, 100," + Math.round(d * 10) + ")";
+						 })
+						 .attr("transform", `translate(${margin.left},${margin.top})`)
+             // show the dog breed when put the mouse over
+             .on("mouseover", function(d,i){
+
+       var xPos = parseFloat(d3.select(this).attr("x")) + xScale.bandwidth()/2+margin.left;
+       var yPos = parseFloat(d3.select(this).attr("y")) + 10;
+
+         //Create the tooltip label
+         svg.append("text")
+            .attr("id", "tooltip")
+            .attr("x", xPos)
+            .attr("y", yPos)
+            .attr("text-anchor", "middle")
+            .attr("font-family", "sans-serif")
+            .attr("font-size", "12px")
+            .attr("font-weight", "bold")
+            .attr("fill", "black")
+            .text(dataset[i].breed)
+          })
+            // Remove the tooltip
+           .on("mouseout", function(d){
+             d3.select("#tooltip").remove();
+             })
+           .on("click", function(){
+      					 sortBars();
+      		  });
+
+
+			// sortting function
+			var sortOrder = false;
+
+			var sortBars = function(){
+
+					// change the order
+			   	sortOrder = !sortOrder;
+
+				svg.selectAll("rect")
+					 .sort(function(a, b){
+						 if(sortOrder){
+							 return d3.ascending(a,b);
+						 } else {
+							 return d3.descending(a,b);
+						 }
+					 })
+					 .transition()
+					 .delay(function(d,i){
+						 return i*50;
+					 })
+					 .duration(1000)
+					 .attr("x", function(d,i){
+						 return xScale(i);
+					 })
+				};
+
+
+
+
+// var xAxis = d3.axisBottom()
+// 							.scale(xScale)
+// 							.tickFormat(function(d,i){
+// 								 return breed[i]});
+//
+// 			svg.append("g")
+// 				 .attr("class", "xAxis")
+// 				 .attr("transform",`translate(${margin.left}, ${h-margin.bottom})`)
+// 				 .attr("stroke-width", 1).attr("stroke", "black")
+// 				 .call(xAxis)
+// 				 .selectAll("text")
+// 				 .attr("y", 10)
+// 			   .attr("x", 5)
+// 			   .attr("transform", "rotate(45)")
+// 			   .style("text-anchor", "start");
+
+
+
+        </script>
+    </body>
+</html>

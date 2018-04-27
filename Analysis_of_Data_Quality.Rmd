@@ -141,16 +141,16 @@ data_ues_1718 <- data_ues_1718[data_ues_1718$price < 5000000,]
 ```
 
 With the Baruch dataset above, I've only shown the code and the output because the dataset is also too big to import to github.
-
+<br>
 The above steps lay the groudwork of the dataset of focus. These are a brief description of the columns we're using: 
-
-**Tax Class**: The class of the building helps us identify the real estate type (Houses, Apartments, Building)
-**Block**: Block number helps us identify the location of the block
-**Lot**: Lot number helps us identify the location of the lot
-**Zip Code**: Zip code of the real estate property
-**Sale Date**: Date the real estate transaction was closed
-**Sale Price**: Price the buyer paid for
-**Lat/Long**: The Coordinates of the real estate property
+<br>
+- **Tax Class**: The class of the building helps us identify the real estate type (Houses, Apartments, Building) <br>
+- **Block**: Block number helps us identify the location of the block <br>
+- **Lot**: Lot number helps us identify the location of the lot <br>
+- **Zip Code**: Zip code of the real estate property <br>
+- **Sale Date**: Date the real estate transaction was closed <br>
+- **Sale Price**: Price the buyer paid for <br>
+- **Lat/Long**: The Coordinates of the real estate property <br>
          
 We're using these variables to help us analyze trends in real estate prices. 
 

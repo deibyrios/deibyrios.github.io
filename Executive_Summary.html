@@ -196,11 +196,18 @@ $(document).ready(function () {
 <h3>How we started</h3>
 <p>We designed several metrics below to analyze how the addition of a new subway line may impact a neighborhood economically: <br> 1) Explore how the property price changes along the subway line <br> 2) Explore how the quantity of building activities changes as the subway line is planned, constructed, and completed <br> 3) Compare the differences in the dog quantity between UES Q Line extension area with another neighborhood without a new subway line constructed <br></p>
 <p>Some of our findings are very surprising, some pleasantly intriguing, while others met our expectations.</p>
+<p><br></p>
 </div>
 <div id="findings-phase-1" class="section level3">
 <h3>Findings: Phase 1</h3>
 <p>In the Phase 1 construction of the Q line, as shown below, we can see where the new line and stations are located on the Upper East Side.</p>
-<p><img src="images/blocksphase1.png" /> #### <em>Building Permits</em></p>
+<div class="figure">
+<img src="images/blocksphase1.png" />
+
+</div>
+<p><br></p>
+<div id="building-permits" class="section level4">
+<h4><em>Building Permits</em></h4>
 <p>Overall, the count of building permits issued were more or less constant with a dip in 2008 due to the economic crisis.</p>
 <p>The closer the block is to the Second Avenue Subway line, the more building permits were issued. However, when we look down to the block level, we do notice that there has been a spike in 2015, which was right before the Q line opened, for blocks that are one block west of the subway line, while all the permits issued dropped for the other blocks in that same here. This seems to indicate that the line is affecting neighboring permit issuance.</p>
 <div class="figure">
@@ -213,6 +220,8 @@ $(document).ready(function () {
 
 </div>
 <p>For more details, please look at the <a href="EDA-Building%20Permits.html">EDA-Building Permits</a>!</p>
+<p><br></p>
+</div>
 <div id="real-estate-sales" class="section level4">
 <h4><em>Real Estate Sales</em></h4>
 <p>In terms of real estate sales, we believe there’s a lag of the effects compared to the building permits. Building permits are a better representation of what happens before a project is built, while real estate sales are a better representation of what happens later.</p>
@@ -226,11 +235,13 @@ $(document).ready(function () {
 <img src="EDA-Real_State_Sales_files/figure-html/unnamed-chunk-7-1.png" />
 
 </div>
+<p><br></p>
 </div>
 <div id="property-market-valuesproperty-assessed-value" class="section level4">
 <h4><em>Property Market Values/Property Assessed Value</em></h4>
 <p>Property market and assessed value are often explained by the sales price of real estate. Therefore, we are not going to talk about it here.</p>
 <p>For more information, please look under the <a href="EDA-Property%20Market%20Values.html">EDA-Property Market Values</a> and <a href="EDA-Property%20Assessed%20Values.html">EDA-Property Assessed Values</a>.</p>
+<p><br></p>
 </div>
 </div>
 <div id="phase-2" class="section level3">
@@ -240,13 +251,15 @@ $(document).ready(function () {
 <img src="images/blocksphase2.png" />
 
 </div>
-<div id="building-permits" class="section level4">
+<p><br></p>
+<div id="building-permits-1" class="section level4">
 <h4><em>Building Permits</em></h4>
 <p>Because the Second Avenue line does not go in a straight line, we adopted a combination of radius measurement (for when the line turns), and discrete block measurement (for when the subway still goes in a line). From the chart below, we can see that areas within one block radius from the station has been having more permits filed despite that the areas within two block radius used to be a leading contender. Moreover, the counts of building permits stayed low for areas two blocks right off the subway line compared to the other locations in recent years.</p>
 <div class="figure">
 <img src="EDA-Building_Permits_files/figure-html/unnamed-chunk-7-1.png" />
 
 </div>
+<p><br></p>
 </div>
 <div id="real-estate-sales-1" class="section level4">
 <h4><em>Real Estate Sales</em></h4>
@@ -255,6 +268,7 @@ $(document).ready(function () {
 <img src="EDA-Real_State_Sales_files/figure-html/unnamed-chunk-9-1.png" />
 
 </div>
+<p><br></p>
 </div>
 <div id="our-furry-friends" class="section level4">
 <h4><em>Our Furry Friends</em></h4>

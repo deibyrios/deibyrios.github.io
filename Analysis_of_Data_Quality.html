@@ -312,7 +312,9 @@ data_ues_1718 &lt;- data_ues_1718[data_ues_1718$price &lt; 5000000,]</code></pre
 #                       AND tax_cls_s = 2
 #                       AND price &gt; 100000
 #                       AND price &lt; 5000000&#39;)</code></pre>
-<p>With the Baruch dataset above, I’ve only shown the code and the output because the dataset is also too big to import to github. <br> The above steps lay the groudwork of the dataset of focus. These are a brief description of the columns we’re using: <br> - <strong>Tax Class</strong>: The class of the building helps us identify the real estate type (Houses, Apartments, Building) <br> - <strong>Block</strong>: Block number helps us identify the location of the block <br> - <strong>Lot</strong>: Lot number helps us identify the location of the lot <br> - <strong>Zip Code</strong>: Zip code of the real estate property <br> - <strong>Sale Date</strong>: Date the real estate transaction was closed <br> - <strong>Sale Price</strong>: Price the buyer paid for <br> - <strong>Lat/Long</strong>: The Coordinates of the real estate property <br></p>
+<p>With the Baruch dataset above, I’ve only shown the code and the output because the dataset is also too big to import to github.</p>
+<p>The above steps lay the groudwork of the dataset of focus. These are a brief description of the columns we’re using:</p>
+<p><strong>Tax Class</strong>: The class of the building helps us identify the real estate type (Houses, Apartments, Building) <strong>Block</strong>: Block number helps us identify the location of the block <strong>Lot</strong>: Lot number helps us identify the location of the lot <strong>Zip Code</strong>: Zip code of the real estate property <strong>Sale Date</strong>: Date the real estate transaction was closed <strong>Sale Price</strong>: Price the buyer paid for <strong>Lat/Long</strong>: The Coordinates of the real estate property</p>
 <p>We’re using these variables to help us analyze trends in real estate prices.</p>
 </div>
 <div id="property-market-values" class="section level3">
@@ -755,12 +757,86 @@ show(missing_data.frame(property_upper_east))</code></pre>
 ## XCoord      &lt;NA&gt; &lt;NA&gt;    standardize
 ## YCoord      &lt;NA&gt; &lt;NA&gt;    standardize
 ## Year        &lt;NA&gt; &lt;NA&gt;    standardize</code></pre>
-<p>No we confirmed that there are no NA’s in the data so the quality of the data is very good.</p>
+<p>Now we confirmed that there are no NA’s in the data so the quality of the data is very good.</p>
 <p>Same than for the analysis for building permits and the analysis for property market values, the variables “Block” and “Lot” are of our special interest as those were the main variables used four our main Exploratory Data Analysis as we describe later.</p>
 </div>
-<div id="other-datasets" class="section level3">
-<h3>Other Datasets?</h3>
-<p>Add other datasets here if any. <em>Provide a detailed, well-organized description of data quality, including textual description, graphs, and code</em></p>
+<div id="nyc-dogs-licensing-data" class="section level3">
+<h3>NYC Dogs Licensing Data</h3>
+<p>In the Dogs Licensing Data set, we are provided with the dog registration information in all New York State from 2014 to 2016. This time period is conveniently coherent with our Real Estate Sales data and Building Permit Dataset, and reflected the trend of how dogs population changed as the Q Line – phase 1 of Second Avenue Subway was constructed.</p>
+<pre class="r"><code>library(tidyverse)
+library(RSQLite)
+library(forcats)
+library(ggplot2)
+library(ggthemes)
+library(mi)
+
+path &lt;- &quot;/Users/AddisonYing/Desktop/Desktop/CU/2018 Spring/EDAV/Project/Dogs.csv&quot;
+dogs &lt;- read.csv(path)
+
+colnames(dogs)</code></pre>
+<pre><code>##  [1] &quot;RowNumber&quot;               &quot;AnimalName&quot;             
+##  [3] &quot;AnimalGender&quot;            &quot;AnimalBirthMonth&quot;       
+##  [5] &quot;BreedName&quot;               &quot;Borough&quot;                
+##  [7] &quot;ZipCode&quot;                 &quot;CommunityDistrict&quot;      
+##  [9] &quot;CensusTract2010&quot;         &quot;NTA&quot;                    
+## [11] &quot;CityCouncilDistrict&quot;     &quot;CongressionalDistrict&quot;  
+## [13] &quot;StateSenatorialDistrict&quot; &quot;LicenseIssuedDate&quot;      
+## [15] &quot;LicenseExpiredDate&quot;</code></pre>
+<pre class="r"><code># simplify varible names 
+colnames(dogs)[colnames(dogs) == &#39;AnimalName&#39;] &lt;- &#39;name&#39;
+colnames(dogs)[colnames(dogs) == &#39;AnimalGender&#39;] &lt;- &#39;gender&#39;
+colnames(dogs)[colnames(dogs) == &#39;BreedName&#39;] &lt;- &#39;breed&#39;
+
+# the geographic dynamics
+# Q Line phase 1 impact areas: 
+# 97 - 116 st: 10029  # of blocks: 19
+# 87 - 96 st: 10128  
+# 81 - 86 st: 10028  # 5 most dogs
+# 61 - 80 st: 10021 (7), 10065 (7), 10075 (7)  
+
+zip_blocks &lt;- tibble(ZipCode = c(10065,10021, 10075,  10028,10128 ,10029), nBlocks = c(7, 7, 7, 5, 9, 19))
+
+phase1 &lt;- c(&quot;10065&quot;,&quot;10021&quot;, &quot;10075&quot;,  &quot;10028&quot;,&quot;10128&quot; ,&quot;10029&quot; ) 
+
+#subsetting df to phase1 area 
+dogs1 &lt;- subset(dogs, dogs$ZipCode %in% phase1, select = c(&quot;Borough&quot;, &quot;ZipCode&quot;, &quot;breed&quot;, &quot;gender&quot;,&quot;LicenseIssuedDate&quot;, &quot;LicenseExpiredDate&quot;))
+#zip_phase1 &lt;- factor(dogs2$ZipCode)
+
+dogs2 &lt;- dogs1 %&gt;% group_by(ZipCode) %&gt;% summarize(block_cnt=n()) %&gt;% left_join(zip_blocks, by = &quot;ZipCode&quot;) %&gt;% mutate(block_avg = block_cnt/nBlocks)
+
+library(mi)
+show(missing_data.frame(dogs1))</code></pre>
+<pre><code>## Object of class missing_data.frame with 8639 observations on 6 variables
+## 
+## There are 2 missing data patterns
+## 
+## Append &#39;@patterns&#39; to this missing_data.frame to access the corresponding pattern for every observation or perhaps use table()
+## 
+##                                     type missing method  model
+## Borough            unordered-categorical       0   &lt;NA&gt;   &lt;NA&gt;
+## ZipCode                       continuous       0   &lt;NA&gt;   &lt;NA&gt;
+## breed              unordered-categorical    1182    ppd mlogit
+## gender                            binary       0   &lt;NA&gt;   &lt;NA&gt;
+## LicenseIssuedDate  unordered-categorical       0   &lt;NA&gt;   &lt;NA&gt;
+## LicenseExpiredDate unordered-categorical       0   &lt;NA&gt;   &lt;NA&gt;
+## 
+##                         family  link transformation
+## Borough                   &lt;NA&gt;  &lt;NA&gt;           &lt;NA&gt;
+## ZipCode                   &lt;NA&gt;  &lt;NA&gt;    standardize
+## breed              multinomial logit           &lt;NA&gt;
+## gender                    &lt;NA&gt;  &lt;NA&gt;           &lt;NA&gt;
+## LicenseIssuedDate         &lt;NA&gt;  &lt;NA&gt;           &lt;NA&gt;
+## LicenseExpiredDate        &lt;NA&gt;  &lt;NA&gt;           &lt;NA&gt;</code></pre>
+<pre class="r"><code>#show(missing_data.frame(dogs2))#@patterns</code></pre>
+<p>After cleaning and filtering only the columns we wanted to use, we can see that our resulting data frame is fairly straight forward with most columbs without missing data. The only columns that has a lot of missing data is “breed”, which is caused by the unknown breed of the dog or difficulty to put into a certain category due to the mixed breed. We kept these “uncertain” breeds as the count of the dogs are still important, while we left them out when we conducted the specific analysis later on.</p>
+<p>The key variables we kept for dogs analysis are:</p>
+<p>*Borough: Owner Borough : indicates where this dog’s owner resides</p>
+<p>*ZipCode: Owner zip code : indicates the zipcode location of this dog and its owner</p>
+<p>*breed: Breed of the dog</p>
+<p>*gender: Gender of the dog</p>
+<p>*LicenseIssuedDate: Date the dog license was issued</p>
+<p>*LicenseExpiredDate: Date the dog license was expired</p>
+<p>Now we confirmed that there are no NA’s, and the missing data is not going to affact our analysis negatively, the quality of the data is very good.</p>
 </div>
 </div>
 

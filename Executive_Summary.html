@@ -189,47 +189,39 @@ $(document).ready(function () {
 
 <div id="executive-summary" class="section level2">
 <h2>Executive Summary</h2>
-<p>In the exploration in the Building Permits, Real Estate Sales, Property Market Values, Property Assessed Values, (and Dog Licencings), we want to present to you our findings of the impact of the Second Avenue subway line. In our findings, we will go over the patterns of real estate and property trends in the area based on the metrics we’ve looked at, interesting findings, and we’d elaborate on other areas we can pursue if we had more time in the <a href="Conclusion.html">conclusion</a></p>
+<p>How does the New York City Second Ave Subway Line project influence the Upper East Side?</p>
+<p>To answer this question, we planned to explore the impacts holistically from an economical and social perspective. However, limited by the datasets that are available to us, we decided to focus mainly on the economical impacts by looking at datasets including Building Permits, Real Estate Sales, Property Market Values, Property Assessed Values, and Dogs Licensing data as a bonus.</p>
+<p>In our findings, we will present to you: <br> 1) Where are the new buildings coming out in this area <br> 2) Building permits patterns <br> 3) Real estate price patterns <br> 4) Where to spot the cutest puppies on the Upper East Side <br></p>
 <div id="how-we-started" class="section level3">
 <h3>How we started</h3>
-<p>When we first started this project, we first thought a comparison between the affected zip codes to other non-Upper East Side areas were going to be enough for us to see a major difference in prices – and we did see an effect the changes in housing prices between neighborhoods in Manhatta, but we didn’t have enough parameters to help us determine what were the driving forces. Therefore, we started to think about what was important to us as a buyer or a renter of an apartment on a daily basis. <em>Do I take the subway to work or should I walk to work? Do I mind a 10-minute walk to the subvway line? How long does it take me to get to the central business district? Are there a lot of businesses around my apartment?</em> These are all questions we think about before we decide to settle down at a place. As a result, we realized that the the block distances to a subway station may be a better indicator of whether someone buys/rents a place.</p>
-<p>In the Phase 1 construction of the Q line, as shown below, we can see where the new line and stations are on the Upper East Side. Based on the location of the new line, we’ve looked at granularly how close each building permits filed, real estate sales, property market and assessed values properties are closed to the line and assessed its impact. Moreover, we also split our findings between blocks on the left and right of the Second Avenue line.</p>
-<div class="figure">
-<img src="images/blocksphase1.png" />
-
+<p>We designed several metrics below to analyze how the addition of a new subway line may impact a neighborhood economically: <br> 1) Explore how the property price changes along the subway line <br> 2) Explore how the quantity of building activities changes as the subway line is planned, constructed, and completed <br> 3) Compare the differences in the dog quantity between UES Q Line extension area with another neighborhood without a new subway line constructed <br></p>
+<p>Some of our findings are very surprising, some pleasantly intriguing, while others met our expectations.</p>
 </div>
-<p>When we look at Phase 2, we cannot use the same methodology to measure the block distances in Phase 1 because the Q Line does not go in a straight line like it does in Phase 1 area. The line turns west (not drawn out in the image) close to 125th street to connect with the existing 4/5/6 Line. The below image shows where the line would be after it opens.</p>
-<div class="figure">
-<img src="images/blocksphase2.png" />
-
-</div>
-</div>
-<div id="phase-1" class="section level3">
-<h3>Phase 1</h3>
-<p>Here we’re going to describe trends in the building permits and real estate sections.</p>
-<div id="building-permits" class="section level4">
-<h4><em>Building Permits</em></h4>
-<p>With building permits, we’ve taken a look at how all of the building permits from 1990 and saw that generally speaking the count of building permits issued were more or less constant. There’s a dip in 2008 because of the economic crisis. Otherwise, counts of permits issued are increasing for blocks that are at any distance from the Second Avenue line. However, when we look down to the block level, we do see that there has been a spike in 2015, which is right before the line opened, for blocks that are one block left of the subway line, while all the permits issued dropped for the other blocks in that same here. This seems to indicate that the line is affecting neighboring permit issuance.</p>
+<div id="findings-phase-1" class="section level3">
+<h3>Findings: Phase 1</h3>
+<p>In the Phase 1 construction of the Q line, as shown below, we can see where the new line and stations are located on the Upper East Side.</p>
+<p><img src="images/blocksphase1.png" /> #### <em>Building Permits</em></p>
+<p>Overall, the count of building permits issued were more or less constant with a dip in 2008 due to the economic crisis.</p>
+<p>The closer the block is to the Second Avenue Subway line, the more building permits were issued. However, when we look down to the block level, we do notice that there has been a spike in 2015, which was right before the Q line opened, for blocks that are one block west of the subway line, while all the permits issued dropped for the other blocks in that same here. This seems to indicate that the line is affecting neighboring permit issuance.</p>
 <div class="figure">
 <img src="EDA-Building_Permits_files/figure-html/unnamed-chunk-3-1.png" />
 
 </div>
-<p>For areas to the right of the Second Avenue line, the number of permits issued are also fairly constant, but grows at a faster rate. Its current index is at around 500 as of 2018! Originally, we only looked at more recent years and thought that areas that are closer to the Second Avenue line would more permits. However, our findings contradicts with our hypothesis. When we looked at a longer time frame, we realized that there have been more building permits issued 3/4 blocks right of the Second Avenue line than other areas! Then, the one block over follows. We think the root of the cause may be the close proximity to the water; there are more other types of constructions, in addition to residential constructions, closer to the water.</p>
+<p>For areas to the east of the Second Avenue line, the number of permits issued grows at a faster rate. However, it is inconclusive to attribute this growth solely to the Q Line, since the area has a higher growth historically. We think the root of this phenomenon could be the close proximity to the water, which makes the area more attractive to different types of constructions.</p>
 <div class="figure">
 <img src="EDA-Building_Permits_files/figure-html/unnamed-chunk-5-1.png" />
 
 </div>
 <p>For more details, please look at the <a href="EDA-Building%20Permits.html">EDA-Building Permits</a>!</p>
-</div>
 <div id="real-estate-sales" class="section level4">
 <h4><em>Real Estate Sales</em></h4>
-<p>In terms of real estate sales, we believe there’s a lag of the effects compared to the building permits. Building permits are a better representation of what happens before something is built, while real estate sales are a better representation of what happens later.</p>
-<p>From our observations below for blocks left of the Second Avenue line, we can see that there’s an infection point in 2017, which is when the subway line opened! We cannot pinpoint down to the exact reason, but we can see that the average price has increased since 2017 for areas one block left, and areas that are 2-3 blocks/4-5 blocks have turned have fallen at a more drastic rate. This seems to indicate that, however minimally, that the subway line is changing the residential pattern on the Upper East Side.</p>
+<p>In terms of real estate sales, we believe there’s a lag of the effects compared to the building permits. Building permits are a better representation of what happens before a project is built, while real estate sales are a better representation of what happens later.</p>
+<p>From our observations below for blocks left of the Second Avenue line, we can see that there’s an infection point in 2017, which was when the subway line opened. We cannot pinpoint down to the exact reason, but we can see that the average price has increased since 2017 for areas one block east of the subway line, while areas that are 2-3 blocks or 4-5 blocks have fallen at a more drastic rate. This seems to indicate that, however minimally, that the subway line is changing the residential pattern on the Upper East Side.</p>
 <div class="figure">
 <img src="EDA-Real_State_Sales_files/figure-html/unnamed-chunk-5-1.png" />
 
 </div>
-<p>Similarly to the building permits, the effects of the subway addition is more drastic on blocks right of the Second Avenue line. We can see in the graph below that the average price for sales that are two blocks right from the line has fallen much drastically since 2017, while average prices for one block right have surpassed sales price of 3-4 blocks. As for the high price of 3-4 blocks on the right, we think it attributes to the location which it has a close proximity to the water.</p>
+<p>Similar to the building permits, the effects of the subway addition is more drastic on blocks east of the Second Avenue line. We can see in the graph below that the average price for sales that are two blocks east from the line has fallen much drastically since 2017, while average prices for one block east have surpassed sales price of properties 3-4 blocks away. As for the high prices of 3-4 blocks on the east side, we think it attributes to the location which it has a close proximity to the water.</p>
 <div class="figure">
 <img src="EDA-Real_State_Sales_files/figure-html/unnamed-chunk-7-1.png" />
 
@@ -237,16 +229,20 @@ $(document).ready(function () {
 </div>
 <div id="property-market-valuesproperty-assessed-value" class="section level4">
 <h4><em>Property Market Values/Property Assessed Value</em></h4>
-<p>Property market and assessed value are often explained by the sales price of the real estate. Therefore, we are not going to talk about it here.</p>
+<p>Property market and assessed value are often explained by the sales price of real estate. Therefore, we are not going to talk about it here.</p>
 <p>For more information, please look under the <a href="EDA-Property%20Market%20Values.html">EDA-Property Market Values</a> and <a href="EDA-Property%20Assessed%20Values.html">EDA-Property Assessed Values</a>.</p>
 </div>
 </div>
 <div id="phase-2" class="section level3">
 <h3>Phase 2</h3>
-<p>In terms of the second phase, our observations are more ambiguous compared to phase 1 as the line has not opened yet. However, we can still see there have been some activities going on since the opening of Phase 1.</p>
-<div id="building-permits-1" class="section level4">
+<p>As the second phase of the subway line is still in the planning, the observations are rather ambiguous in comparison to the results we saw from phase 1. However, we can still see there have been some activities going on since the opening of Phase 1 and our discovery is mostly consistent with phase 1.</p>
+<div class="figure">
+<img src="images/blocksphase2.png" />
+
+</div>
+<div id="building-permits" class="section level4">
 <h4><em>Building Permits</em></h4>
-<p>Because the Second Avenue line does not go in a straight line, we have observations for a radius measurement (for when the line turns), and discrete block measurement (for when the subway still goes in a line). From the chart below, we can see that the one block radius from the station has been having more permits filed despite that the two block radius used to be a leading contender. Moreover, the two blocks right of the subway line have stayed low compared to the other locations in recent years.</p>
+<p>Because the Second Avenue line does not go in a straight line, we adopted a combination of radius measurement (for when the line turns), and discrete block measurement (for when the subway still goes in a line). From the chart below, we can see that areas within one block radius from the station has been having more permits filed despite that the areas within two block radius used to be a leading contender. Moreover, the counts of building permits stayed low for areas two blocks right off the subway line compared to the other locations in recent years.</p>
 <div class="figure">
 <img src="EDA-Building_Permits_files/figure-html/unnamed-chunk-7-1.png" />
 
@@ -254,11 +250,25 @@ $(document).ready(function () {
 </div>
 <div id="real-estate-sales-1" class="section level4">
 <h4><em>Real Estate Sales</em></h4>
-<p>As for real estate sales, it doesn’t seem like the prices have caught up with the Phase 2 trends. As shown below, all average sale prices have been at its all time low since 2014 despite the building of the Second Avenue line. Also, because there’s a lag compared to the permits, we think that real estate sales trend would be more defined once the permits pattern stabilize.</p>
+<p>As for real estate sales, it doesn’t seem like the prices have caught up with the Phase 2 trends. As shown below, all average sale prices have been at its all time low since 2014 despite the building of the Second Avenue line. Also, because there’s a lag compared to the permits, we think that real estate sales trend would be more defined once the permits pattern stabilizes.</p>
 <div class="figure">
 <img src="EDA-Real_State_Sales_files/figure-html/unnamed-chunk-9-1.png" />
 
 </div>
+</div>
+<div id="our-furry-friends" class="section level4">
+<h4><em>Our Furry Friends</em></h4>
+<p>Last but not the least, let’s see where we can find our cute furry friends on Upper East Side! We found out that, zipcode 10028, which covers streets from 81 to 86th street has the highest number of dogs per block, which means getting off the 86th street on the Q line, your chances of meeting a cute dog is maximized!!</p>
+<div class="figure">
+<img src="images/dogs_block_avg.png" />
+
+</div>
+<p>We find out that from a gender perspective, female dogs and male dogs are at around the same quantity, male dogs holding a small lead. If you like small dogs, Upper East Side is a great place to spot some cute Shih Tzu and Yorkshire Terriers.</p>
+<div class="figure">
+<img src="images/dog_breed_gender.png" />
+
+</div>
+<p>Want to play with the dogs, feel free to explore the interactive plot here:</p>
 </div>
 </div>
 </div>

@@ -107,10 +107,5 @@ Last but not the least, let’s see where we can find our cute furry friends on 
 
 ![](images/dogs_block_avg.png)
 
-We find out that from a gender perspective, female dogs and male dogs are at around the same quantity, male dogs holding a small lead. If you like small dogs, Upper East Side is a great place to spot some cute Shih Tzu and Yorkshire Terriers. 
-
-![](images/dog_breed_gender.png) 
-
-
 
 

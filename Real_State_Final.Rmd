@@ -1,0 +1,775 @@
+---
+keep_md: yes
+pagetitle: Analysis of Data Quality
+---
+```{r, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE, 
+                      cache = TRUE)
+```
+
+## Description of Data
+
+### Real Estate Sales
+
+The New York City Department of Finance (DOF) keeps a records of every real estate sale transaction in the city from 2003 to 2017. The data can be directly downloaded from [NYC's DOF website](http://www1.nyc.gov/site/finance/taxes/property-annualized-sales-update.page "Data for Real Estate sales"), where annualized Sales files are available, separately by Borough.
+
+The data sets, one for every year include all types of real estate property (tax class), coordinates, block numbers, square footage of land, and date of sales. 
+
+A Data Dictionary containing field codes and descriptions of the data sets can be found [here](http://www1.nyc.gov/assets/finance/downloads/pdf/07pdf/glossary_rsf071607.pdf "Data for Real Estate")
+
+
+## Analysis of Data Quality
+#### (includes data cleaning process)
+
+### Real Estate Sales
+
+As mentioned in the [Description of Data](Description_of_Data.html), we were able to find a Data  Dictionary containing field codes and descriptions of the data sets, which can be downloaded [here](http://www1.nyc.gov/assets/finance/downloads/pdf/07pdf/glossary_rsf071607.pdf "Data for Real Estate")
+
+This is a brief description of the variables of our interest:
+
+* __Tax Class__: The class of the building helps us identify the real estate type (Houses, Apartments, Building)
+* __Block__: Tax Block number of the location (assigned by by the Department of Finance)
+* __Lot__: Tax Lot number of the location (assigned by by the Department of Finance)
+* __Zip Code__:	ZIP Code for the building's address
+* __Sale Date__: Date the real estate transaction was closed
+* __Sale Price__: Price the buyer paid for
+
+After downloading and extracting the zip files for all the original datasets we manually extracted the zip file, read each dataset using readxl::read_xls() to read the excel files, take a look at the data set and the variables using str(), cleaned up the data, filtered zip codes in the area of influence of phase1 and phase 2 of the 2nd Ave Line project (10065, 10021, 10075, 10028, 10128, 10029, 10035), selected variables of our interest, and consolidated all 15 datasets (one data set per year, 2003-2015):
+
+```{r}
+library(tidyverse)
+#install.packages("readxl")
+library(readxl)
+
+sales_upper_east <- read_xls("data/2003_manhattan.xls")
+#str(sales_upper_east)
+#head(sales_upper_east)
+colnames(sales_upper_east) <- sales_upper_east[3, ]
+sales_upper_east <- data.frame(sales_upper_east[-(1:3), ]) %>%
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>% 
+  select(BLOCK,LOT,TAX.CLASS.AT.PRESENT,SALE.PRICE) %>%
+    mutate(Year = 2003)
+colnames(sales_upper_east) <- c("BLOCK","LOT","TAX.CLASS","SALE.PRICE","Year")
+
+
+new_sales_upper_east <- read_xls("data/2004_manhattan.xls")
+#str(new_sales_upper_east)
+#head(new_sales_upper_east)
+new_sales_upper_east <- data.frame(new_sales_upper_east[-(1:3), ]) %>%
+  select(1,5,6,11,18,20) #Borough,Block,Lot,Zip.Code,Tax.Class,Sale.Price (different names by year)
+colnames(new_sales_upper_east) <- c("BOROUGH","BLOCK","LOT","ZIP.CODE","TAX.CLASS",
+                                    "SALE.PRICE")
+new_sales_upper_east <-  new_sales_upper_east %>% 
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>%
+    select(BLOCK,LOT,TAX.CLASS,SALE.PRICE) %>%
+    mutate(Year = 2004)
+
+sales_upper_east <- rbind.data.frame(sales_upper_east, new_sales_upper_east)
+
+
+new_sales_upper_east <- read_xls("data/2005_manhattan.xls")
+#str(new_sales_upper_east)
+#head(new_sales_upper_east)
+new_sales_upper_east <- data.frame(new_sales_upper_east[-(1:3), ]) %>%
+  select(1,5,6,11,18,20) #Borough,Block,Lot,Zip.Code,Tax.Class,Sale.Price (different names by year)
+colnames(new_sales_upper_east) <- c("BOROUGH","BLOCK","LOT","ZIP.CODE","TAX.CLASS",
+                                    "SALE.PRICE")
+new_sales_upper_east <-  new_sales_upper_east %>% 
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>%
+    select(BLOCK,LOT,TAX.CLASS,SALE.PRICE) %>%
+    mutate(Year = 2005)
+
+sales_upper_east <- rbind.data.frame(sales_upper_east, new_sales_upper_east)
+
+
+new_sales_upper_east <- read_xls("data/2006_manhattan.xls")
+#str(new_sales_upper_east)
+#head(new_sales_upper_east)
+new_sales_upper_east <- data.frame(new_sales_upper_east[-(1:3), ]) %>%
+  select(1,5,6,11,18,20) #Borough,Block,Lot,Zip.Code,Tax.Class,Sale.Price (different names by year)
+colnames(new_sales_upper_east) <- c("BOROUGH","BLOCK","LOT","ZIP.CODE","TAX.CLASS",
+                                    "SALE.PRICE")
+new_sales_upper_east <-  new_sales_upper_east %>% 
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>%
+    select(BLOCK,LOT,TAX.CLASS,SALE.PRICE) %>%
+    mutate(Year = 2006)
+
+sales_upper_east <- rbind.data.frame(sales_upper_east, new_sales_upper_east)
+
+
+new_sales_upper_east <- read_xls("data/2007_manhattan.xls")
+#str(new_sales_upper_east)
+#head(new_sales_upper_east)
+new_sales_upper_east <- data.frame(new_sales_upper_east[-(1:3), ]) %>%
+  select(1,5,6,11,18,20) #Borough,Block,Lot,Zip.Code,Tax.Class,Sale.Price (different names by year)
+colnames(new_sales_upper_east) <- c("BOROUGH","BLOCK","LOT","ZIP.CODE","TAX.CLASS",
+                                    "SALE.PRICE")
+new_sales_upper_east <-  new_sales_upper_east %>% 
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>%
+    select(BLOCK,LOT,TAX.CLASS,SALE.PRICE) %>%
+    mutate(Year = 2007)
+
+sales_upper_east <- rbind.data.frame(sales_upper_east, new_sales_upper_east)
+
+
+new_sales_upper_east <- read_xls("data/2008_manhattan.xls")
+#str(new_sales_upper_east)
+#head(new_sales_upper_east)
+new_sales_upper_east <- data.frame(new_sales_upper_east[-(1:3), ]) %>%
+  select(1,5,6,11,18,20) #Borough,Block,Lot,Zip.Code,Tax.Class,Sale.Price (different names by year)
+colnames(new_sales_upper_east) <- c("BOROUGH","BLOCK","LOT","ZIP.CODE","TAX.CLASS",
+                                    "SALE.PRICE")
+new_sales_upper_east <-  new_sales_upper_east %>% 
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>%
+    select(BLOCK,LOT,TAX.CLASS,SALE.PRICE) %>%
+    mutate(Year = 2008)
+
+sales_upper_east <- rbind.data.frame(sales_upper_east, new_sales_upper_east)
+
+
+new_sales_upper_east <- read_xls("data/2009_manhattan.xls")
+#str(new_sales_upper_east)
+#head(new_sales_upper_east)
+new_sales_upper_east <- data.frame(new_sales_upper_east[-(1:3), ]) %>%
+  select(1,5,6,11,18,20) #Borough,Block,Lot,Zip.Code,Tax.Class,Sale.Price (different names by year)
+colnames(new_sales_upper_east) <- c("BOROUGH","BLOCK","LOT","ZIP.CODE","TAX.CLASS",
+                                    "SALE.PRICE")
+new_sales_upper_east <-  new_sales_upper_east %>% 
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>%
+    select(BLOCK,LOT,TAX.CLASS,SALE.PRICE) %>%
+    mutate(Year = 2009)
+
+sales_upper_east <- rbind.data.frame(sales_upper_east, new_sales_upper_east)
+
+
+new_sales_upper_east <- read_xls("data/2010_manhattan.xls")
+#str(new_sales_upper_east)
+#head(new_sales_upper_east)
+new_sales_upper_east <- data.frame(new_sales_upper_east[-(1:3), ]) %>%
+  select(1,5,6,11,18,20) #Borough,Block,Lot,Zip.Code,Tax.Class,Sale.Price (different names by year)
+colnames(new_sales_upper_east) <- c("BOROUGH","BLOCK","LOT","ZIP.CODE","TAX.CLASS",
+                                    "SALE.PRICE")
+new_sales_upper_east <-  new_sales_upper_east %>% 
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>%
+    select(BLOCK,LOT,TAX.CLASS,SALE.PRICE) %>%
+    mutate(Year = 2010)
+
+sales_upper_east <- rbind.data.frame(sales_upper_east, new_sales_upper_east)
+
+
+new_sales_upper_east <- read_xls("data/2011_manhattan.xls")
+#str(new_sales_upper_east)
+#head(new_sales_upper_east)
+new_sales_upper_east <- data.frame(new_sales_upper_east[-(1:4), ]) %>%
+  select(1,5,6,11,18,20) #Borough,Block,Lot,Zip.Code,Tax.Class,Sale.Price (different names by year)
+colnames(new_sales_upper_east) <- c("BOROUGH","BLOCK","LOT","ZIP.CODE","TAX.CLASS",
+                                    "SALE.PRICE")
+new_sales_upper_east <-  new_sales_upper_east %>% 
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>%
+    select(BLOCK,LOT,TAX.CLASS,SALE.PRICE) %>%
+    mutate(Year = 2011)
+
+sales_upper_east <- rbind.data.frame(sales_upper_east, new_sales_upper_east)
+
+
+new_sales_upper_east <- read_xls("data/2012_manhattan.xls")
+#str(new_sales_upper_east)
+#head(new_sales_upper_east)
+new_sales_upper_east <- data.frame(new_sales_upper_east[-(1:4), ]) %>%
+  select(1,5,6,11,18,20) #Borough,Block,Lot,Zip.Code,Tax.Class,Sale.Price (different names by year)
+colnames(new_sales_upper_east) <- c("BOROUGH","BLOCK","LOT","ZIP.CODE","TAX.CLASS",
+                                    "SALE.PRICE")
+new_sales_upper_east <-  new_sales_upper_east %>% 
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>%
+    select(BLOCK,LOT,TAX.CLASS,SALE.PRICE) %>%
+    mutate(Year = 2012)
+
+sales_upper_east <- rbind.data.frame(sales_upper_east, new_sales_upper_east)
+
+
+new_sales_upper_east <- read_xls("data/2013_manhattan.xls")
+#str(new_sales_upper_east)
+#head(new_sales_upper_east)
+new_sales_upper_east <- data.frame(new_sales_upper_east[-(1:4), ]) %>%
+  select(1,5,6,11,18,20) #Borough,Block,Lot,Zip.Code,Tax.Class,Sale.Price (different names by year)
+colnames(new_sales_upper_east) <- c("BOROUGH","BLOCK","LOT","ZIP.CODE","TAX.CLASS",
+                                    "SALE.PRICE")
+new_sales_upper_east <-  new_sales_upper_east %>% 
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>%
+    select(BLOCK,LOT,TAX.CLASS,SALE.PRICE) %>%
+    mutate(Year = 2013)
+
+sales_upper_east <- rbind.data.frame(sales_upper_east, new_sales_upper_east)
+
+
+new_sales_upper_east <- read_xls("data/2014_manhattan.xls")
+#str(new_sales_upper_east)
+#head(new_sales_upper_east)
+new_sales_upper_east <- data.frame(new_sales_upper_east[-(1:4), ]) %>%
+  select(1,5,6,11,18,20) #Borough,Block,Lot,Zip.Code,Tax.Class,Sale.Price (different names by year)
+colnames(new_sales_upper_east) <- c("BOROUGH","BLOCK","LOT","ZIP.CODE","TAX.CLASS",
+                                    "SALE.PRICE")
+new_sales_upper_east <-  new_sales_upper_east %>% 
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>%
+    select(BLOCK,LOT,TAX.CLASS,SALE.PRICE) %>%
+    mutate(Year = 2014)
+
+sales_upper_east <- rbind.data.frame(sales_upper_east, new_sales_upper_east)
+
+
+new_sales_upper_east <- read_xls("data/2015_manhattan.xls")
+#str(new_sales_upper_east)
+#head(new_sales_upper_east)
+new_sales_upper_east <- data.frame(new_sales_upper_east[-(1:4), ]) %>%
+  select(1,5,6,11,18,20) #Borough,Block,Lot,Zip.Code,Tax.Class,Sale.Price (different names by year)
+colnames(new_sales_upper_east) <- c("BOROUGH","BLOCK","LOT","ZIP.CODE","TAX.CLASS",
+                                    "SALE.PRICE")
+new_sales_upper_east <-  new_sales_upper_east %>% 
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>%
+    select(BLOCK,LOT,TAX.CLASS,SALE.PRICE) %>%
+    mutate(Year = 2015)
+
+sales_upper_east <- rbind.data.frame(sales_upper_east, new_sales_upper_east)
+
+
+new_sales_upper_east <- read_xls("data/2016_manhattan.xls")
+#str(new_sales_upper_east)
+#head(new_sales_upper_east)
+new_sales_upper_east <- data.frame(new_sales_upper_east[-(1:4), ]) %>%
+  select(1,5,6,11,18,20) #Borough,Block,Lot,Zip.Code,Tax.Class,Sale.Price (different names by year)
+colnames(new_sales_upper_east) <- c("BOROUGH","BLOCK","LOT","ZIP.CODE","TAX.CLASS",
+                                    "SALE.PRICE")
+new_sales_upper_east <-  new_sales_upper_east %>% 
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>%
+    select(BLOCK,LOT,TAX.CLASS,SALE.PRICE) %>%
+    mutate(Year = 2016)
+
+sales_upper_east <- rbind.data.frame(sales_upper_east, new_sales_upper_east)
+
+
+new_sales_upper_east <- read_xls("data/2017_manhattan.xls")
+#str(new_sales_upper_east)
+#head(new_sales_upper_east)
+new_sales_upper_east <- data.frame(new_sales_upper_east[-(1:4), ]) %>%
+  select(1,5,6,11,18,20) #Borough,Block,Lot,Zip.Code,Tax.Class,Sale.Price (different names by year)
+colnames(new_sales_upper_east) <- c("BOROUGH","BLOCK","LOT","ZIP.CODE","TAX.CLASS",
+                                    "SALE.PRICE")
+new_sales_upper_east <-  new_sales_upper_east %>% 
+  filter(BOROUGH==1 & ZIP.CODE %in% c(10065, 10021, 10075, 10028, 10128, 10029, 10035)) %>%
+    select(BLOCK,LOT,TAX.CLASS,SALE.PRICE) %>%
+    mutate(Year = 2017)
+
+sales_upper_east <- rbind.data.frame(sales_upper_east, new_sales_upper_east)
+
+#Next, we write a new file 'property_upper_east.csv' in the working directory, for future use whenever we need to read the data again, because reading the original files takes too long time:
+write.table(sales_upper_east, file="data/sales_upper_east.csv",sep=",",row.names=F)
+```
+
+Now we look for missing data using extracat::visna() and mi::missing_data.frame():
+
+```{r}
+library(tidyverse)
+sales_upper_east <- read.csv("data/sales_upper_east.csv") #already filtered and selected data
+library(extracat)
+library(mi)
+visna(sales_upper_east)
+show(missing_data.frame(sales_upper_east))
+```
+
+As we can see above, there are just very few observations missing the tax class so, missing values are not a concern.
+
+Since we are interested in the sale price, we also looked for zero vlues:
+
+```{r}
+summarize(sales_upper_east, n_obs = n(), min_price = min(SALE.PRICE), max_price = max(SALE.PRICE),
+          mean_price = mean(SALE.PRICE), zeros = sum(SALE.PRICE == 0))
+```
+
+As we can see above, there is a considerable number of transactions at price 0. We believe that some properties were sold at a low price as transaction between family members and that may be causing the considerably number of zero's.
+
+
+## Analysis of Property Market Values
+
+One of the analysis we decided to perform to answer our main question, was to see if the 2nd Ave line project has affected the real estate sale transactions, specifically the Sale Price, in the areas inmediately in the vicinity of phase 1 and 2 of the 2 Ave Subway Line project (phase 3 and 4 have no funding commitments yet).
+
+**Note**: Please see [Analysis of Data Quality](Analysis_of_Data_Quality.html), which includes a description of the data cleaning process.
+
+To reduce noise, we decided to perform our analysis aggregating by 'Block', so as a first step, to reduce the size of the datasets and variables with which we will be working, we aggregate the data grouping by 'Block' number to analyse how the sales price vary by year (grouping won't affect our analysis, since for being able to make comparisons, we will look at precentage of increase in sales prices rether than looking at absolute values):
+
+```{r}
+blocks_df <- sales_upper_east%>%
+  group_by(Year, BLOCK) %>%
+  summarise(Total = sum(SALE.PRICE))       #total sale price per Block per year
+```
+
+
+### Analysis of Real Estate Sales for Phase 1
+
+Similar to previous analysis, to try to see if the 2nd Ave Line project has affected the price of Real State transactions price for properties located near the Line, we added a column called "Distance" and used the block number to record the approximate distance (in blocks) from each property, to the 2nd Ave Line, using the Block number column/variable and the [official tax map for the City of New York](http://gis.nyc.gov/taxmap/map.html), which shows the the block number, street names and other information in the map. 
+
+Again, when determining the distances of the properties to the 2nd Ave line, we differentiated between properties to the left of the 2nd Ave Line and properties to the right of the Line, because we suspected that the influence of the 2nd Ave Line may be greater for properties to the right of the line than for properties to the left, due to the proximity of the pre-existing Lexington-Fourth Avenue green Line right to the left of the 2nd Ave Line project.
+<br><br>
+
+#### Properties on the left side of the 2nd Ave Line - Phase 1
+
+For properties to the left of the 2nd Ave Line, as we can see in the map above, we determined 3 different categories:
+
+1) block numbers that are within 1 block to the left;
+2) block numbers that are within 2-3 blocks to the left; and
+3) block numbers that are within 4-5 blocks to the left; from the 2nd Ave Line
+
+Using the block numbers for each of the 3 categories detailed above, we can add a column called "Distance" and use the block number to record the approximate distance (in blocks) for each property to the left of the 2nd Ave Line - Phase 1:
+
+```{r, eacho=FALSE}
+blocks_dfL <- blocks_df %>%
+mutate(Distance = ifelse(BLOCK %in% c(1424:1427, 1529:1532,1539:1541,1423,1428:1433,
+                                        1525:1528,1533:1538,1646),
+                                 '1 block left from 2nd Ave Line',
+                          ifelse(BLOCK %in% c(1404:1407,1512:1515,1522:1524,1403,1408:1413,
+                                              1508:1511,1516:1521,1624),
+                                 '2-3 blocks left',
+                          ifelse(BLOCK %in% c(1384:1387,1495:1498,1505:1507,1383,1388:1393,
+                                              1491:1494,1499:1504,1602),
+                                 '4-5 blocks left',
+                                 'other'))))
+```
+
+Now we can visualize and compare the variation sales price among the different categories detailed above. 
+
+For this purpose, we first summarize by Year and Distance, then we scale the data creating an index to visualize variations over time with time series lines for recent years:
+
+```{r fig.height=9, fig.width=17}
+
+blocks_dfL$Total[blocks_df$Total==0] <- 1     # US$1, just to avoid division by zero
+
+#Total sales by Distance:
+blocks_dfL_var <- blocks_dfL %>%
+  arrange(Year) %>%                           #arrange from lowest to highest year
+  filter(BLOCK != 1111) %>% #this is central park!
+  group_by(Year, Distance) %>%
+  summarise(Total = sum(Total)) %>%
+  arrange(Year) #arranges from lowest to highest value
+
+#Now, scale the data and create an index to visualize variations over time, then plot:
+blocks_dfL_var <- blocks_dfL_var %>%
+  group_by(Distance) %>%
+  mutate(avg.index = 100*Total/Total[1]) %>% ungroup()
+
+#Plot time series:
+data_phase1 <- blocks_dfL_var %>%
+  filter(Year >= 2005 & Year <= 2017) %>%
+  filter(Distance != "other")
+library(ggthemes)
+plot <- ggplot(data_phase1 , aes(Year, avg.index, color = Distance)) + geom_line(lwd = 1) +
+    ggtitle("Market Value Vs Distance to 2nd Ave (Phase1 - Left)") +
+    labs (x = "Year", y = "Indexed Variation in Market Value") +
+    theme_grey(16) +
+    theme(legend.title = element_blank()) +
+    scale_colour_colorblind()
+plot
+```
+
+The graphs above doesn't allow us to make strong conclusions at first, be something that we inmediately noted (as we are finance geeks) is that during the first year of the 2008 recession year, the sales price increased for properties within one block left to the line, while it decreased for the other categories, which may have been caused by the start of the construction of phased 1, during mid 2007 but then it started to decrease again, mybe due to due to news of financial problems with the project (whose construction had already been started and halted several times in the past).
+
+Using the 2008 recession period 2007/12/01-2009/06/01 which is is the period used by the FRED (The Research Division of the Federal Reserve Bank of St. Louis) when plotting recession bars (see  [What Dates are Used for the U.S. Recession Bars?](https://fredhelp.stlouisfed.org/fred/data/understanding-the-data/recession-bars/ "Recession Bars")) to highlight this abnormality:
+
+```{r fig.height=9, fig.width=17}
+# annotate recession
+start <- 2007 + 334/365 # 2007 + 334 days to 2007/12/01
+end <- 2009 + 151/365 # 2009 + 151 days to 2009/06/01
+plot + annotate("rect", xmin = start, xmax = end,
+             ymin = -Inf, ymax = Inf, fill = "lightblue",
+             alpha = .5) +
+    annotate("text", x = start-0.3,
+             y = 250, label = "2008 recession",
+             color = "black", hjust = 0, size=7, fontface="italic")
+
+```
+
+We will now perfom the analysis for buildings to the right of the Line and see if our theory above about during recession may become stronger or not.
+<br>
+
+#### Properties on the right side of the 2nd Ave Line - Phase 1
+
+For properties to the right of the 2nd Ave Line, we established 3 different categories as follows:
+
+1) block numbers that are within 1 block to the right;
+2) block numbers that are within 2 blocks to the right; and
+3) block numbers that are within 3-4 blocks to the right; from the 2nd Ave Line
+
+We followed the same procedure performed to analyze buildings to the left, adding a column called "Distance" and use the block number to record the approximate distance (in blocks) for each property  to the right of 2nd Ave Line - phase 1:
+
+```{r, eacho=FALSE}
+blocks_dfR <- blocks_df %>%
+  mutate(Distance = ifelse(BLOCK %in% c(1444:1447,1546:1549,1556:1558,1443,1448:1453,
+                                        1542:1545,1550:1555,1668),
+                                 '1 block right from 2nd Ave Line',
+                          ifelse(BLOCK %in% c(1464:1467,1563:1566,1573,1463,1468:1473,
+                                              1559:1562,1567:1571,1690),
+                                 '2 blocks right from 2nd Ave Line',
+                          ifelse(BLOCK %in% c(1482:1484,1580:1583,1480,1485:1490,1576:1579,
+                                              1584:1587,1590,1592,1589),
+                                 '3-4 blocks right from 2nd Ave Line',
+                                 'other'))))
+```
+
+Now we can visualize and compare the variation sales price among the different categories detailed above, first summarizing by Year and Distance, then scaling the data to create an index:
+
+```{r fig.height=9, fig.width=17}
+
+blocks_dfR$Total[blocks_df$Total==0] <- 1     # US$1, just to avoid division by zero
+
+#Total sales by Distance:
+blocks_dfR_var <- blocks_dfR %>%
+  arrange(Year) %>%                           #arrange from lowest to highest year
+  filter(BLOCK != 1111) %>% #this is central park!
+  group_by(Year, Distance) %>%
+  summarise(Total = sum(Total)) %>%
+  arrange(Year) #arranges from lowest to highest value
+
+#Now, scale the data and create an index to visualize variations over time, then plot:
+blocks_dfR_var <- blocks_dfR_var %>%
+  group_by(Distance) %>%
+  mutate(avg.index = 100*Total/Total[1]) %>% ungroup()
+
+#Plot time series:
+data_phase1 <- blocks_dfR_var %>%
+  filter(Year >= 2005 & Year <= 2017) %>%
+  filter(Distance != "other")
+library(ggthemes)
+ggplot(data_phase1 , aes(Year, avg.index, color = Distance)) + geom_line(lwd = 1) +
+    ggtitle("Market Value Vs Distance to 2nd Ave (Phase1 - Left)") +
+    labs (x = "Year", y = "Indexed Variation in Market Value") +
+    theme_grey(16) +
+    theme(legend.title = element_blank()) +
+    scale_colour_colorblind() +
+    annotate("rect", xmin = 2006, xmax = 2007,
+             ymin = -Inf, ymax = Inf, fill = "lightblue",
+             alpha = .7) +
+      annotate("text", x = 2007,
+             y = 300, label = "Construction started",
+             color = "blue", hjust = 0, size=7, fontface="italic") +
+      annotate("rect", xmin = 2013, xmax = 2014,
+             ymin = -Inf, ymax = Inf, fill = "orange",
+             alpha = .3) + 
+      annotate("text", x = 2009.3,
+             y = 250, label = "Completion date confirmed",
+             color = "red", hjust = 0, size=7, fontface="italic")
+```
+
+From the graph above, as we had to some extempt anticipated, ithe 2nd Ave Line project seems to clearly affect properties located to the right, but not so much properties to the left, because hte pre-existing Lexington-Fourth Avenue green Line is just 2 blocks left from the new 2nd Ave Line.
+
+However, our theory that properties located within 1 block of the Line during showed an increase in prices during the first year of recession 2008 recession, maybe due to the start of the construction seems to be discarded.
+
+However, we can see 2 interesting patterns for properties located within 1 block to the right of the Line:
+
+  1) A considerably increase in sales prices one year before the construction started, followed by a general decrease across all categories (most probably due to preliminary stages of 2008 recession)
+  
+  2) Another considerably increase from 2013 to 2014. 
+  
+  To understand this last increase, we need to understand that the project has been besieged by financial woes since its conception near 1920, with its construction started and then halted several times, which caused the 2nd Ave line project to be referred as "the line that time forgot" (source: Wikipedia).
+  
+  As example, early in 2013, due to the continuous delay during almost one century and uncertainty about completion, at that moment being New York City's Mayor, [Michael Bloomberg said he's got "a 50-50 chance of living to see" it open for service, "but not much more than that"](http://www.nydailynews.com/new-york/mayor-bloomberg-ave-subway-delay-article-1.1337997 "Michael Bloomberg's comments about 2nd Ave line delays").
+  
+  However, during 2013, the MTA started a campaign to change the image of the project and started to publish [photos of completion of important project milestones](https://blog.flickr.net/en/2013/06/14/nycs-massive-subway-project/ "Example of MTA's photos campaign"), which got a lot of public interest and [were published by many important news providers](http://www.businessinsider.com/these-stunning-photos-show-subway-tunnel-construction-in-manhattan-2014-12 "Example of news providers re-publishing MTA's campaign photos"), in addition to MTA's President of Capital Construction publicly speaking several times during 2013, to confirm phase 1 project would be completed by December 2016 as planned at that moment (and finally acomplished). 
+<br><br>
+
+
+## Interactive Component
+
+One of the analysis we performed, was to find out if the NYC 2nd Ave Line subway project has affected the the Sale Price of real state transactions in the areas inmediately in its vicinity.
+
+###**Did the NYC 2nd Ave Subway (yellow line), increase the sales price of properties in the area?**
+
+```{r, eacho=FALSE}
+blocks_df <- sales_upper_east%>%
+  group_by(Year, BLOCK) %>%
+  summarise(Total = sum(SALE.PRICE))       #total sale price per Block per year
+blocks_df <- blocks_df %>%
+  mutate(Distance = ifelse(BLOCK %in% c(1424:1427, 1529:1532,1539:1541,1423,1428:1433,
+                                        1525:1528,1533:1538,1646,1444:1447,1546:1549,1556:1558,1443,
+                                      1448:1453,1542:1545,1550:1555,1668),
+                                  '1 block',
+                          ifelse(BLOCK %in% c(1404:1407,1512:1515,1522:1524,1403,1408:1413,
+                                              1508:1511,1516:1521,1624),
+                                 '2-3 blocks left',
+                          ifelse(BLOCK %in% c(1384:1387,1495:1498,1505:1507,1383,1388:1393,
+                                              1491:1494,1499:1504,1602),
+                                 '4-5 blocks left',
+                          ifelse(BLOCK %in% c(1464:1467,1563:1566,1573,1463,1468:1473,
+                                              1559:1562,1567:1571,1690),
+                                 '2 blocks right',
+                          ifelse(BLOCK %in% c(1482:1484,1580:1583,1480,1485:1490,1576:1579,
+                                              1584:1587,1590,1592,1589),
+                                 '3-4 blocks right',
+                                 'other'))))))
+```
+
+
+```{r, eacho=FALSE}
+
+blocks_df$Total[blocks_df$Total==0] <- 1     # US$1, just to avoid division by zero
+
+#Total sales by Distance:
+blocks_df_var <- blocks_df %>%
+  arrange(Year) %>%                           #arrange from lowest to highest year
+  filter(BLOCK != 1111) %>% #this is central park!
+  group_by(Year, Distance) %>%
+  summarise(Total = sum(Total)) %>%
+  arrange(Year) #arranges from lowest to highest value
+
+#Now, scale the data and create an index to visualize variations over time, then plot:
+blocks_df_var <- blocks_df_var %>%
+  group_by(Distance) %>%
+  mutate(avg.index = 100*Total/Total[1]) %>% ungroup()
+
+#Plot time series:
+data_phase1 <- blocks_df_var %>%
+  filter(Year >= 2005 & Year <= 2017) %>%
+  filter(Distance != "other")
+library(ggthemes)
+plot <- ggplot(data_phase1 , aes(Year, avg.index, color = Distance)) + geom_line(lwd = 1) +
+    ggtitle("Market Value Vs Distance to 2nd Ave (Phase1 - Left)") +
+    labs (x = "Year", y = "Indexed Variation in Market Value") +
+    theme_grey(16) +
+    theme(legend.title = element_blank()) +
+    scale_colour_colorblind()
+plot
+```
+
+
+
+
+```{r, eacho=FALSE}
+blocks_df_var <- blocks_df_var %>%
+  select(Year, Distance, avg.index) 
+blocks_df <- blocks_df %>%
+  select(Year, BLOCK, Distance) 
+blocks <- merge(blocks_df, blocks_df_var, by=c("Year","Distance"))
+write.table(blocks,file="blocks.csv",sep=",",row.names=F)
+head(blocks)
+```
+
+
+```{r, include=FALSE}
+#Before merging, lets spread permits_var so each year is a column containing the avg.index: 
+colnames(blocks) <- c("Year","Distance","Block","avg.index")
+blocks <- blocks %>%
+  filter(Year >= 2005 & Year <= 2017)
+permits_var <- spread(blocks, Year, avg.index)
+#head(permits_var)
+colnames(permits_var)[3:15] <- paste("Y", colnames(permits_var)[3:15], sep = "_")
+#colnames(permits_var)
+#write.table(permits_var,file="spread_permits_avg_var.csv",sep=",",row.names=F)
+```
+
+
+
+```{r fig.height=10, fig.width=10, include=FALSE}
+#install.packages('rgdal') #read in general GIS package
+#install.packages("leaflet") #interactive mapping
+library(rgdal)
+library(leaflet)
+
+#Read NY Balocks and lots Shapefile 
+NYC_Map <- readOGR("shp/nyu_MapPluto", "nyu_2451_34522") #read main Shapefile (takes long time)
+#head(NYC_Map@data)
+#Data from: https://geo.nyu.edu/catalog/nyu_2451_34522
+
+#Read NYC Subway Station Lines, Stations and Entrances Shapefiles:
+subway_lines <- readOGR("shp/Subway Lines", "geo_export_37a43bfe-d16c-4615-a1bb-bb5ea38465cb")
+#head(subway_lines@data)
+#Data from: https://data.cityofnewyork.us/Transportation/Subway-Lines/3qz8-muuu/data
+
+subway_stations <- readOGR("shp/Subway Stations", "geo_export_c6d66a0c-2af5-4542-a222-be6844df9051")
+#head(subway_stations@data)
+#Data from: https://data.cityofnewyork.us/Transportation/Subway-Stations/arq3-7z49
+```
+
+
+```{r fig.height=5, fig.width=7, echo=FALSE}
+phase1 <- c(1424:1427,1529:1532,1539:1541,1423,1428:1433,1525:1528,1533:1538,1646,1444:1447,1546:1549,1556:1558,1443,1448:1453,1542:1545,1550:1555,1668,1404:1407,1512:1515,1522:1524,1403,1408:1413,1508:1511,1516:1521,1624,1384:1387,1495:1498,1505:1507,1383,1388:1393,1491:1494,1499:1504,1602,1464:1467,1563:1566,1573,1463,1468:1473,1559:1562,1567:1571,1690,1482:1484,1580:1583,1480,1485:1490,1576:1579,1584:1587,1590,1592,1589)
+```
+
+
+```{r fig.height=5, fig.width=7, echo=FALSE}
+#Filter shapefile by zipcodes of interest:
+NYC_Map2 <- NYC_Map[NYC_Map@data$ZipCode %in% c(10065,10021,10075,10028,10128,10029,10035) ,]
+#Remove Central Park:
+NYC_Map2 <- NYC_Map2[NYC_Map2@data$Block != 1111,]
+#Select Phase 1 Blocks only: 
+NYC_Map2 <- NYC_Map2[NYC_Map2@data$Block %in% phase1 ,]
+#head(NYC_Map2@data)
+
+# #Before merging, lets filter permits_var index by year 2015 (so we get cummulative variation index): 
+# permits_var <- filter(permits_var, Year == 2015)
+
+#merge both datasets and replace NA's with zero:
+NYC_Map2 <- merge(NYC_Map2, permits_var, by=c("Block"))
+NYC_Map2@data[is.na(NYC_Map2@data)] <- 0
+#NYC_Map2@data$Distance[NYC_Map2@data$Distance==0] <- "other" #replace 0 Distance with "other"
+#NYC_Map2@data$avg.index[NYC_Map2@data$Distance=="other"] <- 0
+#head(NYC_Map2@data)
+
+write.table(NYC_Map2@data,file="data/NYC_Map2_data.csv",sep=",",row.names=F)
+
+#set color scale to be used when mapping variation index for building permits:
+palette <- colorNumeric(palette = "Blues", domain = NYC_Map2$Y_2014) #continuous range
+
+library(scales)
+library(htmltools)
+
+#Set interactive labels for 2005-2007 Layer: 
+block_labels2007 <- sprintf("%s avg. increase<br/>in sales price (2005-2007)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",percent(NYC_Map2$Y_2007/100),
+                            NYC_Map2$ZipCode, NYC_Map2$Block, NYC_Map2$Lot, NYC_Map2$Address) %>%
+  lapply(htmltools::HTML)
+
+#Set interactive labels for 2005-2014 Layer: 
+block_labels2014 <- sprintf("%s avg. increase<br/>in Bldg Permits (2005-2014)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",percent(NYC_Map2$Y_2014/100),
+                            NYC_Map2$ZipCode, NYC_Map2$Block, NYC_Map2$Lot, NYC_Map2$Address) %>%
+  lapply(htmltools::HTML)
+
+#Set interactive labels for 2005-2017 Layer Shapefile: 
+block_labels2017 <- sprintf("%s avg. increase<br/>in Bldg Permits (2005-2017)<br/>Zip Code: %s, Block: %s, Lot: %s<br/>Address: %s",percent(NYC_Map2$Y_2017/100),
+                            NYC_Map2$ZipCode, NYC_Map2$Block, NYC_Map2$Lot, NYC_Map2$Address) %>%
+  lapply(htmltools::HTML)
+
+
+#Set interactive labels for Subway Stations: 
+stations_labels <- sprintf("<strong>Station:</strong> %s<br/><strong>Line:</strong> %s",
+                           subway_stations$name, subway_stations$line) %>%
+  lapply(htmltools::HTML)
+
+#Set interactive labels for Subway Lines: 
+line_labels <- ifelse(subway_lines$name=="4-5-6", "<strong>Pre-existing 4th Avenue Line</strong>",
+                          ifelse(subway_lines$name=="Q","<strong>2nd Ave Line</strong>", "Other lines")) %>% lapply(htmltools::HTML)
+
+myNYCmap <- leaflet(options = leafletOptions(minZoom = 9, maxZoom = 18)) %>% #restringe/limit Zoom
+  #addTiles() %>%  # Add default OpenStreetMap base map
+  
+  # addTiles() %>% #this base map looks better (see http://leaflet-extras.github.io/leaflet-providers/preview/index.html for other base maps)
+  
+  addTiles("http://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png",
+attribution = paste(
+"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap</a> contributors",
+"&copy; <a href=\"http://cartodb.com/attributions\">CartoDB</a>"
+)
+) %>%
+  
+  
+  setView(lng = -73.954477, lat = 40.776522, zoom = 14.8) %>% #initial center point and zoom
+  
+  #addMarkers(lng=-73.954477, lat=40.776522, label="I can write some pop-up where I want") %>%
+  
+  #Add subway stations:
+  addCircles(data = subway_stations, group = "See Subway Stations", radius = 20,
+             color="red", opacity=1.0, fill = TRUE, fillColor = "red", fillOpacity=1.0,
+             stroke=FALSE, label = stations_labels, labelOptions=labelOptions(textsize = "12px",
+                                                    direction='top', offset=c(0,-10))) %>%
+    # addCircleMarkers(data = subway_stations, label = stations_labels, group = "See Subway Stations", radius=7,color="red",stroke=FALSE,fillOpacity=0.5) %>%
+  
+  #Add subway Lines:  
+  addPolylines(data = subway_lines, group="See Subway Lines",label = line_labels,
+               labelOptions=labelOptions(textsize = "12px", direction='top',
+                                         offset=c(0,-10)),
+               color=ifelse(subway_lines$name=="4-5-6","#00933C",
+                           ifelse(subway_lines$name=="Q","#FCCC0A","grey"))) %>%
+  
+  #2005-2007 Layer:
+  addPolygons(data = NYC_Map2,group="2005-2007",
+              color = "#444444",
+              weight = 1,
+              #smoothFactor = 0.2,
+              opacity = 1.0,
+              fillOpacity = 0.7,
+              fillColor = ~palette(Y_2007),
+              # change display properties while mouse cursor hovers on the polygon
+              highlightOptions = highlightOptions(color="orange", 
+                                                  weight=2, opacity=1, fillOpacity=1,
+                                                  bringToFront = TRUE, sendToBack = TRUE),
+              label = block_labels2007,
+              # label display options:
+              labelOptions = labelOptions(style = list("font-weight" = "normal", 
+                                          padding = "3px 8px"),
+                                          textsize = "12px",
+                                          direction = "top",
+                                          offset=c(0,-10))) %>%
+  
+  #2005-2014 Layer:
+  addPolygons(data = NYC_Map2,group="2005-2014",
+              color = "#444444",
+              weight = 1,
+              #smoothFactor = 0.2,
+              opacity = 1.0,
+              fillOpacity = 0.7,
+              fillColor = ~palette(Y_2014),
+              # change display properties while mouse cursor hovers on the polygon
+              highlightOptions = highlightOptions(color="orange", 
+                                                  weight=2, opacity=1, fillOpacity=1,
+                                                  bringToFront = TRUE, sendToBack = TRUE),
+              label = block_labels2014,
+              # label display options:
+              labelOptions = labelOptions(style = list("font-weight" = "normal", 
+                                          padding = "3px 8px"),
+                                          textsize = "12px",
+                                          direction = "top",
+                                          offset=c(0,-10))) %>%
+  
+  # #2005-2017 Layer:
+  # addPolygons(data = NYC_Map2,group="2005-2017",
+  #             color = "#444444",
+  #             weight = 1,
+  #             #smoothFactor = 0.2,
+  #             opacity = 1.0,
+  #             fillOpacity = 0.7,
+  #             fillColor = ~palette(Y_2017),
+  #             # change display properties while mouse cursor hovers on the polygon
+  #             highlightOptions = highlightOptions(color="orange", 
+  #                                                 weight=2, opacity=1, fillOpacity=1,
+  #                                                 bringToFront = TRUE, sendToBack = TRUE),
+  #             label = block_labels2017,
+  #             # label display options:
+  #             labelOptions = labelOptions(style = list("font-weight" = "normal", 
+  #                                         padding = "3px 8px"),
+  #                                         textsize = "12px",
+  #                                         direction = "top",
+  #                                         offset=c(0,-10))) %>%
+  
+  # legend 2001-2015
+  leaflet::addLegend(pal = palette,
+            values = NYC_Map2$Y_2014,
+            labFormat = labelFormat(prefix="",suffix="%",between=", ",transform=function(x) 100*x),
+            opacity = 0.7,
+            title = "Avg. increase in Bldg. Permits",
+            position = "bottomright") %>%
+  
+  #legend for the Subway Lines:
+  addLegend("topleft",
+  colors =c("#FCCC0A","#00933C"),
+  labels= c("2nd Ave Line", "Pre-existing 4th Avenue Line"),
+  title= "Subway Lines",
+  group="See Subway Lines",
+  opacity = 0.7) %>%
+
+  # Layers control
+  addLayersControl(
+    #baseGroups = c("2005-2007","2005-2014","2005-2017"),
+    baseGroups = c("2005-2007","2005-2014"),
+    overlayGroups = c("See Subway Lines", "See Subway Stations"),
+    position = "topleft",
+    options = layersControlOptions(collapsed = FALSE))
+
+#myNYCmap <- myNYCmap %>% hideGroup("Building Permits 2001-2015")
+# myNYCmap <- myNYCmap %>% hideGroup("See Subway Stations")
+# myNYCmap <- myNYCmap %>% hideGroup("See Subway Lines")
+
+myNYCmap  # Display the map
+
+# myNYCmap %>% hideGroup("See Subway Lines")
+# myNYCmap %>% hideGroup("See Subway Stations")
+# myNYCmap %>% hideGroup("Building Permits 2001-2015")
+
+htmlwidgets::saveWidget(myNYCmap, 'Interactive_Bldg_Permits_Map-Html Widget.html', selfcontained = TRUE)
+
+```

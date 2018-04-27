@@ -95,7 +95,6 @@ We find out that from a gender perspective, female dogs and male dogs are at aro
 
 ![](images/dog_breed_gender.png) 
 
-Want to play with the dogs, feel free to explore the interactive plot here: 
 
 
 
